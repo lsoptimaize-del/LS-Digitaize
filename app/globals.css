@@ -1,26 +1,41 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Sevone';
+  src: url('/fonts/Sovelis.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-navy: #1a2744;
+  --brand-primary: #5688C9;
+  --brand-sky: #8CCDE9;
+  --brand-mint: #8BEADD;
+  --brand-fog: #C8DFF0;
+  --background: #C8DFF0;
+  --foreground: #1a2744;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-navy: var(--brand-navy);
+  --color-primary: var(--brand-primary);
+  --color-sky-brand: var(--brand-sky);
+  --color-mint: var(--brand-mint);
+  --color-fog: var(--brand-fog);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-heading);
+  --font-paytone: var(--font-paytone);
+  --font-bodoni: var(--font-bodoni);
+  --font-sevone: 'Sevone', serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--brand-fog);
+  color: var(--brand-navy);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
