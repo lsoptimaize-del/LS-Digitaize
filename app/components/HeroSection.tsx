@@ -14,6 +14,9 @@ export default function HeroSection() {
   const chevronRef = useRef<HTMLSpanElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const textInnerRef = useRef<HTMLDivElement>(null);
+  const cubeRef = useRef<HTMLDivElement>(null);
+  const cubeInnerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ripplesRef = useRef<Ripple[]>([]);
   const rafRef = useRef<number>(0);
@@ -75,16 +78,56 @@ export default function HeroSection() {
   }, []);
 
   useEffect(() => {
+    // Initial entry animations
+    const ctx = gsap.context(() => {
+      // Background subtle zoom out and unblur
+      gsap.fromTo(bgRef.current, 
+        { scale: 1.05, filter: 'blur(8px)' }, 
+        { scale: 1, filter: 'blur(0px)', duration: 2.5, ease: 'power3.out' }
+      );
+      
+      // Text letters appearing from left to right
+      const chars = textInnerRef.current?.querySelectorAll('.hero-char');
+      if (chars) {
+        gsap.fromTo(chars,
+          { opacity: 0, x: -30, filter: 'blur(10px)' },
+          { opacity: 1, x: 0, filter: 'blur(0px)', duration: 1.2, stagger: 0.08, ease: 'power3.out', delay: 0.2 }
+        );
+      }
+
+      // Cube dropping in and settling
+      gsap.fromTo(cubeInnerRef.current,
+        { opacity: 0, y: -80 },
+        { opacity: 1, y: 0, duration: 2.5, ease: 'power3.out', delay: 0.5, onComplete: () => {
+          // Start continuous floating
+          gsap.to(cubeInnerRef.current, {
+            y: -15,
+            repeat: -1,
+            yoyo: true,
+            duration: 3,
+            ease: 'sine.inOut'
+          });
+        }}
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
     const section = sectionRef.current;
-    if (!section || !bgRef.current || !textRef.current) return;
+    if (!section || !bgRef.current || !textRef.current || !cubeRef.current) return;
 
     const triggerConfig = { trigger: section, start: 'top top', end: 'bottom top', scrub: true };
 
-    gsap.to(bgRef.current, { y: -80, ease: 'none', scrollTrigger: triggerConfig });
-    gsap.to(textRef.current, { y: -60, ease: 'none', scrollTrigger: triggerConfig });
+    const st1 = gsap.to(bgRef.current, { y: -80, ease: 'none', scrollTrigger: triggerConfig });
+    const st2 = gsap.to(textRef.current, { y: -60, ease: 'none', scrollTrigger: triggerConfig });
+    const st3 = gsap.to(cubeRef.current, { y: -40, ease: 'none', scrollTrigger: triggerConfig });
 
     return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      st1.scrollTrigger?.kill();
+      st2.scrollTrigger?.kill();
+      st3.scrollTrigger?.kill();
     };
   }, []);
 
@@ -106,6 +149,20 @@ export default function HeroSection() {
         />
       </div>
 
+      {/* Layer 1.5: The Floating Cube */}
+      <div ref={cubeRef} className="absolute inset-0 z-[5] pointer-events-none">
+        <div ref={cubeInnerRef} className="absolute inset-0">
+          <Image
+            src="/hero-over.png"
+            alt="Cube Overlay"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+      </div>
+
       {/* Layer 2: canvas ripple */}
       <canvas
         ref={canvasRef}
@@ -118,8 +175,9 @@ export default function HeroSection() {
         className="absolute left-0 right-0 z-20 text-center pointer-events-none"
         style={{ bottom: '30vh' }}
       >
-        <span
-          className="uppercase tracking-[0.22em] select-none"
+        <div ref={textInnerRef}>
+          <span
+            className="uppercase tracking-[0.22em] select-none"
           style={{
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(3rem, 9vw, 11rem)',
@@ -129,8 +187,13 @@ export default function HeroSection() {
             letterSpacing: '0.22em',
           }}
         >
-          LS DigitAIze
+          {"LS DigitAIze".split('').map((char, i) => (
+            <span key={i} className="hero-char inline-block opacity-0" style={{ whiteSpace: 'pre' }}>
+              {char}
+            </span>
+          ))}
         </span>
+        </div>
       </div>
 
       {/* Layer 4: bottom gradient — fades seamlessly into DigitalSection */}

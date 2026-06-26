@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond, Paytone_One, Bodoni_Moda } from "next/font/google";
+import { Geist, Geist_Mono, Cormorant_Garamond, Paytone_One, Bodoni_Moda, Caveat } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,6 +31,12 @@ const bodoniModa = Bodoni_Moda({
   variable: "--font-bodoni",
 });
 
+const caveat = Caveat({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-caveat",
+});
+
 export const metadata: Metadata = {
   title: "LS Digitaize",
   description: "Brand identity, content systems and creative marketing.",
@@ -44,7 +50,7 @@ export default function RootLayout({
   return (
       <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} ${paytone.variable} ${bodoniModa.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} ${paytone.variable} ${bodoniModa.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
