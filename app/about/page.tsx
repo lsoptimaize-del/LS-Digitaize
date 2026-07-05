@@ -262,9 +262,8 @@ export default function AboutPage() {
               padding: '0.5rem clamp(1rem, 4vw, 2rem)',
               width: '100%',
             }}>
-              <h1 style={{
+              <h1 className="hero-text-split" style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(5rem, 22vw, 15rem)',
                 fontWeight: 900,
                 color: '#fff',
                 lineHeight: 0.9,
@@ -273,9 +272,8 @@ export default function AboutPage() {
               }}>
                 IGNITE
               </h1>
-              <h1 style={{
+              <h1 className="hero-text-split" style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(5rem, 22vw, 15rem)',
                 fontWeight: 900,
                 color: '#fff',
                 lineHeight: 0.9,
@@ -407,7 +405,11 @@ export default function AboutPage() {
             0%   { opacity: 0; transform: translateY(16px); }
             100% { opacity: 1; transform: translateY(0); }
           }
-          
+          /* Desktop Default Styles */
+          .hero-text-split {
+            font-size: clamp(5rem, 10.5vw, 15rem) !important;
+          }
+
           /* Mobile Overrides for About Page Hero */
           @media (max-width: 768px) {
             .ceo-section {
@@ -437,6 +439,9 @@ export default function AboutPage() {
             .hero-row-3 {
               flex-direction: column !important;
               align-items: center !important;
+            }
+            .hero-text-split {
+              font-size: clamp(5rem, 22vw, 15rem) !important;
             }
             .roster-heading {
               padding: 0 1.5rem !important;
