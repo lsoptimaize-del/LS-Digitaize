@@ -72,27 +72,33 @@ export default function DigitalSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col items-center justify-start overflow-hidden"
-      style={{ backgroundColor: '#B8D4E8', paddingTop: '2rem', paddingBottom: '16rem', minHeight: '150vh', zIndex: 0 }}
+      className="relative flex flex-col items-center justify-start overflow-hidden min-h-[100svh] md:min-h-[150vh]"
+      style={{ backgroundColor: '#000000', paddingTop: 'clamp(0rem, 5vw, 9rem)', paddingBottom: '2rem', zIndex: 0 }}
       id="digital"
     >
+      {/* ── Top blend gradient ── */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-48 md:h-64 z-10 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.8) 25%, transparent 100%)' }}
+      />
+
       {/* ── Ambient color blobs ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* Top-left warm mint blob */}
+        {/* Top-left blue blob */}
         <div style={{
           position: 'absolute', top: '-10%', left: '-8%',
           width: '55vw', height: '55vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(139,234,221,0.38) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(45, 120, 255, 0.35) 0%, transparent 70%)',
           filter: 'blur(60px)',
           animation: 'blobDrift1 14s ease-in-out infinite alternate',
         }} />
-        {/* Top-right sky blob */}
+        {/* Top-right dark blue blob */}
         <div style={{
           position: 'absolute', top: '-5%', right: '-10%',
           width: '50vw', height: '50vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(86,136,201,0.28) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(15,45,130,0.4) 0%, transparent 70%)',
           filter: 'blur(70px)',
           animation: 'blobDrift2 18s ease-in-out infinite alternate',
         }} />
@@ -101,7 +107,7 @@ export default function DigitalSection() {
           position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)',
           width: '70vw', height: '40vw',
           borderRadius: '50%',
-          background: 'radial-gradient(ellipse, rgba(200,223,240,0.55) 0%, transparent 68%)',
+          background: 'radial-gradient(ellipse, rgba(74,158,255,0.18) 0%, transparent 68%)',
           filter: 'blur(40px)',
         }} />
         {/* Bottom-left primary blob */}
@@ -113,23 +119,23 @@ export default function DigitalSection() {
           filter: 'blur(80px)',
           animation: 'blobDrift3 20s ease-in-out infinite alternate',
         }} />
-        {/* Bottom-right mint accent */}
+        {/* Bottom-right deep blue accent */}
         <div style={{
           position: 'absolute', bottom: '10%', right: '0%',
           width: '45vw', height: '45vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(139,234,221,0.25) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(30, 90, 220, 0.25) 0%, transparent 70%)',
           filter: 'blur(65px)',
           animation: 'blobDrift4 16s ease-in-out infinite alternate',
         }} />
       </div>
 
       {/* ── Heading ── */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full" style={{ paddingTop: '0' }}>
+      <div className="relative z-10 flex flex-col items-center text-center w-full -mt-16 md:-mt-8">
         <h2
           ref={headingRef}
-          className="text-[12vw] md:text-[9rem] lg:text-[11rem] leading-[0.85] font-light tracking-[-0.04em] text-navy uppercase flex flex-col items-center w-full"
-          style={{ fontFamily: 'var(--font-sevone)', textShadow: '0 2px 32px rgba(86,136,201,0.18)' }}
+          className="text-[24vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] md:leading-[0.85] font-light tracking-[-0.04em] text-white uppercase flex flex-col items-center w-full"
+          style={{ fontFamily: 'var(--font-sevone)', textShadow: '0 2px 40px rgba(74,158,255,0.35)' }}
         >
           <span className="block text-line">DIGITAL</span>
           <span className="block text-line">THAT IGNITES</span>
@@ -138,15 +144,22 @@ export default function DigitalSection() {
         </h2>
       </div>
 
-      {/* ── GIF ── pushed up: top-[55%] → top-[50%] ── */}
-      <div className="absolute top-[52%] md:top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] md:w-[75vw] z-20 pointer-events-none flex justify-center">
+      {/* ── GIF — mobile: large + over text; desktop: original position ── */}
+      <div className="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180vw] md:w-[75vw] z-20 pointer-events-none flex justify-center">
         <img
           ref={imgRef}
           src="/hero.gif"
           alt="Digital Growth"
-          className="w-full h-auto object-contain scale-[1.1] md:scale-125"
+          className="w-full h-auto object-contain scale-100 md:scale-125"
+          style={{ filter: 'brightness(1.08) saturate(1.1)' }}
         />
       </div>
+
+      {/* Bottom fade so the section bleeds into black */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 md:h-48 pointer-events-none z-20"
+        style={{ background: 'linear-gradient(to top, #000000 0%, transparent 100%)' }}
+      />
 
       {/* ── Blob keyframe animations ── */}
       <style>{`

@@ -9,13 +9,13 @@
 }
 
 :root {
-  --brand-navy: #1a2744;
-  --brand-primary: #5688C9;
-  --brand-sky: #8CCDE9;
-  --brand-mint: #8BEADD;
-  --brand-fog: #C8DFF0;
-  --background: #C8DFF0;
-  --foreground: #1a2744;
+  --brand-navy: #060a14;
+  --brand-primary: #4A9EFF;
+  --brand-sky: #7EC1F5;
+  --brand-mint: #5BC9E8;
+  --brand-fog: #0d1526;
+  --background: #05070c;
+  --foreground: #F2F6FC;
 }
 
 @theme inline {
@@ -35,7 +35,12 @@
 }
 
 body {
-  background: var(--brand-fog);
-  color: var(--brand-navy);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }

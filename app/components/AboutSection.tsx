@@ -55,7 +55,7 @@ export default function AboutSection() {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        background: 'linear-gradient(180deg, #B8D4E8 0%, #C8DFF0 30%, #D8EAF5 100%)',
+        background: 'linear-gradient(180deg, #05070c 0%, #080d18 30%, #0b1220 100%)',
         padding: 'clamp(5rem, 12vh, 10rem) 0 clamp(6rem, 14vh, 12rem)',
       }}
     >
@@ -92,8 +92,8 @@ export default function AboutSection() {
           <div key={i} style={{
             position: 'absolute', top: b.top, left: (b as any).left, right: (b as any).right,
             width: b.size, height: b.size, borderRadius: '50%',
-            border: '1px solid rgba(86,136,201,0.35)',
-            background: 'rgba(200,223,240,0.2)',
+            border: '1px solid rgba(74,158,255,0.35)',
+            background: 'rgba(74,158,255,0.12)',
             animation: `bubble ${b.dur} ${b.delay} ease-in-out infinite alternate`,
           }} />
         ))}
@@ -121,21 +121,21 @@ export default function AboutSection() {
               fontFamily: 'var(--font-sevone)',
               fontSize: 'clamp(2.8rem, 6vw, 5.5rem)',
               fontWeight: 900,
-              color: '#1a2744',
+              color: '#F2F6FC',
               lineHeight: 0.9,
               marginBottom: '2rem',
               letterSpacing: '-0.03em',
-              textShadow: '0 2px 30px rgba(86,136,201,0.15)',
+              textShadow: '0 2px 30px rgba(74,158,255,0.2)',
             }}>
               WE SEE<br />
-              <span style={{ color: '#5688C9' }}>POTENTIAL</span><br />
+              <span style={{ color: '#4A9EFF' }}>POTENTIAL</span><br />
               WHERE OTHERS<br />SEE NOISE.
             </h2>
 
             <p style={{
               fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)',
               lineHeight: 1.8,
-              color: 'rgba(26,39,68,0.72)',
+              color: 'rgba(242,246,252,0.65)',
               maxWidth: '480px',
               marginBottom: '1.5rem',
             }}>
@@ -144,7 +144,7 @@ export default function AboutSection() {
             <p style={{
               fontSize: 'clamp(0.95rem, 1.4vw, 1.1rem)',
               lineHeight: 1.8,
-              color: 'rgba(26,39,68,0.72)',
+              color: 'rgba(242,246,252,0.65)',
               maxWidth: '480px',
               marginBottom: '2.5rem',
             }}>
@@ -160,19 +160,19 @@ export default function AboutSection() {
                 fontSize: '0.75rem',
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
-                color: '#1a2744',
+                color: '#F2F6FC',
                 textDecoration: 'none',
-                borderBottom: '1px solid rgba(26,39,68,0.35)',
+                borderBottom: '1px solid rgba(242,246,252,0.35)',
                 paddingBottom: '0.3rem',
                 transition: 'gap 0.25s ease, border-color 0.25s ease',
               }}
               onMouseEnter={e => {
                 (e.currentTarget as HTMLAnchorElement).style.gap = '1rem';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = '#5688C9';
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = '#4A9EFF';
               }}
               onMouseLeave={e => {
                 (e.currentTarget as HTMLAnchorElement).style.gap = '0.6rem';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(26,39,68,0.35)';
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(242,246,252,0.35)';
               }}
             >
               Our Full Story <span>→</span>
@@ -188,20 +188,20 @@ export default function AboutSection() {
               borderRadius: '28px',
               overflow: 'hidden',
               position: 'relative',
-              boxShadow: '0 30px 80px rgba(26,39,68,0.2), 0 8px 30px rgba(86,136,201,0.15)',
-              border: '1px solid rgba(200,223,240,0.6)',
+              boxShadow: '0 30px 80px rgba(0,0,0,0.5), 0 8px 30px rgba(74,158,255,0.15)',
+              border: '1px solid rgba(74,158,255,0.25)',
             }}>
               {/* Placeholder gradient */}
               <div style={{
                 width: '100%', height: '100%',
-                background: 'linear-gradient(135deg, #B8D4E8 0%, #8CCDE9 40%, #8BEADD 70%, #5688C9 100%)',
+                background: 'linear-gradient(135deg, #0b1220 0%, #123055 40%, #1a4a7a 70%, #4A9EFF 100%)',
                 display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
                 gap: '1rem',
               }}>
                 <div style={{
                   width: '64px', height: '64px', borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.35)',
+                  background: 'rgba(255,255,255,0.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '1.5rem',
                 }}>
@@ -209,13 +209,13 @@ export default function AboutSection() {
                 </div>
                 <p style={{
                   fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase',
-                  color: 'rgba(26,39,68,0.6)', textAlign: 'center', padding: '0 2rem',
+                  color: 'rgba(242,246,252,0.7)', textAlign: 'center', padding: '0 2rem',
                 }}>
                   IMAGE PLACEHOLDER
                 </p>
                 <p style={{
                   fontSize: '0.6rem', letterSpacing: '0.1em',
-                  color: 'rgba(26,39,68,0.4)', textAlign: 'center', padding: '0 2rem',
+                  color: 'rgba(242,246,252,0.45)', textAlign: 'center', padding: '0 2rem',
                   fontStyle: 'italic',
                 }}>
                   Prompt: Whimsical illustration of a small creative team collaborating — surrounded by floating UI elements, color swatches, and spark motifs. Watercolor style, navy + mint + sky blue palette. Dreamlike and editorial. No text.
@@ -228,14 +228,14 @@ export default function AboutSection() {
               position: 'absolute',
               bottom: '-2rem',
               left: '-2rem',
-              background: 'rgba(26,39,68,0.92)',
+              background: 'rgba(6,10,20,0.92)',
               backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(140,205,233,0.25)',
+              border: '1px solid rgba(74,158,255,0.25)',
               borderRadius: '16px',
               padding: '1.25rem 1.5rem',
-              boxShadow: '0 12px 40px rgba(26,39,68,0.3)',
+              boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
             }}>
-              <p style={{ fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(140,205,233,0.7)', marginBottom: '0.3rem' }}>
+              <p style={{ fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(126,193,245,0.8)', marginBottom: '0.3rem' }}>
                 Our Approach
               </p>
               <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', margin: 0, fontFamily: 'var(--font-sevone)' }}>
@@ -251,7 +251,7 @@ export default function AboutSection() {
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '2rem',
           marginTop: 'clamp(4rem, 10vh, 8rem)',
-          borderTop: '1px solid rgba(86,136,201,0.2)',
+          borderTop: '1px solid rgba(74,158,255,0.2)',
           paddingTop: '3rem',
         }}>
           {STATS.map(({ value, suffix, label }) => (
@@ -260,7 +260,7 @@ export default function AboutSection() {
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
                 fontWeight: 900,
-                color: '#5688C9',
+                color: '#4A9EFF',
                 lineHeight: 1,
                 marginBottom: '0.5rem',
               }}>
@@ -268,7 +268,7 @@ export default function AboutSection() {
               </div>
               <p style={{
                 fontSize: '0.7rem', letterSpacing: '0.25em', textTransform: 'uppercase',
-                color: 'rgba(26,39,68,0.55)', margin: 0,
+                color: 'rgba(242,246,252,0.55)', margin: 0,
               }}>
                 {label}
               </p>

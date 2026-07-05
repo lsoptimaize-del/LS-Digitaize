@@ -48,17 +48,16 @@ export default function Navbar() {
     <Link
       href="/"
       style={{
-        fontFamily: 'var(--font-sevone)',
-        fontSize: '0.85rem',
-        letterSpacing: '0.28em',
-        textTransform: 'uppercase',
-        color: 'inherit',
-        textDecoration: 'none',
-        fontWeight: 900,
         pointerEvents: 'auto',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
-      LS DigitAIze
+      <img 
+        src="/logo.png" 
+        alt="LS Digitaize" 
+        className="h-8 md:h-10 w-auto object-contain"
+      />
     </Link>
   );
 
@@ -69,28 +68,28 @@ export default function Navbar() {
         items={menuItems}
         displaySocials={false}
         displayItemNumbering={true}
-        menuButtonColor="#1a2744"
+        menuButtonColor="#fff"
         openMenuButtonColor="#fff"
         changeMenuColorOnOpen={true}
-        colors={['rgba(216,234,245,0.95)', 'rgba(140,205,233,0.95)']}
-        accentColor="#8BEADD"
+        colors={['rgba(10,16,30,0.97)', 'rgba(15,25,45,0.97)']}
+        accentColor="#4A9EFF"
         isFixed={true}
         logo={logo}
         className={`${scrolled ? 'sm-scrolled' : ''} ${!visible ? 'sm-hidden' : ''}`.trim()}
       />
       <style>{`
         .staggered-menu-wrapper {
-          --sm-panel-bg: rgba(26,39,68,0.98);
+          --sm-panel-bg: rgba(6,10,20,0.98);
           --sm-item-color: #fff;
         }
         .staggered-menu-wrapper.sm-hidden .staggered-menu-header {
           transform: translateY(-100%);
         }
         .staggered-menu-wrapper.sm-scrolled .staggered-menu-header {
-          background: rgba(200,223,240,0.3);
+          background: rgba(5,7,12,0.5);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          border-bottom: 1px solid rgba(86,136,201,0.1);
+          border-bottom: 1px solid rgba(74,158,255,0.15);
           padding: 1rem 2.5rem;
         }
         .staggered-menu-header {
@@ -98,7 +97,7 @@ export default function Navbar() {
           padding: 1.5rem 2.5rem;
         }
         .staggered-menu-header .sm-logo {
-          color: #1a2744;
+          color: #fff;
           transition: color 0.3s ease;
         }
         .staggered-menu-wrapper[data-open="true"] .staggered-menu-header .sm-logo {

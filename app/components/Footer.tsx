@@ -63,19 +63,35 @@ export default function Footer() {
               zIndex: 1
             }} 
           />
-          {/* Off-white brand text in the middle */}
-          <h2 style={{
-             position: 'relative',
-             zIndex: 2,
-             fontFamily: 'var(--font-sevone)',
-             fontSize: 'clamp(3rem, 8vw, 8rem)',
-             color: '#fdfdfd', // off-white
-             letterSpacing: '0.05em',
-             textShadow: '0 20px 40px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.5)',
-             margin: 0
-          }}>
-             LS DigitAIze
-          </h2>
+          {/* Main logo in the middle */}
+          <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Soft dark halo behind logo for contrast */}
+            <div style={{
+              position: 'absolute',
+              inset: '-40% -60%',
+              borderRadius: '50%',
+              background: 'radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: 0,
+            }} />
+            <img 
+              src="/logo.png" 
+              alt="LS Digitaize" 
+              style={{ 
+                height: 'clamp(3rem, 8vw, 6rem)', 
+                width: 'auto', 
+                objectFit: 'contain',
+                position: 'relative',
+                zIndex: 1,
+                filter: [
+                  'drop-shadow(0 0 18px rgba(255,255,255,0.55))',
+                  'drop-shadow(0 0 40px rgba(74,158,255,0.35))',
+                  'drop-shadow(0 8px 24px rgba(0,0,0,0.75))',
+                  'drop-shadow(0 2px 6px rgba(0,0,0,0.9))',
+                ].join(' '),
+              }} 
+            />
+          </div>
         </div>
       </div>
 
@@ -99,7 +115,7 @@ export default function Footer() {
         width: '100%',
         maxWidth: '1000px',
         height: '400px',
-        background: 'radial-gradient(ellipse at top, rgba(139, 234, 221, 0.08), transparent 70%)',
+        background: 'radial-gradient(ellipse at top, rgba(74, 158, 255, 0.10), transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0,
       }} />
@@ -120,17 +136,10 @@ export default function Footer() {
           {/* Brand Intro */}
           <div style={{ maxWidth: '400px' }}>
             <Link href="/" style={{
-              fontFamily: 'var(--font-sevone)',
-              fontSize: '1.5rem',
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              color: '#fff',
-              textDecoration: 'none',
-              fontWeight: 900,
               display: 'inline-block',
               marginBottom: '1.5rem',
             }}>
-              LS DigitAIze
+              <img src="/logo.png" alt="LS Digitaize" style={{ height: '2.5rem', width: 'auto', objectFit: 'contain' }} />
             </Link>
             <p style={{
               fontSize: '1rem',
@@ -180,7 +189,7 @@ export default function Footer() {
                 fontSize: '0.65rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#8BEADD',
+                color: '#4A9EFF',
                 marginBottom: '1.5rem',
               }}>
                 Navigate
@@ -208,7 +217,7 @@ export default function Footer() {
                 fontSize: '0.65rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#8BEADD',
+                color: '#4A9EFF',
                 marginBottom: '1.5rem',
               }}>
                 Services
@@ -236,7 +245,7 @@ export default function Footer() {
                 fontSize: '0.65rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: '#8BEADD',
+                color: '#4A9EFF',
                 marginBottom: '1.5rem',
               }}>
                 Socials
@@ -268,17 +277,9 @@ export default function Footer() {
           borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           paddingBottom: '2rem',
         }}>
-          <h1 style={{
-            fontFamily: 'var(--font-sevone)',
-            fontSize: 'clamp(3rem, 10vw, 8rem)',
-            lineHeight: 0.8,
-            color: 'rgba(255, 255, 255, 0.03)',
-            margin: 0,
-            whiteSpace: 'nowrap',
-            letterSpacing: '-0.02em',
-          }}>
-            LS DIGITAIZE
-          </h1>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <img src="/logo.png" alt="LS Digitaize" style={{ height: 'clamp(3rem, 10vw, 8rem)', width: 'auto', opacity: 0.03, objectFit: 'contain' }} />
+          </div>
         </div>
 
         {/* Bottom Bar */}

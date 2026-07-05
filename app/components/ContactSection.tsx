@@ -176,7 +176,7 @@ export default function ContactSection() {
                 marginBottom: '1rem',
               }}>
                 LET'S BUILD<br />
-                <span style={{ color: '#8BEADD' }}>SOMETHING</span><br />
+                <span style={{ color: '#4A9EFF' }}>SOMETHING</span><br />
                 WILD.
               </h2>
             </div>
@@ -262,7 +262,7 @@ export default function ContactSection() {
 
       <style>{`
         .input-group input:focus, .input-group textarea:focus {
-          border-bottom-color: #8BEADD !important;
+          border-bottom-color: #4A9EFF !important;
         }
         .input-group input::placeholder, .input-group textarea::placeholder {
           color: rgba(255,255,255,0.2);

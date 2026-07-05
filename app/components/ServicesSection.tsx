@@ -16,8 +16,8 @@ const SERVICES = [
     category: 'Identity',
     description:
       'From logo to language — we create visual systems that make your brand feel inevitable in any room.',
-    accentLine: '#5688C9',
-    colors: ['#E8F4FB', '#C8DFF0', '#8CCDE9', '#8BEADD', '#B8D8EE', '#F2F8FC'],
+    accentLine: '#4A9EFF',
+    colors: ['#060a14', '#0a1428', '#123055', '#1a4a7a', '#0d1e38', '#081020'],
     distortion: 0.72,
     swirl: 0.58,
     image: '/service-branding.png',
@@ -28,8 +28,8 @@ const SERVICES = [
     category: 'Content',
     description:
       'Strategy, templates, scripts, visuals — built as a system that turns ideas into a steady stream of impact.',
-    accentLine: '#8CCDE9',
-    colors: ['#EFF9FF', '#DCF0FA', '#8CCDE9', '#C8DFF0', '#8BEADD', '#E8F6FF'],
+    accentLine: '#5BC9E8',
+    colors: ['#050c14', '#0a1a24', '#134a5a', '#0d2836', '#1a3d4a', '#081418'],
     distortion: 0.65,
     swirl: 0.70,
     image: '/service-content.png',
@@ -40,8 +40,8 @@ const SERVICES = [
     category: 'Performance',
     description:
       'Data-led paid campaigns that convert. We test relentlessly and optimise until the numbers sing.',
-    accentLine: '#5688C9',
-    colors: ['#D8E8F8', '#C8DFF0', '#8CCDE9', '#5688C9', '#B0CAE8', '#E4EEF8'],
+    accentLine: '#4A9EFF',
+    colors: ['#04070f', '#0a1428', '#123055', '#4A9EFF', '#0d1e38', '#08101c'],
     distortion: 0.85,
     swirl: 0.45,
     image: '/service-performance.png',
@@ -52,8 +52,8 @@ const SERVICES = [
     category: 'Social',
     description:
       'Your brand, alive online — every day. Strategy, content, community, all handled.',
-    accentLine: '#8BEADD',
-    colors: ['#D8F8F2', '#8BEADD', '#C8DFF0', '#8CCDE9', '#B8EDE4', '#EAF9F5'],
+    accentLine: '#5BC9E8',
+    colors: ['#050c10', '#0a1e22', '#134a5a', '#123055', '#0d2836', '#081418'],
     distortion: 0.70,
     swirl: 0.75,
     image: '/service-social.png',
@@ -64,8 +64,8 @@ const SERVICES = [
     category: 'Events',
     description:
       'Concept to execution — brand activations and launches that create moments people talk about.',
-    accentLine: '#5688C9',
-    colors: ['#E2ECFA', '#C8DFF0', '#5688C9', '#8CCDE9', '#D0DCF5', '#EEF3FA'],
+    accentLine: '#4A9EFF',
+    colors: ['#05080f', '#0a1428', '#4A9EFF', '#123055', '#0d1e38', '#080e1c'],
     distortion: 0.78,
     swirl: 0.55,
     image: '/service-events.png',
@@ -76,8 +76,8 @@ const SERVICES = [
     category: 'Growth',
     description:
       'Market research, partnerships, and growth roadmaps. We help ambitious brands open new doors — sustainably.',
-    accentLine: '#5688C9',
-    colors: ['#E0EAF5', '#C8DFF0', '#8CCDE9', '#5688C9', '#B8D0E8', '#EAF0F8'],
+    accentLine: '#4A9EFF',
+    colors: ['#05090f', '#0a1428', '#123055', '#4A9EFF', '#0d1e38', '#081018'],
     distortion: 0.80,
     swirl: 0.50,
     image: '/service-business.png',
@@ -210,7 +210,7 @@ export default function ServicesSection() {
           top: 0,
           height: '100vh',
           overflow: 'hidden',
-          background: '#E8F4FB',
+          background: '#070c16',
         }}
       >
         {/* ── MeshGradient background ── */}
@@ -247,11 +247,11 @@ export default function ServicesSection() {
           <h2 ref={introTitleRef} style={{
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(3.5rem, 9vw, 11rem)',
-            color: '#1a2744',
+            color: '#F2F6FC',
             margin: 0,
             lineHeight: 0.9,
             textAlign: 'center',
-            textShadow: '0 4px 40px rgba(232,244,251,0.5)',
+            textShadow: '0 4px 50px rgba(74,158,255,0.3)',
             willChange: 'transform, opacity, filter',
           }}>
             WHAT WE DO
@@ -337,7 +337,7 @@ export default function ServicesSection() {
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(5rem, 13vw, 17rem)',
             fontWeight: 900,
-            color: 'rgba(26,39,68,0.04)',
+            color: 'rgba(255,255,255,0.05)',
             lineHeight: 0.8,
             position: 'absolute', bottom: '100%', left: '-0.06em',
             userSelect: 'none', pointerEvents: 'none',
@@ -348,12 +348,12 @@ export default function ServicesSection() {
 
           <p style={{
             fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-            color: 'rgba(26,39,68,0.7)',
+            color: 'rgba(242,246,252,0.7)',
             marginBottom: '1.5rem',
             transition: 'color 0.7s ease',
             display: 'flex', alignItems: 'center', gap: '0.8rem',
           }}>
-            <span style={{ width: '20px', height: '1px', background: 'rgba(26,39,68,0.4)' }} />
+            <span style={{ width: '20px', height: '1px', background: 'rgba(242,246,252,0.4)' }} />
             {service.category}
           </p>
 
@@ -361,19 +361,19 @@ export default function ServicesSection() {
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(2.5rem, 5.5vw, 6.5rem)',
             fontWeight: 900,
-            color: '#1a2744',
+            color: '#F2F6FC',
             lineHeight: 0.92,
             letterSpacing: '-0.03em',
             marginBottom: '1.5rem',
             whiteSpace: 'pre-line',
-            textShadow: '0 4px 40px rgba(232,244,251,0.95), 0 0 15px rgba(255,255,255,1)',
+            textShadow: '0 4px 40px rgba(0,0,0,0.6), 0 0 25px rgba(74,158,255,0.25)',
           }}>
             {service.title}
           </h2>
 
           <p style={{
             fontSize: '1rem', lineHeight: 1.6,
-            color: 'rgba(26,39,68,0.65)',
+            color: 'rgba(242,246,252,0.65)',
             margin: '0 0 2.5rem',
             maxWidth: '85%',
           }}>
@@ -385,7 +385,7 @@ export default function ServicesSection() {
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
               fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase',
-              color: '#1a2744', textDecoration: 'none',
+              color: '#F2F6FC', textDecoration: 'none',
               opacity: 0.45, transition: 'opacity 0.2s ease',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
@@ -410,7 +410,7 @@ export default function ServicesSection() {
               position: 'absolute',
               right: 0, top: 0, bottom: 0,
               width: '1px',
-              background: 'rgba(26,39,68,0.12)',
+              background: 'rgba(255,255,255,0.12)',
             }} />
 
             <div style={{
@@ -441,7 +441,7 @@ export default function ServicesSection() {
                       fontFamily: 'var(--font-sevone)',
                       fontSize: '1.4rem',
                       fontWeight: 900,
-                      color: '#1a2744',
+                      color: '#F2F6FC',
                     }}>
                       {String(i + 1).padStart(2, '0')}
                     </div>
@@ -453,10 +453,10 @@ export default function ServicesSection() {
                       width: isActive ? '24px' : '10px',
                       height: isActive ? '2px' : '1px',
                       background: isActive
-                        ? '#1a2744'
+                        ? '#F2F6FC'
                         : isPast
-                          ? 'rgba(26,39,68,0.4)'
-                          : 'rgba(26,39,68,0.15)',
+                          ? 'rgba(255,255,255,0.4)'
+                          : 'rgba(255,255,255,0.15)',
                       transition: 'all 0.4s ease',
                     }} />
                   </div>
@@ -477,13 +477,13 @@ export default function ServicesSection() {
           }}>
             <span style={{
               fontSize: '0.52rem', letterSpacing: '0.4em', textTransform: 'uppercase',
-              color: 'rgba(26,39,68,0.3)',
+              color: 'rgba(255,255,255,0.3)',
             }}>
               Scroll
             </span>
             <div style={{
               width: '1px', height: '22px',
-              background: 'linear-gradient(to bottom, rgba(26,39,68,0.3), transparent)',
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
               animation: 'svcScrollPulse 1.6s ease-in-out infinite',
             }} />
           </div>
