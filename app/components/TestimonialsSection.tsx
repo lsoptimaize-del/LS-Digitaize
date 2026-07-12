@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 
 /* ─── Types ─── */
 type CardData = {
-  image: string;
+  initials: string;
   name: string;
   handle: string;
   quote: string;
@@ -14,76 +14,76 @@ type CardData = {
 /* ─── Testimonial data ─── */
 const ROW1: CardData[] = [
   {
-    image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200&auto=format&fit=crop',
-    name: 'Briar Martin',
-    handle: '@briarmartin',
-    quote: 'LS Digitaize rebuilt our entire brand system in six weeks. Our conversion rate on paid nearly doubled the quarter after launch.',
+    initials: 'RS',
+    name: 'Rohan Sharma',
+    handle: '@rohans',
+    quote: "LS Digitaize rebuilt our entire brand system in six weeks. Our conversion rate on paid campaigns nearly doubled the quarter after launch.",
     accentColor: '#4A9EFF',
   },
   {
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop',
-    name: 'Amira Hassan',
-    handle: '@amirahassan',
-    quote: 'They don\'t just execute — they push back when something won\'t work. That honesty is why we\'ve stayed with them for three years.',
+    initials: 'PP',
+    name: 'Priya Patel',
+    handle: '@priyapatel_ux',
+    quote: "They don't just execute — they actually push back when something won't work. That kind of strategic honesty is why we've stayed with them.",
     accentColor: '#5BC9E8',
   },
   {
-    image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200&auto=format&fit=crop',
-    name: 'Owen Dietrich',
-    handle: '@owend',
-    quote: 'Content, performance, and events all under one roof meant zero handoff friction. Fastest rebrand we\'ve ever taken to market.',
+    initials: 'AD',
+    name: 'Arjun Desai',
+    handle: '@arjundesai',
+    quote: "Having content, performance marketing, and events all under one roof meant zero handoff friction. It was the fastest rebrand we've ever done.",
     accentColor: '#4A9EFF',
   },
   {
-    image: 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop',
-    name: 'Jordan Lee',
-    handle: '@jordantalks',
-    quote: 'The strategy phase alone changed how we think about our entire go-to-market. This team is exceptional.',
+    initials: 'SI',
+    name: 'Sneha Iyer',
+    handle: '@snehaiyer',
+    quote: "The strategy phase alone changed how we think about our entire go-to-market plan in India. This team is absolutely exceptional.",
     accentColor: '#5BC9E8',
   },
   {
-    image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop',
-    name: 'Priya Nathan',
-    handle: '@priyagrowth',
-    quote: 'From zero to a full identity system in a month. I\'ve never seen a creative team move this fast without sacrificing quality.',
+    initials: 'VS',
+    name: 'Vikram Singh',
+    handle: '@vikram_s',
+    quote: "From zero to a full identity system in just a month. I've never seen a creative agency move this fast without sacrificing quality.",
     accentColor: '#4A9EFF',
   },
 ];
 
 const ROW2: CardData[] = [
   {
-    image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=200&auto=format&fit=crop',
-    name: 'Marcus Webb',
-    handle: '@marcuswebb',
-    quote: 'ROI was visible within the first campaign cycle. No agency has delivered results this quickly for us before.',
+    initials: 'NG',
+    name: 'Neha Gupta',
+    handle: '@nehagupta',
+    quote: "ROI was visible within the very first campaign cycle. No other agency has delivered measurable results this quickly for our D2C brand.",
     accentColor: '#5BC9E8',
   },
   {
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop',
-    name: 'Sofia Reyes',
-    handle: '@sofiareyes',
-    quote: 'Our social following tripled in 90 days. The content strategy they built is something we\'re still scaling two years later.',
+    initials: 'RV',
+    name: 'Rahul Verma',
+    handle: '@rahulv_tech',
+    quote: "Our social following tripled in 90 days. The content strategy they built for us is something we're still successfully scaling two years later.",
     accentColor: '#4A9EFF',
   },
   {
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop',
-    name: 'Derek Huang',
-    handle: '@derekhuang',
-    quote: 'We tried three agencies before LS Digitaize. None of them understood our vision the way this team did from day one.',
+    initials: 'KN',
+    name: 'Kavita Nair',
+    handle: '@kavitanair',
+    quote: "We went through three agencies before finding LS Digitaize. None of them understood our brand vision the way this team did from day one.",
     accentColor: '#5BC9E8',
   },
   {
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop',
-    name: 'Naomi Clarke',
-    handle: '@naomiclarke',
-    quote: 'A true strategic partner. They challenged our assumptions and helped us find a market position we hadn\'t considered.',
+    initials: 'SM',
+    name: 'Siddharth Mehta',
+    handle: '@siddharthm',
+    quote: "A true strategic partner. They challenged our assumptions and helped us find a highly profitable market position we hadn't even considered.",
     accentColor: '#4A9EFF',
   },
   {
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop',
-    name: 'Alex Fontaine',
-    handle: '@alexfontaine',
-    quote: 'The launch campaign they ran was genuinely beautiful and it performed. You rarely get both. Highly recommend.',
+    initials: 'AR',
+    name: 'Ananya Rao',
+    handle: '@ananyarao',
+    quote: "The launch campaign they ran for our new product was genuinely beautiful and it performed amazingly well. You rarely get both. Highly recommend.",
     accentColor: '#5BC9E8',
   },
 ];
@@ -123,13 +123,25 @@ const TestimonialCard = ({ card }: { card: CardData }) => (
   >
     {/* Author row */}
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.9rem' }}>
-      <img
-        src={card.image}
-        alt={card.name}
-        width={40}
-        height={40}
-        style={{ borderRadius: '50%', objectFit: 'cover', border: `1.5px solid ${card.accentColor ?? '#4A9EFF'}40` }}
-      />
+      <div
+        style={{
+          width: 40,
+          height: 40,
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: `radial-gradient(circle at top left, ${card.accentColor ?? '#4A9EFF'}33, transparent)`,
+          border: `1.5px solid ${card.accentColor ?? '#4A9EFF'}40`,
+          color: card.accentColor ?? '#4A9EFF',
+          fontSize: '0.9rem',
+          fontWeight: 700,
+          fontFamily: 'system-ui, sans-serif',
+          letterSpacing: '0.05em'
+        }}
+      >
+        {card.initials}
+      </div>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#F2F6FC' }}>{card.name}</span>

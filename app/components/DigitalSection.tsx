@@ -72,7 +72,7 @@ export default function DigitalSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col items-center justify-start overflow-hidden min-h-[100svh] md:min-h-[150vh]"
+      className="relative flex flex-col items-center justify-start overflow-hidden min-h-[100svh] md:min-h-screen"
       style={{ backgroundColor: '#000000', paddingTop: 'clamp(0rem, 5vw, 9rem)', paddingBottom: '2rem', zIndex: 0 }}
       id="digital"
     >

@@ -64,7 +64,7 @@ const SERVICES = [
         <circle cx="290" cy="45" r="3.5" fill={accent2} fillOpacity="0.4"
           style={{ animation: 'floatDot 3.5s ease-in-out infinite alternate-reverse' }}
         />
-        {/* Color swatches — animated entry */}
+        {/* Color swatches - animated entry */}
         {[accent, accent2, '#1a3a8a', '#0a1c50', '#2a5caa'].map((c, i) => (
           <rect key={i} x={65 + i * 16} y="135" width="12" height="12" rx="3" fill={c} fillOpacity="0.85"
             style={{ animation: `swatchPop 0.4s ${0.1 * i}s both ease-out` }}
@@ -515,14 +515,15 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
         style={{ background: `linear-gradient(90deg, transparent, ${service.accent}60, transparent)` }}
       />
 
-      <div className="p-6 flex flex-col flex-1">
+      <div className="p-7 flex flex-col flex-1">
         {/* Icon chip */}
         <div
-          className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 flex-shrink-0"
+          className="w-12 h-12 rounded-full flex items-center justify-center mb-6 flex-shrink-0"
           style={{
-            background: `radial-gradient(circle at 30% 30%, ${service.accent}28, ${service.accent2}15)`,
-            border: `1px solid ${service.accent}40`,
+            background: `radial-gradient(circle at 30% 30%, ${service.accent}15, transparent)`,
+            border: `1px solid ${service.accent}30`,
             color: service.accent,
+            boxShadow: `0 4px 20px ${service.accent}10`,
           }}
         >
           {service.icon}
@@ -530,11 +531,11 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
 
         {/* Title */}
         <h3
-          className="font-semibold mb-2 leading-tight"
+          className="font-bold mb-3 leading-tight tracking-tight"
           style={{
-            fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
+            fontSize: 'clamp(1.2rem, 2vw, 1.45rem)',
             color: '#F2F6FC',
-            fontFamily: 'var(--font-sevone)',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
           }}
         >
           {service.title}
@@ -542,8 +543,13 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
 
         {/* Description */}
         <p
-          className="text-xs leading-relaxed mb-5"
-          style={{ color: 'rgba(180,200,230,0.65)', fontFamily: 'monospace', fontSize: '0.85rem', maxWidth: '90%' }}
+          className="leading-relaxed mb-8"
+          style={{ 
+            color: 'rgba(242,246,252,0.6)', 
+            fontSize: '0.95rem', 
+            maxWidth: '95%',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}
         >
           {service.description}
         </p>
@@ -618,7 +624,7 @@ export default function ServicesSectionNew() {
       </div>
 
       <div className="relative z-10 max-w-screen-xl mx-auto px-6 md:px-12 lg:px-16">
-        {/* Header — centered */}
+        {/* Header - centered */}
         <div className="mb-14 md:mb-20 text-center">
           <motion.p
             initial={{ opacity: 0, y: 16 }}

@@ -15,7 +15,7 @@ const SERVICES = [
     title: 'A-Z Branding\n& Identity',
     category: 'Identity',
     description:
-      'From logo to language — we create visual systems that make your brand feel inevitable in any room.',
+      'From logo to language - we create visual systems that make your brand feel inevitable in any room.',
     accentLine: '#4A9EFF',
     colors: ['#060a14', '#0a1428', '#123055', '#1a4a7a', '#0d1e38', '#081020'],
     distortion: 0.72,
@@ -27,7 +27,7 @@ const SERVICES = [
     title: 'Content Strategy\n& Creation',
     category: 'Content',
     description:
-      'Strategy, templates, scripts, visuals — built as a system that turns ideas into a steady stream of impact.',
+      'Strategy, templates, scripts, visuals - built as a system that turns ideas into a steady stream of impact.',
     accentLine: '#5BC9E8',
     colors: ['#050c14', '#0a1a24', '#134a5a', '#0d2836', '#1a3d4a', '#081418'],
     distortion: 0.65,
@@ -51,7 +51,7 @@ const SERVICES = [
     title: 'Social Media\nManagement',
     category: 'Social',
     description:
-      'Your brand, alive online — every day. Strategy, content, community, all handled.',
+      'Your brand, alive online - every day. Strategy, content, community, all handled.',
     accentLine: '#5BC9E8',
     colors: ['#050c10', '#0a1e22', '#134a5a', '#123055', '#0d2836', '#081418'],
     distortion: 0.70,
@@ -63,7 +63,7 @@ const SERVICES = [
     title: 'Event Curation\n& Management',
     category: 'Events',
     description:
-      'Concept to execution — brand activations and launches that create moments people talk about.',
+      'Concept to execution - brand activations and launches that create moments people talk about.',
     accentLine: '#4A9EFF',
     colors: ['#05080f', '#0a1428', '#4A9EFF', '#123055', '#0d1e38', '#080e1c'],
     distortion: 0.78,
@@ -75,7 +75,7 @@ const SERVICES = [
     title: 'Business\nDevelopment',
     category: 'Growth',
     description:
-      'Market research, partnerships, and growth roadmaps. We help ambitious brands open new doors — sustainably.',
+      'Market research, partnerships, and growth roadmaps. We help ambitious brands open new doors - sustainably.',
     accentLine: '#4A9EFF',
     colors: ['#05090f', '#0a1428', '#123055', '#4A9EFF', '#0d1e38', '#081018'],
     distortion: 0.80,
@@ -261,7 +261,7 @@ export default function ServicesSection() {
         {/* ── Content Wrapper ── */}
         <div ref={contentRef} style={{ position: 'absolute', inset: 0, willChange: 'opacity, transform', opacity: 0, zIndex: 10 }}>
 
-        {/* ── Image card — centered, scroll-driven ── */}
+        {/* ── Image card - centered, scroll-driven ── */}
         <div
           ref={cardRef}
           style={{
@@ -319,7 +319,7 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* ── Left text block — vertically centered, DOM-animated ── */}
+        {/* ── Left text block - vertically centered, DOM-animated ── */}
         <div
           ref={textWrapRef}
           style={{
