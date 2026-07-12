@@ -56,14 +56,17 @@ export default function DigitalSection() {
       }
 
       // Pin DigitalSection so ServicesSection slides over it like a curtain
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'bottom bottom',
-        endTrigger: '#services',
-        end: 'top top',
-        pin: true,
-        pinSpacing: false,
-      });
+      const servicesEl = document.querySelector('#services');
+      if (servicesEl) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'bottom bottom',
+          endTrigger: servicesEl,
+          end: 'top top',
+          pin: true,
+          pinSpacing: false,
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -131,7 +134,7 @@ export default function DigitalSection() {
       </div>
 
       {/* ── Heading ── */}
-      <div className="relative z-10 flex flex-col items-center text-center w-full -mt-16 md:-mt-8">
+      <div className="relative z-10 flex flex-col items-center text-center w-full mt-24 md:-mt-8">
         <h2
           ref={headingRef}
           className="text-[24vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] md:leading-[0.85] font-light tracking-[-0.04em] text-white uppercase flex flex-col items-center w-full"
@@ -145,7 +148,7 @@ export default function DigitalSection() {
       </div>
 
       {/* ── GIF — mobile: large + over text; desktop: original position ── */}
-      <div className="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180vw] md:w-[75vw] z-20 pointer-events-none flex justify-center">
+      <div className="absolute top-[80%] md:top-[75%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180vw] md:w-[75vw] z-20 pointer-events-none flex justify-center">
         <img
           ref={imgRef}
           src="/hero.gif"

@@ -232,7 +232,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
         position: 'sticky',
         top: `calc(5.5rem + ${index * 1.6}rem)`,
         zIndex: index + 10,
-        marginBottom: isLast ? '0' : '34vh',
+        marginBottom: '34vh',
       }}
     >
       <motion.div

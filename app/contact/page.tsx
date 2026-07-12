@@ -14,20 +14,19 @@ const SERVICES = [
   'Something Else',
 ];
 
-type Step = 'service' | 'name' | 'phone' | 'email' | 'message' | 'done';
-const STEPS: Step[] = ['service', 'name', 'phone', 'email', 'message', 'done'];
+type Step = 'service' | 'budget' | 'message' | 'contact' | 'done';
+const STEPS: Step[] = ['service', 'budget', 'message', 'contact', 'done'];
 
 const STEP_META: Record<Exclude<Step, 'done'>, { num: string; question: string; hint?: string }> = {
-  service: { num: '01', question: 'What are you looking for?' },
-  name:    { num: '02', question: 'What\'s your name?' },
-  phone:   { num: '03', question: 'Best number to reach you?', hint: 'Optional — skip if you prefer.' },
-  email:   { num: '04', question: 'And your email?' },
-  message: { num: '05', question: 'Anything else we should know?', hint: 'Goals, timeline, budget — whatever helps.' },
+  service: { num: '01', question: 'What are you looking for?', hint: 'Select many options' },
+  budget:  { num: '02', question: 'What is your budget?' },
+  message: { num: '03', question: 'Anything else we should know?', hint: 'Goals, timeline — whatever helps.' },
+  contact: { num: '04', question: 'Your contact details?', hint: 'Name and number so we can reach you.' },
 };
 
 export default function ContactPage() {
   const [step, setStep] = useState<Step>('service');
-  const [form, setForm] = useState({ service: '', name: '', phone: '', email: '', message: '' });
+  const [form, setForm] = useState({ services: [] as string[], budget: '', message: '', name: '', phone: '', email: '' });
   const [sending, setSending] = useState(false);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
 
@@ -38,12 +37,28 @@ export default function ContactPage() {
     if (next) setStep(next);
   }, [stepIndex]);
 
+  const isValidPhone = (phone: string) => {
+    // Basic validation: extract digits, ensure there are at least 10
+    const digits = phone.replace(/\D/g, '');
+    return digits.length >= 10;
+  };
+
+  const isValidEmail = (email: string) => {
+    if (!email.trim()) return true; // Email is optional
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const canAdvance = () => {
-    if (step === 'service') return !!form.service;
-    if (step === 'name')    return form.name.trim().length > 0;
-    if (step === 'phone')   return true; // optional
-    if (step === 'email')   return form.email.trim().length > 0;
+    if (step === 'service') return form.services.length > 0;
+    if (step === 'budget')  return !!form.budget;
     if (step === 'message') return form.message.trim().length > 0;
+    if (step === 'contact') {
+      return (
+        form.name.trim().length > 0 &&
+        isValidPhone(form.phone) &&
+        isValidEmail(form.email)
+      );
+    }
     return false;
   };
 
@@ -56,9 +71,20 @@ export default function ContactPage() {
 
   const handleSubmit = async () => {
     setSending(true);
-    await new Promise(r => setTimeout(r, 1600));
-    setSending(false);
-    setStep('done');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (!res.ok) throw new Error('Failed to send message');
+      setStep('done');
+    } catch (error) {
+      console.error(error);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   useEffect(() => {
@@ -91,28 +117,14 @@ export default function ContactPage() {
           margin: '0 auto',
           padding: '0 clamp(1.5rem, 5vw, 4rem)',
           display: 'grid',
-          gridTemplateColumns: '1fr 1.5fr',
-          gap: 'clamp(4rem, 10vw, 10rem)',
+          gridTemplateColumns: '1fr 2fr',
+          gap: 'clamp(4rem, 10vw, 8rem)',
           alignItems: 'start',
         }}>
 
           {/* ── LEFT ── */}
           <div className="contact-left-col" style={{ position: 'sticky', top: '9rem' }}>
             <div className="contact-header">
-              {/* Status badge */}
-              <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.4rem 1rem',
-              border: '1px solid rgba(74,158,255,0.3)',
-              borderRadius: '99px',
-              marginBottom: '2.5rem',
-            }}>
-              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#4A9EFF', display: 'block', boxShadow: '0 0 6px #4A9EFF' }} />
-              <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
-                Accepting New Projects
-              </span>
-            </div>
-
             <h1 style={{
               fontFamily: 'var(--font-sevone)',
               fontSize: 'clamp(3rem, 5.5vw, 5.5rem)',
@@ -249,14 +261,21 @@ export default function ContactPage() {
                 {step === 'service' && (
                   <>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '2.5rem' }}>
-                      {SERVICES.map(s => (
-                        <button key={s} onClick={() => { setForm(p => ({ ...p, service: s })); setTimeout(advance, 250); }}
+                      {SERVICES.map(s => {
+                        const isSelected = form.services.includes(s);
+                        return (
+                          <button key={s} onClick={() => { 
+                            setForm(p => ({
+                              ...p, 
+                              services: isSelected ? p.services.filter(x => x !== s) : [...p.services, s]
+                            }));
+                          }}
                           style={{
                             padding: '0.8rem 1.5rem',
                             borderRadius: '99px',
-                            border: form.service === s ? '1.5px solid #4A9EFF' : '1px solid rgba(255,255,255,0.15)',
-                            background: form.service === s ? 'rgba(74,158,255,0.12)' : 'transparent',
-                            color: form.service === s ? '#4A9EFF' : 'rgba(255,255,255,0.6)',
+                            border: isSelected ? '1.5px solid #4A9EFF' : '1px solid rgba(255,255,255,0.15)',
+                            background: isSelected ? 'rgba(74,158,255,0.12)' : 'transparent',
+                            color: isSelected ? '#4A9EFF' : 'rgba(255,255,255,0.6)',
                             fontFamily: 'var(--font-geist-mono)',
                             fontSize: '0.82rem',
                             letterSpacing: '0.04em',
@@ -266,56 +285,40 @@ export default function ContactPage() {
                         >
                           {s}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   </>
                 )}
 
-                {/* NAME */}
-                {step === 'name' && (
-                  <input
-                    ref={inputRef as React.RefObject<HTMLInputElement>}
-                    type="text" placeholder="Your full name"
-                    value={form.name}
-                    onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                    onKeyDown={handleKey}
-                    style={inputStyle}
-                    onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
-                    onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
-                  />
-                )}
-
-                {/* PHONE */}
-                {step === 'phone' && (
-                  <input
-                    ref={inputRef as React.RefObject<HTMLInputElement>}
-                    type="tel" placeholder="+91 98765 43210"
-                    value={form.phone}
-                    onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                    onKeyDown={handleKey}
-                    style={inputStyle}
-                    onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
-                    onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
-                  />
-                )}
-
-                {/* EMAIL */}
-                {step === 'email' && (
-                  <input
-                    ref={inputRef as React.RefObject<HTMLInputElement>}
-                    type="email" placeholder="your@email.com"
-                    value={form.email}
-                    onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                    onKeyDown={handleKey}
-                    style={inputStyle}
-                    onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
-                    onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
-                  />
+                {/* BUDGET */}
+                {step === 'budget' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
+                    {['Under ₹50,000', '₹50,000 - ₹2,00,000', '₹2,00,000+'].map(b => (
+                      <button key={b} onClick={() => { setForm(p => ({ ...p, budget: b })); setTimeout(advance, 250); }}
+                        style={{
+                          padding: '1.2rem 2rem',
+                          borderRadius: '12px',
+                          border: form.budget === b ? '1.5px solid #4A9EFF' : '1px solid rgba(255,255,255,0.15)',
+                          background: form.budget === b ? 'rgba(74,158,255,0.12)' : 'transparent',
+                          color: form.budget === b ? '#4A9EFF' : 'rgba(255,255,255,0.8)',
+                          fontFamily: 'var(--font-geist-mono)',
+                          fontSize: '1rem',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                        }}
+                      >
+                        {b}
+                      </button>
+                    ))}
+                  </div>
                 )}
 
                 {/* MESSAGE */}
                 {step === 'message' && (
                   <textarea
+                    ref={inputRef as React.RefObject<HTMLTextAreaElement>}
                     value={form.message}
                     placeholder="Share your vision, goals, timeline..."
                     onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
@@ -325,58 +328,90 @@ export default function ContactPage() {
                   />
                 )}
 
-                {/* CTA Buttons */}
-                {step !== 'service' && (
-                  <div style={{ display: 'flex', gap: '1rem', marginTop: '2.5rem', alignItems: 'center' }}>
-                    {step === 'message' ? (
-                      <button
-                        onClick={handleSubmit}
-                        disabled={sending || !form.message.trim()}
-                        style={{
-                          padding: '1rem 3rem',
-                          background: 'linear-gradient(135deg, #5BC9E8, #4A9EFF)',
-                          color: '#05070c', border: 'none', borderRadius: '99px',
-                          fontFamily: 'var(--font-geist-mono)', fontSize: '0.8rem',
-                          letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700,
-                          cursor: sending || !form.message.trim() ? 'not-allowed' : 'pointer',
-                          opacity: sending || !form.message.trim() ? 0.45 : 1,
-                          transition: 'transform 0.2s, opacity 0.2s',
-                        }}
-                        onMouseEnter={e => { if (!sending) e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                      >
-                        {sending ? 'Sending...' : 'Send Message →'}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={advance}
-                        disabled={step !== 'phone' && !canAdvance()}
-                        style={{
-                          padding: '1rem 2.5rem',
-                          background: canAdvance() || step === 'phone' ? '#4A9EFF' : 'rgba(74,158,255,0.2)',
-                          color: '#05070c', border: 'none', borderRadius: '99px',
-                          fontFamily: 'var(--font-geist-mono)', fontSize: '0.8rem',
-                          letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700,
-                          cursor: 'pointer',
-                          transition: 'background 0.2s, transform 0.2s',
-                          opacity: canAdvance() || step === 'phone' ? 1 : 0.4,
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-                        onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-                      >
-                        {step === 'phone' && !form.phone.trim() ? 'Skip →' : 'Continue →'}
-                      </button>
-                    )}
-                    {stepIndex > 0 && (
-                      <button
-                        onClick={() => setStep(STEPS[stepIndex - 1])}
-                        style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-mono)', fontSize: '0.75rem', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}
-                      >
-                        ← Back
-                      </button>
-                    )}
+                {/* CONTACT */}
+                {step === 'contact' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', marginBottom: '1.5rem' }}>
+                    <input
+                      ref={inputRef as React.RefObject<HTMLInputElement>}
+                      type="text" placeholder="Your full name"
+                      value={form.name}
+                      onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                      onKeyDown={handleKey}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
+                      onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
+                    />
+                    <input
+                      type="tel" placeholder="Phone number"
+                      value={form.phone}
+                      onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
+                      onKeyDown={handleKey}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
+                      onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
+                    />
+                    <input
+                      type="email" placeholder="Email address (Optional)"
+                      value={form.email}
+                      onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
+                      onKeyDown={handleKey}
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderBottomColor = 'rgba(74,158,255,0.6)')}
+                      onBlur={e => (e.target.style.borderBottomColor = 'rgba(255,255,255,0.2)')}
+                    />
                   </div>
                 )}
+
+                {/* CTA Buttons */}
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '2.5rem', alignItems: 'center' }}>
+                  {step === 'contact' ? (
+                    <button
+                      onClick={handleSubmit}
+                      disabled={sending || !canAdvance()}
+                      style={{
+                        padding: '1rem 3rem',
+                        background: 'linear-gradient(135deg, #5BC9E8, #4A9EFF)',
+                        color: '#05070c', border: 'none', borderRadius: '99px',
+                        fontFamily: 'var(--font-geist-mono)', fontSize: '0.8rem',
+                        letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700,
+                        cursor: sending || !canAdvance() ? 'not-allowed' : 'pointer',
+                        opacity: sending || !canAdvance() ? 0.45 : 1,
+                        transition: 'transform 0.2s, opacity 0.2s',
+                      }}
+                      onMouseEnter={e => { if (!sending && canAdvance()) e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                      {sending ? 'Sending...' : 'Send Message →'}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={advance}
+                      disabled={!canAdvance()}
+                      style={{
+                        padding: '1rem 2.5rem',
+                        background: canAdvance() ? '#4A9EFF' : 'rgba(74,158,255,0.2)',
+                        color: '#05070c', border: 'none', borderRadius: '99px',
+                        fontFamily: 'var(--font-geist-mono)', fontSize: '0.8rem',
+                        letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 700,
+                        cursor: 'pointer',
+                        transition: 'background 0.2s, transform 0.2s',
+                        opacity: canAdvance() ? 1 : 0.4,
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                      Continue →
+                    </button>
+                  )}
+                  {stepIndex > 0 && (
+                    <button
+                      onClick={() => setStep(STEPS[stepIndex - 1])}
+                      style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-mono)', fontSize: '0.75rem', cursor: 'pointer', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+                    >
+                      ← Back
+                    </button>
+                  )}
+                </div>
                 {step !== 'service' && step !== 'message' && (
                   <p style={{ marginTop: '1rem', fontFamily: 'var(--font-geist-mono)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.1em' }}>
                     Press Enter to continue

@@ -57,26 +57,56 @@ export default function Navbar() {
         src="/logo.png" 
         alt="LS Digitaize" 
         className="h-8 md:h-10 w-auto object-contain"
+        style={{ filter: 'drop-shadow(-35px 0 15px rgba(255,255,255,0.9)) drop-shadow(-45px 0 30px rgba(255,255,255,0.5))' }}
       />
     </Link>
   );
 
   return (
     <>
-      <StaggeredMenu
-        position="right"
-        items={menuItems}
-        displaySocials={false}
-        displayItemNumbering={true}
-        menuButtonColor="#fff"
-        openMenuButtonColor="#fff"
-        changeMenuColorOnOpen={true}
-        colors={['rgba(10,16,30,0.97)', 'rgba(15,25,45,0.97)']}
-        accentColor="#4A9EFF"
-        isFixed={true}
-        logo={logo}
-        className={`${scrolled ? 'sm-scrolled' : ''} ${!visible ? 'sm-hidden' : ''}`.trim()}
-      />
+      <nav
+        className={`hidden md:flex fixed top-0 w-full z-[100] transition-all duration-300 items-center justify-between px-10 py-5 ${
+          scrolled ? 'bg-[#05070c]/70 backdrop-blur-md border-b border-[#4A9EFF]/15' : 'bg-transparent'
+        } ${!visible ? '-translate-y-full' : 'translate-y-0'}`}
+      >
+        <div className="flex-shrink-0">
+          {logo}
+        </div>
+        <ul className="flex items-center gap-10 text-[10px] font-bold tracking-[0.2em] uppercase text-white/70">
+          {menuItems.filter(item => item.label !== 'Contact').map((item) => (
+            <li key={item.label}>
+              <Link href={item.link} className="hover:text-white transition-colors duration-300">
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="flex-shrink-0">
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center px-7 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] rounded-full text-black bg-[#4A9EFF] hover:bg-[#7EC1F5] transition-all duration-300 shadow-[0_0_20px_rgba(74,158,255,0.4)] hover:shadow-[0_0_25px_rgba(74,158,255,0.6)]"
+          >
+            Contact Us
+          </Link>
+        </div>
+      </nav>
+
+      <div className="md:hidden">
+        <StaggeredMenu
+          position="right"
+          items={menuItems}
+          displaySocials={false}
+          displayItemNumbering={true}
+          menuButtonColor="#fff"
+          openMenuButtonColor="#fff"
+          changeMenuColorOnOpen={true}
+          colors={['rgba(10,16,30,0.97)', 'rgba(15,25,45,0.97)']}
+          accentColor="#4A9EFF"
+          isFixed={true}
+          logo={logo}
+          className={`${scrolled ? 'sm-scrolled' : ''} ${!visible ? 'sm-hidden' : ''}`.trim()}
+        />
+      </div>
       <style>{`
         .staggered-menu-wrapper {
           --sm-panel-bg: rgba(6,10,20,0.98);

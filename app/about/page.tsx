@@ -36,12 +36,9 @@ const VALUES = [
 
 // TEAM data for the interactive carousel
 const TEAM = [
-  { name: 'Lucas Sterling', role: 'Creative Director', image: '/team-1.png', quote: '"Design is not just what it looks like and feels like. Design is how it works. We engineer experiences that ignite brands and leave lasting impressions."' },
-  { name: 'Elena Rostova', role: 'Marketing Strategist', image: '/team-2.png', quote: '"We don\'t just chase trends, we analyze the underlying human behaviors that create them. That is where real, sustainable growth happens."' },
-  { name: 'Marcus Chen', role: 'Lead Developer', image: '/team-3.png', quote: '"Code is the invisible architecture of your brand. We build scalable, performant systems that never get in the way of the story."' },
-  { name: 'Zara Vane', role: 'Art Director', image: '/team-4.png', quote: '"Aesthetics must serve a purpose. Every pixel, every color, every frame is a calculated decision to elevate the brand\'s narrative."' },
-  { name: 'David Mercer', role: 'Copywriter', image: '/team-5.png', quote: '"Words are the currency of connection. We write copy that doesn\'t just sound clever, it moves the needle and converts your audience."' },
-  { name: 'Sophia Lin', role: 'Project Manager', image: '/team-6.png', quote: '"Chaos is the enemy of creativity. I build the frameworks that allow our team to consistently deliver unmissable work on time, every time."' },
+  { name: 'Bharath', role: 'Creative Director', image: '/bharath.png', quote: '"Design is not just what it looks like and feels like. Design is how it works. We engineer experiences that ignite brands and leave lasting impressions."' },
+  { name: 'Prayansh', role: 'Marketing Strategist', image: '/prayansh.png', quote: '"We don\'t just chase trends, we analyze the underlying human behaviors that create them. That is where real, sustainable growth happens."' },
+  { name: 'Sahil', role: 'Lead Developer', image: '/sahil.png', quote: '"Code is the invisible architecture of your brand. We build scalable, performant systems that never get in the way of the story."' },
 ];
 
 export default function AboutPage() {
@@ -57,6 +54,13 @@ export default function AboutPage() {
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % TEAM.length);
+    }, 4000);
+    return () => clearInterval(timer);
   }, []);
 
   const goToNext = () => {
@@ -335,7 +339,7 @@ export default function AboutPage() {
             <div className="ceo-text" style={{ flex: '1', maxWidth: '600px', willChange: 'transform, opacity' }}>
               <h2 style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(3rem, 6vw, 5rem)',
+                fontSize: 'clamp(3rem, 7vw, 6rem)',
                 color: '#0d1e38',
                 marginBottom: '1rem',
                 lineHeight: 1,
@@ -343,7 +347,7 @@ export default function AboutPage() {
                 LEADING THE CHARGE
               </h2>
               <p style={{
-                fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
+                fontSize: 'clamp(1rem, 2vw, 1.75rem)',
                 color: 'rgba(13, 30, 56, 0.85)',
                 lineHeight: 1.6,
                 fontWeight: 500,
@@ -360,7 +364,7 @@ export default function AboutPage() {
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 fontWeight: 800,
-                fontSize: '0.85rem'
+                fontSize: 'clamp(0.85rem, 1.5vw, 1.1rem)'
               }}>
                 — Tejas G., Founder & CEO
               </p>
@@ -503,19 +507,24 @@ export default function AboutPage() {
               marginBottom: '2rem',
               position: 'relative',
             }}>
-              <img
-                key={`mob-img-${activeIndex}`}
-                src={TEAM[activeIndex].image}
-                alt={TEAM[activeIndex].name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  filter: 'grayscale(15%) contrast(1.05)',
-                  animation: 'enterFromLeft 0.55s cubic-bezier(0.25,1,0.2,1) forwards',
-                }}
-              />
+              {TEAM.map((member, idx) => (
+                <img
+                  key={`mob-img-${idx}`}
+                  src={member.image}
+                  alt={member.name}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    filter: 'grayscale(15%) contrast(1.05)',
+                    opacity: idx === activeIndex ? 1 : 0,
+                    transition: 'opacity 0.8s ease-in-out',
+                  }}
+                />
+              ))}
               {/* Gradient overlay with counter */}
               <div style={{
                 position: 'absolute',
@@ -533,48 +542,59 @@ export default function AboutPage() {
             </div>
 
             {/* Name + Role + Quote */}
-            <div key={`mob-text-${activeIndex}`} style={{ animation: 'fadeInText 0.55s ease forwards', marginBottom: '2.5rem' }}>
-              <h3 style={{
-                fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(2.2rem, 9vw, 3rem)',
-                fontWeight: 900,
-                color: '#F2F6FC',
-                margin: '0 0 0.3rem',
-                lineHeight: 1,
-              }}>{TEAM[activeIndex].name}</h3>
-              <p style={{
-                fontFamily: 'var(--font-geist-mono)',
-                fontSize: '0.7rem',
-                textTransform: 'uppercase',
-                color: '#4A9EFF',
-                letterSpacing: '0.15em',
-                fontWeight: 700,
-                margin: '0 0 1.25rem',
-              }}>{TEAM[activeIndex].role}</p>
-              <p style={{
-                fontSize: '0.95rem',
-                lineHeight: 1.7,
-                color: 'rgba(242,246,252,0.72)',
-                marginBottom: '1.5rem',
-              }}>{TEAM[activeIndex].quote}</p>
+            <div style={{ position: 'relative', minHeight: '300px', marginBottom: '2.5rem' }}>
+              {TEAM.map((member, idx) => (
+                <div key={`mob-text-${idx}`} style={{ 
+                  position: 'absolute', top: 0, left: 0, width: '100%',
+                  opacity: idx === activeIndex ? 1 : 0,
+                  transition: 'opacity 0.8s ease-in-out',
+                  pointerEvents: idx === activeIndex ? 'auto' : 'none',
+                }}>
+                  <h3 style={{
+                    fontFamily: 'var(--font-sevone)',
+                    fontSize: 'clamp(2.2rem, 9vw, 3rem)',
+                    fontWeight: 900,
+                    color: '#F2F6FC',
+                    margin: '0 0 0.3rem',
+                    lineHeight: 1,
+                  }}>{member.name}</h3>
+                  <p style={{
+                    fontFamily: 'var(--font-geist-mono)',
+                    fontSize: '0.7rem',
+                    textTransform: 'uppercase',
+                    color: '#4A9EFF',
+                    letterSpacing: '0.15em',
+                    fontWeight: 700,
+                    margin: '0 0 1.25rem',
+                  }}>{member.role}</p>
+                  <p style={{
+                    fontSize: '0.95rem',
+                    lineHeight: 1.7,
+                    color: 'rgba(242,246,252,0.72)',
+                    marginBottom: '1.5rem',
+                  }}>{member.quote}</p>
+                </div>
+              ))}
 
               {/* Next button */}
-              <button
-                onClick={goToNext}
-                style={{
-                  width: '52px', height: '52px',
-                  borderRadius: '50%',
-                  backgroundColor: '#12203a',
-                  border: 'none',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.4)',
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
+              <div style={{ position: 'absolute', bottom: '0', left: '0' }}>
+                <button
+                  onClick={goToNext}
+                  style={{
+                    width: '52px', height: '52px',
+                    borderRadius: '50%',
+                    backgroundColor: '#12203a',
+                    border: 'none',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 20px rgba(0,0,0,0.4)',
+                  }}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Horizontal snap-scroll thumbnail strip */}
@@ -681,14 +701,14 @@ export default function AboutPage() {
                     key={member.name}
                     onClick={() => goToIndex(idx)}
                     style={{
-                      width: '100%',
-                      height: '80px',
+                      width: '180px',
+                      aspectRatio: '1/1',
                       cursor: 'pointer',
                       overflow: 'hidden',
                       position: 'relative',
                       transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                       boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                      borderRadius: '4px',
+                      borderRadius: '8px',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateX(6px)';
@@ -744,63 +764,78 @@ export default function AboutPage() {
             boxShadow: '0 24px 60px rgba(0,0,0,0.4)',
             borderRadius: '6px',
           }}>
-            <img
-              key={`img-${activeIndex}`}  /* key change triggers re-mount → CSS animation plays */
-              src={TEAM[activeIndex].image}
-              alt={TEAM[activeIndex].name}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'center top',
-                filter: 'grayscale(15%) contrast(1.05)',
-                animation: 'enterFromLeft 0.65s cubic-bezier(0.25, 1, 0.2, 1) forwards',
-              }}
-            />
+            {TEAM.map((member, idx) => (
+              <img
+                key={`img-${idx}`}
+                src={member.image}
+                alt={member.name}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  filter: 'grayscale(15%) contrast(1.05)',
+                  opacity: idx === activeIndex ? 1 : 0,
+                  transition: 'opacity 0.8s ease-in-out',
+                }}
+              />
+            ))}
           </div>
 
           {/* ─ RIGHT COLUMN: Active Member Details ─ */}
           <div className="team-roster-element team-roster-element-right" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div
-              key={`text-${activeIndex}`}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                animation: 'fadeInText 0.65s cubic-bezier(0.25, 1, 0.2, 1) forwards',
-              }}
-            >
-            <h3 style={{
-              fontFamily: 'var(--font-sevone)',
-              fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
-              fontWeight: 900,
-              color: '#F2F6FC',
-              margin: '0 0 0.4rem 0',
-              lineHeight: 1,
-            }}>
-              {TEAM[activeIndex].name}
-            </h3>
-            <p style={{
-              fontFamily: 'var(--font-geist-mono)',
-              fontSize: '0.72rem',
-              textTransform: 'uppercase',
-              color: '#4A9EFF',
-              letterSpacing: '0.18em',
-              margin: '0 0 2.5rem 0',
-              fontWeight: 700,
-            }}>
-              {TEAM[activeIndex].role}
-            </p>
-
-            <p style={{
-              fontSize: '1.05rem',
-              lineHeight: 1.8,
-              color: 'rgba(242,246,252,0.75)',
-              fontWeight: 400,
-              marginBottom: '3.5rem',
-            }}>
-              {TEAM[activeIndex].quote}
-            </p>
+            <div style={{ position: 'relative', minHeight: '350px' }}>
+              {TEAM.map((member, idx) => (
+                <div
+                  key={`text-${idx}`}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    opacity: idx === activeIndex ? 1 : 0,
+                    transition: 'opacity 0.8s ease-in-out',
+                    pointerEvents: idx === activeIndex ? 'auto' : 'none',
+                  }}
+                >
+                  <h3 style={{
+                    fontFamily: 'var(--font-sevone)',
+                    fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
+                    fontWeight: 900,
+                    color: '#F2F6FC',
+                    margin: '0 0 0.4rem 0',
+                    lineHeight: 1,
+                  }}>
+                    {member.name}
+                  </h3>
+                  <p style={{
+                    fontFamily: 'var(--font-geist-mono)',
+                    fontSize: '0.72rem',
+                    textTransform: 'uppercase',
+                    color: '#4A9EFF',
+                    letterSpacing: '0.18em',
+                    margin: '0 0 2.5rem 0',
+                    fontWeight: 700,
+                  }}>
+                    {member.role}
+                  </p>
+                  <p style={{
+                    fontSize: '1.05rem',
+                    lineHeight: 1.8,
+                    color: 'rgba(242,246,252,0.75)',
+                    fontWeight: 400,
+                    marginBottom: '3.5rem',
+                  }}>
+                    {member.quote}
+                  </p>
+                </div>
+              ))}
+            </div>
 
             {/* Circular Next → button */}
             <button
@@ -837,7 +872,6 @@ export default function AboutPage() {
           </div>
         </div>
 
-        </div>
         )} {/* end isMobile ternary */}
       </section>
           

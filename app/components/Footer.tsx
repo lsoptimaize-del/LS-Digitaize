@@ -139,7 +139,12 @@ export default function Footer() {
               display: 'inline-block',
               marginBottom: '1.5rem',
             }}>
-              <img src="/logo.png" alt="LS Digitaize" style={{ height: '2.5rem', width: 'auto', objectFit: 'contain' }} />
+              <img src="/logo.png" alt="LS Digitaize" style={{ 
+                height: '2.5rem', 
+                width: 'auto', 
+                objectFit: 'contain', 
+                filter: 'drop-shadow(-35px 0 15px rgba(255,255,255,0.9)) drop-shadow(-45px 0 30px rgba(255,255,255,0.5))' 
+              }} />
             </Link>
             <p style={{
               fontSize: '1rem',
