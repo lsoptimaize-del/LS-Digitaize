@@ -1,18 +1,19 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { AnimatePresence, motion, useAnimationFrame, useMotionValue, useTransform } from 'framer-motion';
 
 /* ─── Types ─── */
-type CardData = {
+type Testimonial = {
   initials: string;
   name: string;
   handle: string;
   quote: string;
-  accentColor?: string;
+  accentColor: string;
 };
 
 /* ─── Testimonial data ─── */
-const ROW1: CardData[] = [
+const TESTIMONIALS: Testimonial[] = [
   {
     initials: 'RS',
     name: 'Rohan Sharma',
@@ -24,7 +25,7 @@ const ROW1: CardData[] = [
     initials: 'PP',
     name: 'Priya Patel',
     handle: '@priyapatel_ux',
-    quote: "They don't just execute — they actually push back when something won't work. That kind of strategic honesty is why we've stayed with them.",
+    quote: "They don't just execute, they actually push back when something won't work. That kind of strategic honesty is why we've stayed with them.",
     accentColor: '#5BC9E8',
   },
   {
@@ -48,9 +49,6 @@ const ROW1: CardData[] = [
     quote: "From zero to a full identity system in just a month. I've never seen a creative agency move this fast without sacrificing quality.",
     accentColor: '#4A9EFF',
   },
-];
-
-const ROW2: CardData[] = [
   {
     initials: 'NG',
     name: 'Neha Gupta',
@@ -86,174 +84,416 @@ const ROW2: CardData[] = [
     quote: "The launch campaign they ran for our new product was genuinely beautiful and it performed amazingly well. You rarely get both. Highly recommend.",
     accentColor: '#5BC9E8',
   },
+  {
+    initials: 'KJ',
+    name: 'Karan Joshi',
+    handle: '@karanjoshi',
+    quote: "We handed them a half-finished brand and a messy Instagram. Ninety days later, both looked like they belonged to a company twice our size.",
+    accentColor: '#4A9EFF',
+  },
+  {
+    initials: 'MB',
+    name: 'Meera Bhat',
+    handle: '@meerab',
+    quote: "Every deliverable landed on time, every single month, for a year straight. That kind of reliability is rarer than good creative work.",
+    accentColor: '#5BC9E8',
+  },
+  {
+    initials: 'AK',
+    name: 'Aditya Kapoor',
+    handle: '@adityak',
+    quote: "The events team pulled off our product launch with three weeks' notice and it still felt like it had been planned for months.",
+    accentColor: '#4A9EFF',
+  },
+  {
+    initials: 'ID',
+    name: 'Ishita Deshmukh',
+    handle: '@ishitad',
+    quote: "Their reporting is the first I've actually looked forward to reading. Clear numbers, clear reasoning, no fluff.",
+    accentColor: '#5BC9E8',
+  },
+  {
+    initials: 'TS',
+    name: 'Tarun Shetty',
+    handle: '@tarunshetty',
+    quote: "We came in for paid ads and left with a full brand refresh, because they kept flagging things upstream that were actually holding us back.",
+    accentColor: '#4A9EFF',
+  },
+  {
+    initials: 'RP',
+    name: 'Riya Pillai',
+    handle: '@riyapillai',
+    quote: "Best onboarding I've had with any agency. They understood our market faster than some of our own new hires do.",
+    accentColor: '#5BC9E8',
+  },
 ];
 
-/* ─── Verify icon ─── */
-const VerifyIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 48 48" aria-hidden="true">
-    <polygon fill="#4A9EFF" points="29.62,3 33.053,8.308 39.367,8.624 39.686,14.937 44.997,18.367 42.116,23.995 45,29.62 39.692,33.053 39.376,39.367 33.063,39.686 29.633,44.997 24.005,42.116 18.38,45 14.947,39.692 8.633,39.376 8.314,33.063 3.003,29.633 5.884,24.005 3,18.38 8.308,14.947 8.624,8.633 14.937,8.314 18.367,3.003 23.995,5.884" />
-    <polygon fill="#fff" points="21.396,31.255 14.899,24.76 17.021,22.639 21.428,27.046 30.996,17.772 33.084,19.926" />
-  </svg>
-);
+/* ─── Small hook: are we on a touch/mobile width? ─── */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
 
-/* ─── Single testimonial card ─── */
-const TestimonialCard = ({ card }: { card: CardData }) => (
+/* ─── Avatar ─── */
+const Avatar = ({ t, size = 44 }: { t: Testimonial; size?: number }) => (
   <div
     style={{
-      width: '17rem',
+      width: size,
+      height: size,
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       flexShrink: 0,
-      margin: '0 0.75rem',
-      padding: '1.25rem 1.5rem',
-      borderRadius: '16px',
-      background: 'rgba(255,255,255,0.03)',
-      border: `1px solid ${card.accentColor ?? '#4A9EFF'}20`,
-      backdropFilter: 'blur(12px)',
-      boxShadow: `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)`,
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-      cursor: 'default',
-    }}
-    onMouseEnter={e => {
-      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-3px)';
-      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 16px 48px rgba(0,0,0,0.5), 0 0 20px ${card.accentColor ?? '#4A9EFF'}18, inset 0 1px 0 rgba(255,255,255,0.08)`;
-    }}
-    onMouseLeave={e => {
-      (e.currentTarget as HTMLDivElement).style.transform = 'translateY(0)';
-      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)`;
+      background: `radial-gradient(circle at top left, ${t.accentColor}33, transparent)`,
+      border: `1.5px solid ${t.accentColor}55`,
+      color: t.accentColor,
+      fontSize: size * 0.36,
+      fontWeight: 700,
+      fontFamily: 'system-ui, sans-serif',
+      letterSpacing: '0.03em',
     }}
   >
-    {/* Author row */}
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.9rem' }}>
-      <div
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: `radial-gradient(circle at top left, ${card.accentColor ?? '#4A9EFF'}33, transparent)`,
-          border: `1.5px solid ${card.accentColor ?? '#4A9EFF'}40`,
-          color: card.accentColor ?? '#4A9EFF',
-          fontSize: '0.9rem',
-          fontWeight: 700,
-          fontFamily: 'system-ui, sans-serif',
-          letterSpacing: '0.05em'
-        }}
-      >
-        {card.initials}
-      </div>
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#F2F6FC' }}>{card.name}</span>
-          <VerifyIcon />
-        </div>
-        <span style={{ fontSize: '0.7rem', color: 'rgba(242,246,252,0.4)' }}>{card.handle}</span>
-      </div>
-    </div>
-
-    {/* Accent line */}
-    <div style={{
-      width: '24px', height: '2px',
-      background: `linear-gradient(90deg, ${card.accentColor ?? '#4A9EFF'}, transparent)`,
-      marginBottom: '0.75rem',
-      borderRadius: '99px',
-    }} />
-
-    {/* Quote */}
-    <p style={{
-      fontSize: '0.82rem',
-      lineHeight: 1.65,
-      color: 'rgba(242,246,252,0.7)',
-      margin: 0,
-    }}>
-      {card.quote}
-    </p>
+    {t.initials}
   </div>
 );
 
-/* ─── Marquee row ─── */
-function MarqueeRow({ data, reverse = false, speed = 28 }: { data: CardData[]; reverse?: boolean; speed?: number }) {
-  const doubled = useMemo(() => [...data, ...data], [data]);
+/* ─── Popup ─── */
+function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [onClose]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
-      {/* Left fade */}
-      <div style={{
-        position: 'absolute', left: 0, top: 0, bottom: 0, width: '8rem',
-        background: 'linear-gradient(to right, #070c16, transparent)',
-        zIndex: 10, pointerEvents: 'none',
-      }} />
-
-      {/* Scrolling strip */}
-      <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: 'rgba(0,2,6,0.86)',
+        backdropFilter: 'blur(18px)',
+        WebkitBackdropFilter: 'blur(18px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 'clamp(12px,3vw,32px)',
+      }}
+    >
+      <motion.div
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, y: 32, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.97 }}
+        transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
         style={{
+          background: 'linear-gradient(165deg, rgba(13,19,33,0.98) 0%, rgba(5,7,13,0.99) 100%)',
+          border: `1px solid ${t.accentColor}35`,
+          borderRadius: 'clamp(14px,1.5vw,24px)',
+          width: 'min(640px, 96vw)',
+          maxHeight: '90vh',
+          overflow: 'hidden',
           display: 'flex',
-          width: 'max-content',
-          paddingTop: reverse ? '0.5rem' : '0',
-          paddingBottom: reverse ? '0' : '0.5rem',
-          animation: `marqueeScroll ${speed}s linear infinite`,
-          animationDirection: reverse ? 'reverse' : 'normal',
+          flexDirection: 'column',
+          position: 'relative',
+          boxShadow: '0 48px 120px rgba(0,0,0,0.7)',
         }}
       >
-        {doubled.map((card, i) => (
-          <TestimonialCard key={i} card={card} />
-        ))}
-      </div>
+        {/* Accent banner */}
+        <div
+          style={{
+            position: 'relative',
+            padding: 'clamp(28px,4vw,44px) clamp(24px,4vw,44px) clamp(16px,2vw,20px)',
+            background: `radial-gradient(circle at 20% 20%, ${t.accentColor}22, transparent 60%)`,
+            borderBottom: `1px solid ${t.accentColor}25`,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: 'var(--font-sevone)',
+              fontSize: 'clamp(2.5rem,6vw,3.5rem)',
+              lineHeight: 0.6,
+              color: t.accentColor,
+              opacity: 0.5,
+            }}
+          >
+            &ldquo;
+          </span>
+          <p style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontWeight: 600,
+            fontSize: 10,
+            letterSpacing: '0.25em',
+            color: t.accentColor,
+            textTransform: 'uppercase',
+            margin: '8px 0 0',
+          }}>
+            Verified Client
+          </p>
+        </div>
 
-      {/* Right fade */}
-      <div style={{
-        position: 'absolute', right: 0, top: 0, bottom: 0, width: '8rem',
-        background: 'linear-gradient(to left, #070c16, transparent)',
-        zIndex: 10, pointerEvents: 'none',
-      }} />
+        {/* Review content */}
+        <div style={{ padding: 'clamp(20px,3vw,36px)', overflowY: 'auto', flex: 1 }}>
+          <div style={{ display: 'flex', gap: 4, marginBottom: 18 }}>
+            {[...Array(5)].map((_, i) => <span key={i} style={{ color: t.accentColor, fontSize: 15 }}>★</span>)}
+          </div>
+          <p style={{
+            fontFamily: 'system-ui, sans-serif',
+            fontWeight: 400,
+            fontSize: 'clamp(16px,2vw,20px)',
+            color: '#F2F6FC', lineHeight: 1.7,
+            margin: '0 0 clamp(20px,3vw,32px)',
+          }}>
+            &ldquo;{t.quote}&rdquo;
+          </p>
+          <div style={{ width: 40, height: 1, background: t.accentColor, marginBottom: 18, opacity: 0.5 }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <Avatar t={t} size={48} />
+            <div>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 15, color: '#F2F6FC', margin: '0 0 3px' }}>{t.name}</p>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 400, fontSize: 12, color: 'rgba(242,246,252,0.45)', letterSpacing: '0.04em', margin: 0 }}>{t.handle}</p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute', top: 16, right: 16,
+            width: 40, height: 40, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.12)',
+            color: '#F2F6FC', fontSize: 22, lineHeight: 1,
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'all 300ms cubic-bezier(0.16, 1, 0.3, 1)', zIndex: 10,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = t.accentColor;
+            e.currentTarget.style.color = '#05070c';
+            e.currentTarget.style.transform = 'scale(1.1) rotate(90deg)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+            e.currentTarget.style.color = '#F2F6FC';
+            e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
+          }}
+        >
+          ×
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─── Marquee column (vertical, one of several forming the 3D wall) ─── */
+function MarqueeColumn({ items, duration, reverse, cardWidth, onSelect, isMobile }: {
+  items: Testimonial[];
+  duration: number;
+  reverse: boolean;
+  cardWidth: number;
+  onSelect: (t: Testimonial) => void;
+  isMobile: boolean;
+}) {
+  const doubled = [...items, ...items];
+  const [isPaused, setIsPaused] = useState(false);
+  const y = useMotionValue(reverse ? -50 : 0);
+  const yPercent = useTransform(y, (v) => `${v}%`);
+
+  useAnimationFrame((_, delta) => {
+    if (isPaused) return;
+    const speed = 50 / (duration * 1000);
+    let cur = y.get();
+    if (reverse) {
+      cur += speed * delta;
+      if (cur >= 0) cur = -50;
+    } else {
+      cur -= speed * delta;
+      if (cur <= -50) cur = 0;
+    }
+    y.set(cur);
+  });
+
+  return (
+    <div style={{ width: cardWidth, flexShrink: 0, overflow: 'hidden', height: '100%', position: 'relative' }}>
+      <motion.div style={{ display: 'flex', flexDirection: 'column', gap: 10, y: yPercent }}>
+        {doubled.map((t, i) => (
+          <button
+            key={i}
+            onClick={() => onSelect(t)}
+            onMouseEnter={isMobile ? undefined : (e) => {
+              setIsPaused(true);
+              e.currentTarget.style.borderColor = `${t.accentColor}70`;
+              e.currentTarget.style.boxShadow = `0 0 0 1px ${t.accentColor}20, 0 12px 32px rgba(0,0,0,0.5)`;
+              e.currentTarget.style.transform = 'translateY(-4px)';
+            }}
+            onMouseLeave={isMobile ? undefined : (e) => {
+              setIsPaused(false);
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            style={{
+              width: cardWidth,
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 16,
+              padding: '22px 24px',
+              cursor: 'pointer',
+              textAlign: 'left',
+              flexShrink: 0,
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              transition: 'all 350ms cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'block',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+              <Avatar t={t} />
+              <div>
+                <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 14, color: '#F2F6FC', margin: 0, lineHeight: 1.3 }}>{t.name}</p>
+                <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 500, fontSize: 11, color: t.accentColor, margin: 0, letterSpacing: '0.04em' }}>{t.handle}</p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 3, marginBottom: 12 }}>
+              {[...Array(5)].map((_, i) => <span key={i} style={{ color: t.accentColor, fontSize: 12 }}>★</span>)}
+            </div>
+            <p style={{
+              fontFamily: 'system-ui, sans-serif',
+              fontWeight: 400,
+              fontSize: 13.5,
+              color: 'rgba(242,246,252,0.7)',
+              lineHeight: 1.6,
+              margin: 0,
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+            } as React.CSSProperties}>
+              &ldquo;{t.quote}&rdquo;
+            </p>
+          </button>
+        ))}
+      </motion.div>
     </div>
   );
 }
 
 /* ─── Section ─── */
 export default function TestimonialsSection() {
+  const [active, setActive] = useState<Testimonial | null>(null);
+  const isMobile = useIsMobile();
+  const [cols, setCols] = useState(4);
+  const [cardWidth, setCardWidth] = useState(220);
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 480) { setCols(2); setCardWidth(170); }
+      else if (w < 768) { setCols(2); setCardWidth(210); }
+      else if (w < 1024) { setCols(3); setCardWidth(250); }
+      else { setCols(4); setCardWidth(300); }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  const handleSelect = useCallback((t: Testimonial) => setActive(t), []);
+  const close = useCallback(() => setActive(null), []);
+
+  // Round-robin so every column ends up within one card of the others,
+  // regardless of how many testimonials there are or how many columns.
+  const columnData = Array.from({ length: cols }, (_, ci) =>
+    TESTIMONIALS.filter((_, i) => i % cols === ci)
+  );
+  const durations = [28, 22, 32, 25];
+
   return (
     <section
       id="testimonials"
       style={{
-        background: '#070c16',
-        padding: 'clamp(5rem, 12vh, 9rem) 0',
+        height: '100vh',
+        width: '100%',
+        maxWidth: '100vw',
         overflow: 'hidden',
+        background: '#070c16',
+        display: 'flex',
+        flexDirection: 'column',
         position: 'relative',
         zIndex: 40,
-        marginTop: '-2px', // hair-line overlap to prevent gap on desktop
       }}
     >
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 6vh, 5rem)', padding: '0 2rem' }}>
-        <p style={{
-          fontSize: 'clamp(1rem, 2vw, 1.25rem)',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          color: '#4A9EFF',
-          marginBottom: '1rem',
-        }}>
+      <div style={{ textAlign: 'center', padding: 'clamp(44px,6vh,76px) 24px clamp(16px,2.5vh,24px)', flexShrink: 0, position: 'relative', zIndex: 2 }}>
+        <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 11, letterSpacing: '0.3em', color: '#4A9EFF', textTransform: 'uppercase', marginBottom: 14, marginTop: 0 }}>
           What Clients Say
         </p>
         <h2 style={{
           fontFamily: 'var(--font-sevone)',
-          fontSize: 'clamp(2.2rem, 5vw, 4.5rem)',
           fontWeight: 900,
+          fontSize: 'clamp(2.2rem,5vw,4.5rem)',
           color: '#F2F6FC',
           letterSpacing: '-0.02em',
           lineHeight: 0.95,
-          margin: 0,
+          margin: '0 0 10px',
           textShadow: '0 4px 50px rgba(74,158,255,0.25)',
         }}>
-          RESULTS,<br />NOT PROMISES
+          RESULTS, NOT PROMISES
         </h2>
+        <p style={{ fontFamily: 'system-ui, sans-serif', color: 'rgba(242,246,252,0.5)', fontWeight: 400, fontSize: 'clamp(12px,1.1vw,15px)', lineHeight: 1.65, maxWidth: 380, margin: '0 auto' }}>
+          Every brand that leaves our studio carries the story of a team who chose to bet on us.
+        </p>
       </div>
 
-      {/* Marquee rows */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-        <MarqueeRow data={ROW1} reverse={false} speed={30} />
-        <MarqueeRow data={ROW2} reverse={true} speed={28} />
+      {/* 3D marquee */}
+      <div style={{ flex: 1, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', perspective: '900px', perspectiveOrigin: '50% 38%' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', gap: 12, transform: 'rotateX(16deg) rotateY(-5deg) rotateZ(6deg)', transformOrigin: 'center center', height: '100%' }}>
+          {columnData.map((colData, ci) => (
+            <MarqueeColumn
+              key={ci}
+              items={colData}
+              duration={durations[ci % durations.length]}
+              reverse={ci % 2 === 1}
+              cardWidth={cardWidth}
+              onSelect={handleSelect}
+              isMobile={isMobile}
+            />
+          ))}
+        </div>
+
+        {/* Edge fades */}
+        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070c16 0%, transparent 20%, transparent 80%, #070c16 100%)' }} />
+        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070c16 0%, transparent 12%, transparent 88%, #070c16 100%)' }} />
       </div>
+
+      {/* Ambient glow vignette */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 15,
+          pointerEvents: 'none',
+          background: [
+            'radial-gradient(circle at 50% 0%, rgba(74,158,255,0.1) 0%, transparent 40%)',
+            'linear-gradient(to right, #070c16 0%, transparent 11%, transparent 89%, #070c16 100%)',
+          ].join(', '),
+        }}
+      />
+
+      <AnimatePresence>
+        {active && <Popup t={active} onClose={close} />}
+      </AnimatePresence>
     </section>
   );
 }

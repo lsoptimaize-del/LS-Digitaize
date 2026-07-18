@@ -215,9 +215,9 @@ export default function ProcessSection() {
             <MeshGradient
               width={dimensions.width}
               height={dimensions.height}
-              colors={step.colors}
-              distortion={step.distortion}
-              swirl={step.swirl}
+              colors={STEPS[0].colors}
+              distortion={STEPS[0].distortion}
+              swirl={STEPS[0].swirl}
               speed={0.36}
               offsetX={0.06}
               grainMixer={1}

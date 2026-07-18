@@ -5,111 +5,7 @@ import Link from 'next/link';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { motion } from 'framer-motion';
-
-const SERVICES = [
-  {
-    number: '01',
-    category: 'Identity',
-    title: 'A-Z Branding & Identity',
-    tagline: 'Brand Architecture & Visual Systems',
-    description: 'From logo to language - we create visual systems that make your brand feel inevitable in any room.',
-    whatItIs: 'A complete visual and verbal identity system: logo, guidelines, tone of voice, and every asset that carries your name.',
-    values: [
-      'Consistent recognition across every touchpoint',
-      'Faster onboarding for new hires, vendors, and partners',
-      'Premium positioning that justifies premium pricing',
-    ],
-    image: '/bg_service_1.png',
-    accent: '#4A9EFF',
-    accent2: '#5BC9E8',
-    metric: '100% Brand Consistency',
-  },
-  {
-    number: '02',
-    category: 'Content',
-    title: 'Content Strategy & Creation',
-    tagline: 'Editorial Engine & Production',
-    description: 'Strategy, templates, scripts, visuals - built as a system that turns ideas into a steady stream of impact.',
-    whatItIs: 'An end-to-end content engine: strategy, scripts, templates, and production, so output never depends on one person\'s bandwidth.',
-    values: [
-      'Steady publishing cadence without burnout',
-      'Content that compounds into an owned audience',
-      'One clear narrative across every channel',
-    ],
-    image: '/bg_service_2.png',
-    accent: '#5BC9E8',
-    accent2: '#4A9EFF',
-    metric: 'Always-On Output Engine',
-  },
-  {
-    number: '03',
-    category: 'Performance',
-    title: 'Performance Marketing',
-    tagline: 'Data-Led Paid Acquisition',
-    description: 'Data-led paid campaigns that convert. We test relentlessly and optimise until the numbers sing.',
-    whatItIs: 'Data-led paid acquisition across search, social, and programmatic - built around your unit economics, not vanity metrics.',
-    values: [
-      'Lower cost-per-acquisition over time',
-      'Budget reallocated toward what\'s proven to work',
-      'Forecastable, repeatable pipeline growth',
-    ],
-    image: '/bg_service_3.png',
-    accent: '#4A9EFF',
-    accent2: '#63B3ED',
-    metric: 'Proven Unit Economics',
-  },
-  {
-    number: '04',
-    category: 'Social',
-    title: 'Social Media Management',
-    tagline: 'Community & Cultural Pulse',
-    description: 'Your brand, alive online - every day. Strategy, content, community, all handled.',
-    whatItIs: 'Always-on social presence: content calendars, community moderation, and real-time response, fully managed.',
-    values: [
-      'Always-on brand presence across platforms',
-      'Faster response to trends and culture moments',
-      'A community that converts into advocates',
-    ],
-    image: '/bg_service_4.png',
-    accent: '#5BC9E8',
-    accent2: '#4A9EFF',
-    metric: 'Real-Time Engagement',
-  },
-  {
-    number: '05',
-    category: 'Events',
-    title: 'Event Curation & Management',
-    tagline: 'Experiential Brand Activations',
-    description: 'Concept to execution - brand activations and launches that create moments people talk about.',
-    whatItIs: 'Concept-to-execution activations, launches, and experiential events, handled from venue to run-of-show.',
-    values: [
-      'Memorable, shareable brand moments',
-      'Press and influencer amplification built in',
-      'Direct relationship-building with key audiences',
-    ],
-    image: '/bg_service_5.png',
-    accent: '#4A9EFF',
-    accent2: '#90CDF4',
-    metric: 'High-Impact Moments',
-  },
-  {
-    number: '06',
-    category: 'Growth',
-    title: 'Business Development',
-    tagline: 'Partnerships & Market Expansion',
-    description: 'Market research, partnerships, and growth roadmaps. We help ambitious brands open new doors - sustainably.',
-    whatItIs: 'Market research, partnership sourcing, and growth roadmaps that turn ambition into a sequenced plan.',
-    values: [
-      'New revenue channels identified and opened',
-      'Market expansion validated before you spend',
-      'Strategic partnerships that compound growth',
-    ],
-    image: '/bg_service_6.png',
-    accent: '#5BC9E8',
-    accent2: '#4A9EFF',
-    metric: 'Sequenced Pipeline Growth',
-  },
-];
+import { SERVICES } from '../data/services';
 
 /* ── Custom Animated SVG Overlay per Discipline ── */
 function ServiceSvgGraphic({ number }: { number: string }) {
@@ -197,7 +93,22 @@ function ServiceSvgGraphic({ number }: { number: string }) {
           ))}
         </svg>
       );
-    case '05': // Events
+    case '05': // Influencer & Offline
+      return (
+        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
+          <path d="M70 55L120 35V105L70 85V55Z" fill="rgba(74,158,255,0.1)" stroke="#4A9EFF" strokeOpacity="0.45" strokeWidth="1.5" />
+          <path d="M120 35L165 20V120L120 105" stroke="#5BC9E8" strokeOpacity="0.4" strokeWidth="1.5" />
+          <path d="M85 85V98C85 105 91 110 98 110" stroke="#4A9EFF" strokeWidth="2" strokeLinecap="round" />
+          {[34, 48].map((r, i) => (
+            <path key={i} d={`M165 ${70 - r * 0.55} A ${r} ${r} 0 0 1 165 ${70 + r * 0.55}`} stroke="#5BC9E8" strokeOpacity={0.4 - i * 0.12} strokeWidth="1.5" fill="none" />
+          ))}
+          {[[205, 35], [230, 70], [205, 105]].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="12" fill="rgba(10,18,45,0.9)" stroke="#4A9EFF" strokeOpacity="0.5" strokeWidth="1.5" />
+          ))}
+          <path d="M55 30C55 22 48 16 40 16C32 16 25 22 25 30C25 40 40 52 40 52C40 52 55 40 55 30Z" fill="rgba(10,18,45,0.9)" stroke="#5BC9E8" strokeWidth="1.5" />
+        </svg>
+      );
+    case '06': // Events / Photography / Videography
       return (
         <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
           <polygon points="140,25 65,115 215,115" fill="rgba(74,158,255,0.08)" stroke="#4A9EFF" strokeOpacity="0.4" strokeWidth="1.5" />
@@ -208,7 +119,7 @@ function ServiceSvgGraphic({ number }: { number: string }) {
           <ellipse cx="140" cy="115" rx="75" ry="12" stroke="#4A9EFF" strokeOpacity="0.25" />
         </svg>
       );
-    default: // Growth
+    default: // Consultation & Business Development
       return (
         <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
           <rect x="40" y="35" width="55" height="70" rx="8" stroke="#4A9EFF" strokeOpacity="0.4" strokeWidth="1.5" />
@@ -487,6 +398,32 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
               ))}
             </ul>
 
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
+            <Link
+              href={`/services/${service.slug}`}
+              className="group/btn"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.7rem',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '999px',
+                background: 'transparent',
+                border: '1px solid rgba(242,246,252,0.25)',
+                color: '#F2F6FC',
+                textDecoration: 'none',
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <span>View Full Details</span>
+              <span className="transition-transform duration-300 group-hover/btn:translate-x-1" style={{ color: '#4A9EFF' }}>
+                →
+              </span>
+            </Link>
             <Link
               href="/contact"
               className="group/btn"
@@ -512,6 +449,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                 →
               </span>
             </Link>
+            </div>
           </div>
         </div>
       </motion.div>
@@ -636,7 +574,7 @@ export default function ServicesPage() {
               fontWeight: 700,
             }}
           >
-            Six Disciplines • One Unified Team
+            Seven Disciplines • One Unified Team
           </span>
         </motion.div>
 
@@ -737,7 +675,7 @@ export default function ServicesPage() {
           }}
         >
           {[
-            { value: '06', label: 'Dedicated Disciplines' },
+            { value: '07', label: 'Dedicated Disciplines' },
             { value: '100%', label: 'In-House Execution' },
             { value: 'A–Z', label: 'End-to-End Handled' },
             { value: '24/7', label: 'Brand & Market Pulse' },
