@@ -13,10 +13,11 @@ if (typeof window !== 'undefined') {
 
 
 /*
-  Grid positions (3 cols, 3 rows) for 6 shown services + 1 "Explore" tile:
+  Grid positions (3 cols, 4 rows) for all 7 services + 1 "Explore" banner:
   Row 1: [0] [1] [2]                     → three equal
   Row 2: [3 tall, col 1, rows 2-3] [4 wide, col 2-3] → tall + wide
-  Row 3: [3 continues]             [5] [Explore]     → wide's row splits into two below it
+  Row 3: [3 continues]             [5] [6]           → wide's row splits into two below it
+  Row 4: [Explore banner, full width]
 */
 const GRID_POSITIONS = [
   'md:col-start-1 md:col-span-1 md:row-start-1 md:row-span-1',
@@ -25,8 +26,9 @@ const GRID_POSITIONS = [
   'md:col-start-1 md:col-span-1 md:row-start-2 md:row-span-2', // tall
   'md:col-start-2 md:col-span-2 md:row-start-2 md:row-span-1', // wide
   'md:col-start-2 md:col-span-1 md:row-start-3 md:row-span-1',
+  'md:col-start-3 md:col-span-1 md:row-start-3 md:row-span-1',
 ];
-const EXPLORE_TILE_POSITION = 'md:col-start-3 md:col-span-1 md:row-start-3 md:row-span-1';
+const EXPLORE_TILE_POSITION = 'md:col-start-1 md:col-span-3 md:row-start-4 md:row-span-1';
 
 /* ─── Card component ─────────────────────────────────────────────── */
 function ServiceCard({ service, index }: { service: typeof SERVICES[number]; index: number }) {
@@ -79,12 +81,12 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
         <h3
           className="font-bold mb-3 leading-tight tracking-tight"
           style={{
-            fontSize: 'clamp(1.2rem, 2vw, 1.45rem)',
+            fontSize: 'clamp(1.05rem, 1.8vw, 1.45rem)',
             color: '#F2F6FC',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
+            fontFamily: 'var(--font-sevone)',
           }}
         >
-          {service.title}
+          {service.cardHeading ?? service.title}
         </h3>
 
         {/* Description */}
@@ -202,9 +204,9 @@ export default function ServicesSectionNew() {
 
         <div
           ref={gridRef}
-          className="flex flex-col md:grid md:grid-cols-3 md:grid-rows-[auto_auto_auto] gap-6 md:gap-5"
+          className="flex flex-col md:grid md:grid-cols-3 md:grid-rows-[auto_auto_auto_auto] gap-6 md:gap-5"
         >
-          {SERVICES.slice(0, 6).map((service, i) => (
+          {SERVICES.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 50, scale: 0.96 }}
@@ -225,7 +227,7 @@ export default function ServicesSectionNew() {
             initial={{ opacity: 0, y: 50, scale: 0.96 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.7, delay: 6 * 0.09, ease: [0.25, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, delay: 7 * 0.09, ease: [0.25, 1, 0.36, 1] }}
             style={{ display: 'contents' }}
           >
             <Link

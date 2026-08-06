@@ -7,6 +7,8 @@ export type Service = {
   category: string;
   title: string;
   tagline: string;
+  /** Long-form keyword phrase shown as the H1 on the homepage service card instead of `title`. Falls back to `title` when absent. */
+  cardHeading?: string;
   description: string;
   whatItIs: string;
   capabilities: Capability[];
@@ -119,8 +121,9 @@ export const SERVICES: Service[] = [
     category: 'Organic',
     title: 'Organic Marketing',
     tagline: 'Content Strategising, Production & Management',
+    cardHeading: 'Content Strategising, Production, Editing & Management',
     description:
-      'Content strategising, production, editing, and management, a steady organic engine that keeps your brand present without burning you out.',
+      'A steady organic engine that keeps your brand present without burning you out.',
     whatItIs:
       "An end-to-end organic content engine: strategy, production, editing, and day-to-day management, so output never depends on one person's bandwidth.",
     capabilities: [
@@ -193,8 +196,9 @@ export const SERVICES: Service[] = [
     category: 'Performance',
     title: 'Performance Marketing',
     tagline: 'Paid Advertising, Funnels & Distribution',
+    cardHeading: 'Paid Advertising: Funnel Management & Distribution',
     description:
-      'Paid advertising, funnel management, and distribution: data-led campaigns that convert, and keep converting.',
+      'Data-led campaigns that convert, and keep converting.',
     whatItIs:
       'Data-led paid acquisition across search, social, and programmatic, plus the funnels and distribution that carry a click all the way to a customer.',
     capabilities: [
@@ -287,8 +291,9 @@ export const SERVICES: Service[] = [
     category: 'Social',
     title: 'End-to-End Social Media Management',
     tagline: 'Full Management & Scaling Optimisation',
+    cardHeading: 'Overall End-to-End Social Media Management + Scaling Optimisation',
     description:
-      'Overall end-to-end social media management plus scaling optimisation, your brand, alive online, and built to grow.',
+      'Your brand, alive online, and built to grow.',
     whatItIs:
       'Complete, always-on social presence: content calendars, community, and reporting, paired with continuous scaling optimisation as the numbers move.',
     capabilities: [
@@ -550,8 +555,9 @@ export const SERVICES: Service[] = [
     category: 'Growth',
     title: 'Personalised Content Consultation & Business Development',
     tagline: '1:1 Tailored Strategy & Growth',
+    cardHeading: '1:1 Personalised Content Consultation & Business Development',
     description:
-      'Personalised content consultation with 1:1 tailored business development, direct, hands-on strategy for where you want to go next.',
+      'Direct, hands-on strategy for where you want to go next.',
     whatItIs:
       'One-on-one consultation sessions and tailored business development roadmaps, built around your specific brand, market, and goals, not a template.',
     capabilities: [
