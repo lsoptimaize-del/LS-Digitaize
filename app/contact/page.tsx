@@ -175,7 +175,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p style={{ fontFamily: 'var(--font-geist-mono)', fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', margin: '0 0 0.2rem' }}>Location</p>
-                  <p style={{ fontSize: '0.95rem', margin: 0 }}>Bangalore, India</p>
+                  <p style={{ fontSize: '0.95rem', margin: 0, maxWidth: '280px', lineHeight: 1.4 }}>89/1, Ooty main Road, Metttupalayam, Odandurai, Coimbatore, Tamil Nadu, 641301</p>
                 </div>
               </div>
             </div>
@@ -434,8 +434,8 @@ export default function ContactPage() {
 // ── Geo + Conversion FAQ Data ──
 const FAQS = [
   {
-    q: 'Do you work with brands outside of Bangalore?',
-    a: 'Absolutely. While we are based in Bangalore, we work with clients across India and globally. All strategy, creative, and execution is handled remotely without compromising on quality.',
+    q: 'Do you work with brands outside of Coimbatore?',
+    a: 'Absolutely. While we are based in Coimbatore, we work with clients across India and globally. All strategy, creative, and execution is handled remotely without compromising on quality.',
   },
   {
     q: 'How quickly can we get started?',
