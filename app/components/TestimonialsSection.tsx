@@ -182,7 +182,7 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
       onClick={onClose}
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
-        background: 'rgba(0,2,6,0.86)',
+        background: 'rgba(250,250,247,0.88)',
         backdropFilter: 'blur(18px)',
         WebkitBackdropFilter: 'blur(18px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -196,7 +196,7 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
         transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          background: 'linear-gradient(165deg, rgba(13,19,33,0.98) 0%, rgba(5,7,13,0.99) 100%)',
+          background: 'linear-gradient(165deg, rgba(255,255,255,0.99) 0%, rgba(250,250,247,0.99) 100%)',
           border: `1px solid ${t.accentColor}35`,
           borderRadius: 'clamp(14px,1.5vw,24px)',
           width: 'min(640px, 96vw)',
@@ -205,7 +205,7 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
           display: 'flex',
           flexDirection: 'column',
           position: 'relative',
-          boxShadow: '0 48px 120px rgba(0,0,0,0.7)',
+          boxShadow: '0 48px 120px rgba(0,0,0,0.18)',
         }}
       >
         {/* Accent banner */}
@@ -250,7 +250,7 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
             fontFamily: 'system-ui, sans-serif',
             fontWeight: 400,
             fontSize: 'clamp(16px,2vw,20px)',
-            color: '#F2F6FC', lineHeight: 1.7,
+            color: '#0A0A0A', lineHeight: 1.7,
             margin: '0 0 clamp(20px,3vw,32px)',
           }}>
             &ldquo;{t.quote}&rdquo;
@@ -259,8 +259,8 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <Avatar t={t} size={48} />
             <div>
-              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 15, color: '#F2F6FC', margin: '0 0 3px' }}>{t.name}</p>
-              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 400, fontSize: 12, color: 'rgba(242,246,252,0.45)', letterSpacing: '0.04em', margin: 0 }}>{t.handle}</p>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 15, color: '#0A0A0A', margin: '0 0 3px' }}>{t.name}</p>
+              <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 400, fontSize: 12, color: 'rgba(10,10,10,0.45)', letterSpacing: '0.04em', margin: 0 }}>{t.handle}</p>
             </div>
           </div>
         </div>
@@ -271,20 +271,20 @@ function Popup({ t, onClose }: { t: Testimonial; onClose: () => void }) {
           style={{
             position: 'absolute', top: 16, right: 16,
             width: 40, height: 40, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: '#F2F6FC', fontSize: 22, lineHeight: 1,
+            background: 'rgba(0,0,0,0.05)',
+            border: '1px solid rgba(0,0,0,0.12)',
+            color: '#0A0A0A', fontSize: 22, lineHeight: 1,
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 300ms cubic-bezier(0.16, 1, 0.3, 1)', zIndex: 10,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = t.accentColor;
-            e.currentTarget.style.color = '#05070c';
+            e.currentTarget.style.color = '#FFFFFF';
             e.currentTarget.style.transform = 'scale(1.1) rotate(90deg)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-            e.currentTarget.style.color = '#F2F6FC';
+            e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
+            e.currentTarget.style.color = '#0A0A0A';
             e.currentTarget.style.transform = 'scale(1) rotate(0deg)';
           }}
         >
@@ -325,7 +325,7 @@ function MarqueeColumn({ items, duration, reverse, cardWidth, onSelect, isMobile
 
   return (
     <div style={{ width: cardWidth, flexShrink: 0, overflow: 'hidden', height: '100%', position: 'relative' }}>
-      <motion.div style={{ display: 'flex', flexDirection: 'column', gap: 10, y: yPercent }}>
+      <motion.div style={{ display: 'flex', flexDirection: 'column', gap: 10, y: yPercent, willChange: 'transform' }}>
         {doubled.map((t, i) => (
           <button
             key={i}
@@ -333,26 +333,25 @@ function MarqueeColumn({ items, duration, reverse, cardWidth, onSelect, isMobile
             onMouseEnter={isMobile ? undefined : (e) => {
               setIsPaused(true);
               e.currentTarget.style.borderColor = `${t.accentColor}70`;
-              e.currentTarget.style.boxShadow = `0 0 0 1px ${t.accentColor}20, 0 12px 32px rgba(0,0,0,0.5)`;
+              e.currentTarget.style.boxShadow = `0 0 0 1px ${t.accentColor}20, 0 12px 32px rgba(0,0,0,0.12)`;
               e.currentTarget.style.transform = 'translateY(-4px)';
             }}
             onMouseLeave={isMobile ? undefined : (e) => {
               setIsPaused(false);
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+              e.currentTarget.style.borderColor = 'rgba(0,0,0,0.08)';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
               e.currentTarget.style.transform = 'translateY(0)';
             }}
             style={{
               width: cardWidth,
-              background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'rgba(255,255,255,0.9)',
+              border: '1px solid rgba(0,0,0,0.08)',
               borderRadius: 16,
               padding: '22px 24px',
               cursor: 'pointer',
               textAlign: 'left',
               flexShrink: 0,
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
               transition: 'all 350ms cubic-bezier(0.16, 1, 0.3, 1)',
               display: 'block',
             }}
@@ -360,7 +359,7 @@ function MarqueeColumn({ items, duration, reverse, cardWidth, onSelect, isMobile
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
               <Avatar t={t} />
               <div>
-                <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 14, color: '#F2F6FC', margin: 0, lineHeight: 1.3 }}>{t.name}</p>
+                <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 600, fontSize: 14, color: '#0A0A0A', margin: 0, lineHeight: 1.3 }}>{t.name}</p>
                 <p style={{ fontFamily: 'system-ui, sans-serif', fontWeight: 500, fontSize: 11, color: t.accentColor, margin: 0, letterSpacing: '0.04em' }}>{t.handle}</p>
               </div>
             </div>
@@ -371,7 +370,7 @@ function MarqueeColumn({ items, duration, reverse, cardWidth, onSelect, isMobile
               fontFamily: 'system-ui, sans-serif',
               fontWeight: 400,
               fontSize: 13.5,
-              color: 'rgba(242,246,252,0.7)',
+              color: 'rgba(10,10,10,0.7)',
               lineHeight: 1.6,
               margin: 0,
               overflow: 'hidden',
@@ -426,7 +425,7 @@ export default function TestimonialsSection() {
         width: '100%',
         maxWidth: '100vw',
         overflow: 'hidden',
-        background: '#070c16',
+        background: '#FAFAF7',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -442,15 +441,15 @@ export default function TestimonialsSection() {
           fontFamily: 'var(--font-sevone)',
           fontWeight: 900,
           fontSize: 'clamp(2.2rem,5vw,4.5rem)',
-          color: '#F2F6FC',
+          color: '#0A0A0A',
           letterSpacing: '-0.02em',
           lineHeight: 0.95,
           margin: '0 0 10px',
-          textShadow: '0 4px 50px rgba(74,158,255,0.25)',
+          textShadow: '0 4px 50px rgba(74,158,255,0.15)',
         }}>
           RESULTS, NOT PROMISES
         </h2>
-        <p style={{ fontFamily: 'system-ui, sans-serif', color: 'rgba(242,246,252,0.5)', fontWeight: 400, fontSize: 'clamp(12px,1.1vw,15px)', lineHeight: 1.65, maxWidth: 380, margin: '0 auto' }}>
+        <p style={{ fontFamily: 'system-ui, sans-serif', color: 'rgba(10,10,10,0.5)', fontWeight: 400, fontSize: 'clamp(12px,1.1vw,15px)', lineHeight: 1.65, maxWidth: 380, margin: '0 auto' }}>
           Every brand that leaves our studio carries the story of a team who chose to bet on us.
         </p>
       </div>
@@ -472,8 +471,8 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Edge fades */}
-        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #070c16 0%, transparent 20%, transparent 80%, #070c16 100%)' }} />
-        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to right, #070c16 0%, transparent 12%, transparent 88%, #070c16 100%)' }} />
+        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #FAFAF7 0%, transparent 20%, transparent 80%, #FAFAF7 100%)' }} />
+        <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, background: 'linear-gradient(to right, #FAFAF7 0%, transparent 12%, transparent 88%, #FAFAF7 100%)' }} />
       </div>
 
       {/* Ambient glow vignette */}
@@ -485,8 +484,8 @@ export default function TestimonialsSection() {
           zIndex: 15,
           pointerEvents: 'none',
           background: [
-            'radial-gradient(circle at 50% 0%, rgba(74,158,255,0.1) 0%, transparent 40%)',
-            'linear-gradient(to right, #070c16 0%, transparent 11%, transparent 89%, #070c16 100%)',
+            'radial-gradient(circle at 50% 0%, rgba(74,158,255,0.06) 0%, transparent 40%)',
+            'linear-gradient(to right, #FAFAF7 0%, transparent 11%, transparent 89%, #FAFAF7 100%)',
           ].join(', '),
         }}
       />

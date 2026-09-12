@@ -262,7 +262,7 @@ const SocialArt: Art = (accent, accent2) => {
 const InfluencerArt: Art = (accent, accent2) => (
   <svg viewBox="0 0 600 440" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
     {/* ground line */}
-    <line x1="40" y1="370" x2="560" y2="370" stroke="white" strokeOpacity="0.08" strokeWidth="1" />
+    <line x1="40" y1="370" x2="560" y2="370" stroke="black" strokeOpacity="0.1" strokeWidth="1" />
 
     {/* phone, broadcasting */}
     <rect x="95" y="255" width="70" height="120" rx="12" fill="rgba(8,15,40,0.9)" stroke={accent} strokeWidth="1.5" strokeOpacity="0.7" />

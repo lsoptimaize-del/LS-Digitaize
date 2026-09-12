@@ -67,11 +67,11 @@ function ServiceSvgGraphic({ number }: { number: string }) {
             [245, 30],
           ].map(([x, y], i) => (
             <g key={i}>
-              <circle cx={x} cy={y} r="4" fill="#05070C" stroke="#5BC9E8" strokeWidth="2" />
+              <circle cx={x} cy={y} r="4" fill="#FFFFFF" stroke="#5BC9E8" strokeWidth="2" />
               {i === 4 && <circle cx={x} cy={y} r="9" stroke="#4A9EFF" strokeOpacity="0.6" />}
             </g>
           ))}
-          <line x1="35" y1="115" x2="245" y2="115" stroke="rgba(242,246,252,0.2)" strokeWidth="1" />
+          <line x1="35" y1="115" x2="245" y2="115" stroke="rgba(10,10,10,0.2)" strokeWidth="1" />
         </svg>
       );
     case '04': // Social
@@ -88,7 +88,7 @@ function ServiceSvgGraphic({ number }: { number: string }) {
           ].map(([x, y], i) => (
             <g key={i}>
               <line x1="140" y1="70" x2={x} y2={y} stroke="#4A9EFF" strokeOpacity="0.35" strokeWidth="1.5" />
-              <circle cx={x} cy={y} r="6" fill="#05070C" stroke="#5BC9E8" strokeWidth="2" />
+              <circle cx={x} cy={y} r="6" fill="#FFFFFF" stroke="#5BC9E8" strokeWidth="2" />
             </g>
           ))}
         </svg>
@@ -103,9 +103,9 @@ function ServiceSvgGraphic({ number }: { number: string }) {
             <path key={i} d={`M165 ${70 - r * 0.55} A ${r} ${r} 0 0 1 165 ${70 + r * 0.55}`} stroke="#5BC9E8" strokeOpacity={0.4 - i * 0.12} strokeWidth="1.5" fill="none" />
           ))}
           {[[205, 35], [230, 70], [205, 105]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="12" fill="rgba(10,18,45,0.9)" stroke="#4A9EFF" strokeOpacity="0.5" strokeWidth="1.5" />
+            <circle key={i} cx={cx} cy={cy} r="12" fill="rgba(255,255,255,0.9)" stroke="#4A9EFF" strokeOpacity="0.5" strokeWidth="1.5" />
           ))}
-          <path d="M55 30C55 22 48 16 40 16C32 16 25 22 25 30C25 40 40 52 40 52C40 52 55 40 55 30Z" fill="rgba(10,18,45,0.9)" stroke="#5BC9E8" strokeWidth="1.5" />
+          <path d="M55 30C55 22 48 16 40 16C32 16 25 22 25 30C25 40 40 52 40 52C40 52 55 40 55 30Z" fill="rgba(255,255,255,0.9)" stroke="#5BC9E8" strokeWidth="1.5" />
         </svg>
       );
     case '06': // Events / Photography / Videography
@@ -125,7 +125,7 @@ function ServiceSvgGraphic({ number }: { number: string }) {
           <rect x="40" y="35" width="55" height="70" rx="8" stroke="#4A9EFF" strokeOpacity="0.4" strokeWidth="1.5" />
           <rect x="115" y="25" width="55" height="90" rx="8" stroke="#5BC9E8" strokeOpacity="0.6" strokeWidth="1.5" fill="rgba(74,158,255,0.1)" />
           <rect x="190" y="15" width="50" height="110" rx="8" stroke="#4A9EFF" strokeWidth="2" fill="rgba(74,158,255,0.18)" />
-          <path d="M68 65L142 45L215 25" stroke="#F2F6FC" strokeWidth="2" strokeLinecap="round" />
+          <path d="M68 65L142 45L215 25" stroke="#0A0A0A" strokeWidth="2" strokeLinecap="round" />
           <circle cx="215" cy="25" r="4" fill="#4A9EFF" />
         </svg>
       );
@@ -155,10 +155,10 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
         style={{
           display: 'flex',
           flexDirection: 'column',
-          background: 'linear-gradient(165deg, rgba(13, 19, 33, 0.96) 0%, rgba(5, 7, 13, 0.98) 100%)',
+          background: 'linear-gradient(165deg, rgba(255,255,255,0.98) 0%, rgba(250,250,247,0.99) 100%)',
           border: '1px solid rgba(74,158,255,0.24)',
           borderRadius: '26px',
-          boxShadow: '0 30px 90px rgba(0, 0, 0, 0.85), 0 0 40px rgba(74,158,255,0.06)',
+          boxShadow: '0 30px 90px rgba(0, 0, 0, 0.12), 0 0 40px rgba(74,158,255,0.06)',
           overflow: 'hidden',
           backdropFilter: 'blur(20px)',
         }}
@@ -171,7 +171,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '0.85rem 1.75rem',
-            background: 'rgba(255,255,255,0.02)',
+            background: 'rgba(0,0,0,0.02)',
             borderBottom: '1px solid rgba(74,158,255,0.12)',
           }}
         >
@@ -200,7 +200,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                 fontWeight: 700,
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
-                color: '#F2F6FC',
+                color: '#0A0A0A',
               }}
             >
               {service.category}
@@ -220,7 +220,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
             <span
               style={{
                 fontSize: '0.7rem',
-                color: 'rgba(242,246,252,0.55)',
+                color: 'rgba(10,10,10,0.55)',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
               }}
@@ -250,7 +250,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
               borderRadius: '18px',
               overflow: 'hidden',
               border: '1px solid rgba(74,158,255,0.18)',
-              background: '#04070D',
+              background: '#EFEFEA',
             }}
           >
             <img
@@ -332,7 +332,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(1.75rem, 2.7vw, 2.5rem)',
                 fontWeight: 900,
-                color: '#F2F6FC',
+                color: '#0A0A0A',
                 lineHeight: 1.05,
                 letterSpacing: '-0.02em',
                 marginBottom: '0.85rem',
@@ -345,7 +345,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
               style={{
                 fontSize: '0.96rem',
                 lineHeight: 1.68,
-                color: 'rgba(242,246,252,0.68)',
+                color: 'rgba(10,10,10,0.68)',
                 marginBottom: '1.4rem',
                 maxWidth: '520px',
               }}
@@ -372,7 +372,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                     gap: '0.75rem',
                     fontSize: '0.88rem',
                     lineHeight: 1.5,
-                    color: 'rgba(242,246,252,0.85)',
+                    color: 'rgba(10,10,10,0.85)',
                   }}
                 >
                   <span
@@ -409,8 +409,8 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                 padding: '0.75rem 1.5rem',
                 borderRadius: '999px',
                 background: 'transparent',
-                border: '1px solid rgba(242,246,252,0.25)',
-                color: '#F2F6FC',
+                border: '1px solid rgba(10,10,10,0.25)',
+                color: '#0A0A0A',
                 textDecoration: 'none',
                 fontSize: '0.75rem',
                 fontWeight: 700,
@@ -435,7 +435,7 @@ function ServiceCard({ service, index, total }: { service: typeof SERVICES[numbe
                 borderRadius: '999px',
                 background: 'rgba(74,158,255,0.12)',
                 border: '1px solid rgba(74,158,255,0.35)',
-                color: '#F2F6FC',
+                color: '#0A0A0A',
                 textDecoration: 'none',
                 fontSize: '0.75rem',
                 fontWeight: 700,
@@ -478,7 +478,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: '#F2F6FC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAF7', color: '#0A0A0A' }}>
       <Navbar />
 
       {/* ── Elevated Hero Section with Animated Theme Elements ── */}
@@ -520,7 +520,7 @@ export default function ServicesPage() {
             width: '65vw',
             height: '40vw',
             borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(74,158,255,0.18) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(74,158,255,0.08) 0%, transparent 70%)',
             filter: 'blur(80px)',
             pointerEvents: 'none',
           }}
@@ -534,7 +534,7 @@ export default function ServicesPage() {
             width: '35vw',
             height: '35vw',
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(91,201,232,0.11) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(91,201,232,0.06) 0%, transparent 70%)',
             filter: 'blur(90px)',
             pointerEvents: 'none',
           }}
@@ -588,7 +588,7 @@ export default function ServicesPage() {
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(3.8rem, 11vw, 9.5rem)',
             fontWeight: 900,
-            color: '#F2F6FC',
+            color: '#0A0A0A',
             lineHeight: 0.88,
             letterSpacing: '-0.03em',
             textTransform: 'uppercase',
@@ -609,7 +609,7 @@ export default function ServicesPage() {
             maxWidth: '580px',
             fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
             lineHeight: 1.7,
-            color: 'rgba(242,246,252,0.7)',
+            color: 'rgba(10,10,10,0.7)',
           }}
         >
           Six disciplines, one team. Everything a brand needs to go from ambition to undeniable market authority - handled A-to-Z.
@@ -638,9 +638,9 @@ export default function ServicesPage() {
               style={{
                 padding: '0.45rem 1rem',
                 borderRadius: '999px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(242,246,252,0.15)',
-                color: '#F2F6FC',
+                background: 'rgba(0,0,0,0.03)',
+                border: '1px solid rgba(10,10,10,0.15)',
+                color: '#0A0A0A',
                 fontSize: '0.74rem',
                 fontWeight: 600,
                 letterSpacing: '0.12em',
@@ -659,7 +659,7 @@ export default function ServicesPage() {
         style={{
           borderTop: '1px solid rgba(74,158,255,0.15)',
           borderBottom: '1px solid rgba(74,158,255,0.15)',
-          background: 'rgba(10, 15, 26, 0.5)',
+          background: 'rgba(250, 250, 247, 0.6)',
           backdropFilter: 'blur(16px)',
           position: 'relative',
           zIndex: 5,
@@ -696,7 +696,7 @@ export default function ServicesPage() {
                 style={{
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: 'rgba(242,246,252,0.65)',
+                  color: 'rgba(10,10,10,0.65)',
                   marginTop: '0.3rem'
                 }}
               >
@@ -708,7 +708,7 @@ export default function ServicesPage() {
       </section>
 
       {/* ── Stacking Services Deck (True Sticky Stacking Structure) ── */}
-      <section style={{ background: '#000', padding: '5rem 0 5vh' }}>
+      <section style={{ background: '#FAFAF7', padding: '5rem 0 5vh' }}>
         <div
           style={{
             maxWidth: '1280px',
@@ -788,7 +788,7 @@ export default function ServicesPage() {
           position: 'relative',
           zIndex: 30,
           minHeight: '100vh',
-          background: '#05070c',
+          background: '#FAFAF7',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -806,7 +806,7 @@ export default function ServicesPage() {
             transform: 'translate(-50%, -50%)',
             width: 'clamp(300px, 40vw, 600px)',
             height: 'clamp(300px, 40vw, 600px)',
-            background: 'radial-gradient(circle, rgba(74,158,255,0.3) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(74,158,255,0.15) 0%, transparent 70%)',
             filter: 'blur(50px)',
             pointerEvents: 'none',
             transition: 'width 0.3s, height 0.3s, left 0.1s, top 0.1s',
@@ -824,7 +824,7 @@ export default function ServicesPage() {
             fontFamily: 'Helvetica Neue, Arial, sans-serif',
             fontSize: 'clamp(3.5rem, 8vw, 10rem)',
             fontWeight: 900,
-            color: '#F2F6FC',
+            color: '#0A0A0A',
             lineHeight: 0.85,
             letterSpacing: '-0.03em',
             textAlign: 'center',
@@ -844,7 +844,7 @@ export default function ServicesPage() {
             position: 'relative',
             zIndex: 2,
             fontSize: 'clamp(1rem, 1.5vw, 1.3rem)',
-            color: 'rgba(242,246,252,0.6)',
+            color: 'rgba(10,10,10,0.6)',
             marginBottom: '5rem',
             maxWidth: '550px',
             textAlign: 'center',
@@ -870,8 +870,8 @@ export default function ServicesPage() {
             height: 'clamp(140px, 15vw, 180px)',
             borderRadius: '50%',
             background: 'transparent',
-            border: '1px solid rgba(242,246,252,0.25)',
-            color: '#F2F6FC',
+            border: '1px solid rgba(10,10,10,0.25)',
+            color: '#0A0A0A',
             textDecoration: 'none',
             fontSize: 'clamp(0.7rem, 0.8vw, 0.85rem)',
             letterSpacing: '0.2em',
@@ -881,15 +881,15 @@ export default function ServicesPage() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = '#4A9EFF';
-            e.currentTarget.style.color = '#05070c';
+            e.currentTarget.style.color = '#FFFFFF';
             e.currentTarget.style.transform = 'scale(1.1)';
             e.currentTarget.style.border = '1px solid #4A9EFF';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#F2F6FC';
+            e.currentTarget.style.color = '#0A0A0A';
             e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.border = '1px solid rgba(242,246,252,0.25)';
+            e.currentTarget.style.border = '1px solid rgba(10,10,10,0.25)';
           }}
         >
           Get in Touch

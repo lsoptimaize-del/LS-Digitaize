@@ -40,20 +40,20 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
       href={`/services/${service.slug}`}
       className={`service-card group relative flex flex-col rounded-2xl overflow-hidden cursor-pointer ${GRID_POSITIONS[index]}`}
       style={{
-        background: 'rgba(6, 11, 28, 0.9)',
-        border: '1px solid rgba(255,255,255,0.07)',
+        background: 'rgba(255,255,255,0.9)',
+        border: '1px solid rgba(0,0,0,0.08)',
         backdropFilter: 'blur(12px)',
         transition: 'border-color 0.4s ease, box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.22,1,0.36,1)',
       }}
       onMouseEnter={e => {
         const el = e.currentTarget;
         el.style.borderColor = `${service.accent}50`;
-        el.style.boxShadow = `0 0 50px ${service.accent}15, 0 25px 70px rgba(0,0,0,0.5)`;
+        el.style.boxShadow = `0 0 50px ${service.accent}15, 0 25px 70px rgba(0,0,0,0.12)`;
         el.style.transform = 'translateY(-4px)';
       }}
       onMouseLeave={e => {
         const el = e.currentTarget;
-        el.style.borderColor = 'rgba(255,255,255,0.07)';
+        el.style.borderColor = 'rgba(0,0,0,0.08)';
         el.style.boxShadow = 'none';
         el.style.transform = 'translateY(0)';
       }}
@@ -66,15 +66,17 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
       <div className="p-7 flex flex-col flex-1">
         {/* Icon chip */}
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center mb-6 flex-shrink-0"
+          className="w-14 h-14 rounded-full flex items-center justify-center mb-6 flex-shrink-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 group-hover:-translate-y-1"
           style={{
-            background: `radial-gradient(circle at 30% 30%, ${service.accent}15, transparent)`,
-            border: `1px solid ${service.accent}30`,
+            background: `radial-gradient(circle at 30% 30%, ${service.accent}40, ${service.accent}10)`,
+            border: `1px solid ${service.accent}60`,
             color: service.accent,
-            boxShadow: `0 4px 20px ${service.accent}10`,
+            boxShadow: `0 8px 25px ${service.accent}35`,
           }}
         >
-          {service.icon}
+          <div className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-6">
+            {service.icon}
+          </div>
         </div>
 
         {/* Title */}
@@ -82,7 +84,7 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
           className="font-bold mb-3 leading-tight tracking-tight"
           style={{
             fontSize: 'clamp(1.05rem, 1.8vw, 1.45rem)',
-            color: '#F2F6FC',
+            color: '#0A0A0A',
             fontFamily: 'var(--font-sevone)',
           }}
         >
@@ -92,8 +94,8 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
         {/* Description */}
         <p
           className="leading-relaxed mb-8"
-          style={{ 
-            color: 'rgba(242,246,252,0.6)', 
+          style={{
+            color: 'rgba(10,10,10,0.6)',
             fontSize: '0.95rem', 
             maxWidth: '95%',
             fontFamily: 'system-ui, -apple-system, sans-serif'
@@ -106,7 +108,7 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
         <div
           className="mt-auto rounded-xl overflow-hidden relative flex-shrink-0"
           style={{
-            background: 'rgba(4,8,22,0.8)',
+            background: 'rgba(255,255,255,0.8)',
             border: `1px solid ${service.accent}18`,
             height: isTall ? '16rem' : isWide ? '10rem' : '9rem',
           }}
@@ -155,7 +157,7 @@ export default function ServicesSectionNew() {
       ref={sectionRef}
       id="services"
       className="relative overflow-hidden"
-      style={{ background: '#000000', padding: 'clamp(1rem, 12vh, 9rem) 0 clamp(6rem, 14vh, 10rem)', position: 'relative', zIndex: 30 }}
+      style={{ background: '#FAFAF7', padding: 'clamp(1rem, 12vh, 9rem) 0 clamp(6rem, 14vh, 10rem)', position: 'relative', zIndex: 30 }}
     >
       <style>{SERVICE_KEYFRAMES}</style>
 
@@ -163,11 +165,11 @@ export default function ServicesSectionNew() {
       <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <div style={{
           position: 'absolute', top: '-15%', left: '-10%', width: '55vw', height: '55vw', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(30,80,220,0.18) 0%, transparent 70%)', filter: 'blur(80px)',
+          background: 'radial-gradient(circle, rgba(30,80,220,0.09) 0%, transparent 70%)', filter: 'blur(80px)',
         }}/>
         <div style={{
           position: 'absolute', bottom: '-10%', right: '-10%', width: '50vw', height: '50vw', borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(74,158,255,0.12) 0%, transparent 70%)', filter: 'blur(90px)',
+          background: 'radial-gradient(circle, rgba(74,158,255,0.06) 0%, transparent 70%)', filter: 'blur(90px)',
         }}/>
       </div>
 
@@ -193,7 +195,7 @@ export default function ServicesSectionNew() {
             style={{
               fontFamily: 'var(--font-sevone)',
               fontSize: 'clamp(2.8rem, 7vw, 6rem)',
-              color: '#F2F6FC',
+              color: '#0A0A0A',
               lineHeight: 0.9,
               letterSpacing: '-0.02em',
             }}
@@ -242,7 +244,7 @@ export default function ServicesSectionNew() {
               onMouseEnter={e => {
                 const el = e.currentTarget;
                 el.style.borderColor = '#4A9EFF80';
-                el.style.boxShadow = '0 0 50px rgba(74,158,255,0.15), 0 25px 70px rgba(0,0,0,0.5)';
+                el.style.boxShadow = '0 0 50px rgba(74,158,255,0.15), 0 25px 70px rgba(0,0,0,0.12)';
                 el.style.transform = 'translateY(-4px)';
               }}
               onMouseLeave={e => {
@@ -257,7 +259,7 @@ export default function ServicesSectionNew() {
                   fontFamily: 'var(--font-sevone)',
                   fontSize: 'clamp(1.4rem, 2.4vw, 1.8rem)',
                   fontWeight: 900,
-                  color: '#F2F6FC',
+                  color: '#0A0A0A',
                   letterSpacing: '-0.01em',
                 }}
               >
@@ -271,7 +273,7 @@ export default function ServicesSectionNew() {
                   fontSize: '0.75rem',
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  color: 'rgba(242,246,252,0.55)',
+                  color: 'rgba(10,10,10,0.55)',
                 }}
               >
                 All Services →

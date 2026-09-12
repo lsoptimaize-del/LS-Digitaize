@@ -137,8 +137,8 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen text-white overflow-hidden flex flex-col justify-between"
-      style={{ backgroundColor: '#05070c' }}
+      className="relative w-full min-h-screen text-black overflow-hidden flex flex-col justify-between"
+      style={{ backgroundColor: '#FAFAF7' }}
     >
       {/* Background visuals: door + volumetric beam, ported from the LSO hero */}
       <div ref={bgRef} className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden flex items-center">
@@ -149,7 +149,7 @@ export default function HeroSection() {
           animate={ready ? 'visible' : 'hidden'}
           className="absolute left-0 h-[140vh] w-[80vw] origin-left"
           style={{
-            background: 'linear-gradient(90deg, rgba(74,158,255,0.4) 0%, rgba(74,158,255,0.1) 40%, transparent 100%)',
+            background: 'linear-gradient(90deg, rgba(74,158,255,0.2) 0%, rgba(74,158,255,0.05) 40%, transparent 100%)',
             clipPath: 'polygon(0% 35%, 100% 0%, 100% 100%, 0% 65%)',
             filter: 'blur(40px)',
             mixBlendMode: 'screen',
@@ -163,7 +163,7 @@ export default function HeroSection() {
           animate={ready ? 'visible' : 'hidden'}
           className="absolute left-0 h-[100vh] w-[60vw] origin-left"
           style={{
-            background: 'linear-gradient(90deg, rgba(126,193,245,0.3) 0%, rgba(74,158,255,0.15) 50%, transparent 100%)',
+            background: 'linear-gradient(90deg, rgba(126,193,245,0.15) 0%, rgba(74,158,255,0.08) 50%, transparent 100%)',
             clipPath: 'polygon(0% 42%, 100% 20%, 100% 80%, 0% 58%)',
             filter: 'blur(20px)',
             mixBlendMode: 'overlay',
@@ -203,7 +203,7 @@ export default function HeroSection() {
         className="relative z-20 w-full max-w-7xl mx-auto px-6 md:px-12 flex-grow flex items-end md:items-center justify-start md:justify-end pb-12 md:pb-0"
       >
         {/* mobile dark gradient for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent md:hidden pointer-events-none -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/50 to-transparent md:hidden pointer-events-none -z-10" />
 
         <motion.div
           variants={staggerContainer}
@@ -226,7 +226,7 @@ export default function HeroSection() {
               fontFamily: 'var(--font-sevone)',
               fontSize: 'clamp(3rem, 8vw, 6.5rem)',
               fontWeight: 700,
-              color: '#F2F6FC',
+              color: '#0A0A0A',
               lineHeight: 0.95,
               letterSpacing: '0.01em',
             }}
@@ -237,13 +237,13 @@ export default function HeroSection() {
           <motion.p
             variants={fadeUp}
             className="text-xl sm:text-2xl italic font-medium mb-8"
-            style={{ fontFamily: 'Georgia, serif', color: 'rgba(242,246,252,0.85)' }}
+            style={{ fontFamily: 'Georgia, serif', color: 'rgba(10,10,10,0.85)' }}
           >
             The creative standard
           </motion.p>
 
           <motion.div variants={fadeUp} className="max-w-md mb-8">
-            <p className="text-sm leading-relaxed" style={{ color: 'rgba(242,246,252,0.85)' }}>
+            <p className="text-sm leading-relaxed" style={{ color: 'rgba(10,10,10,0.85)' }}>
               We build brand identity, content, and performance systems for brands bold enough to matter. A-to-Z, handled.
             </p>
           </motion.div>
@@ -252,19 +252,19 @@ export default function HeroSection() {
             <Link
               href="/contact"
               className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-7 py-3 sm:px-8 sm:py-4 text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] font-bold transition-all duration-500 hover:scale-105"
-              style={{ background: '#F2F6FC', color: '#05070c' }}
+              style={{ background: '#4A9EFF', color: '#FFFFFF' }}
             >
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-[#05070c]">Start a Project</span>
-              <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[#05070c]">→</span>
+              <span className="relative z-10 transition-colors duration-300 group-hover:text-white">Start a Project</span>
+              <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white">→</span>
               <div className="absolute inset-0 z-0 bg-[#7EC1F5] translate-y-[100%] transition-transform duration-500 ease-in-out group-hover:translate-y-0" />
             </Link>
             <Link
               href="/services"
-              className="group inline-flex flex-col items-center gap-1 text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] font-semibold transition-colors duration-300 hover:text-white mt-2 sm:mt-0"
-              style={{ color: 'rgba(242,246,252,0.7)' }}
+              className="group inline-flex flex-col items-center gap-1 text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] font-semibold transition-colors duration-300 hover:text-black mt-2 sm:mt-0"
+              style={{ color: 'rgba(10,10,10,0.7)' }}
             >
               Explore Services
-              <span className="block w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+              <span className="block w-0 h-px bg-black transition-all duration-300 group-hover:w-full" />
             </Link>
           </motion.div>
         </motion.div>
@@ -275,14 +275,14 @@ export default function HeroSection() {
         className="absolute bottom-0 left-0 right-0 pointer-events-none z-10"
         style={{
           height: '45vh',
-          background: 'linear-gradient(to top, #000000 0%, #000000 8%, rgba(0,0,0,0.8) 35%, rgba(0,0,0,0.5) 55%, transparent 100%)',
+          background: 'linear-gradient(to top, #FAFAF7 0%, #FAFAF7 8%, rgba(250,250,247,0.8) 35%, rgba(250,250,247,0.5) 55%, transparent 100%)',
         }}
       />
 
       {/* scroll indicator */}
       <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 z-20">
-        <span className="text-[10px] tracking-[0.35em] uppercase text-white/50">SCROLL DOWN</span>
-        <span ref={chevronRef} className="text-white/50 text-base inline-block">
+        <span className="text-[10px] tracking-[0.35em] uppercase text-black/50">SCROLL DOWN</span>
+        <span ref={chevronRef} className="text-black/50 text-base inline-block">
           ↓
         </span>
       </div>

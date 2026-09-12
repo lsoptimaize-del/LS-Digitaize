@@ -18,7 +18,7 @@ const STEPS = [
     description:
       'We dig into your brand, market, and goals before touching a single pixel or campaign. No guesswork.',
     accentLine: '#4A9EFF',
-    colors: ['#060a14', '#0a1428', '#123055', '#1a4a7a', '#0d1e38', '#081020'],
+    colors: ['#FAFAF7', '#D0E8FF', '#80C0FF', '#60D0E0', '#4A9EFF', '#F2F7FC'],
     distortion: 0.72,
     swirl: 0.58,
     image: '/process-discover.png',
@@ -30,7 +30,7 @@ const STEPS = [
     description:
       'A roadmap built around what actually moves your numbers. Not trends for their own sake.',
     accentLine: '#5BC9E8',
-    colors: ['#050c14', '#0a1a24', '#134a5a', '#0d2836', '#1a3d4a', '#081418'],
+    colors: ['#FAFAF7', '#D0E8FF', '#70B8FF', '#40C8D8', '#30A0FF', '#F5FBFC'],
     distortion: 0.65,
     swirl: 0.70,
     image: '/process-strategize.png',
@@ -42,7 +42,7 @@ const STEPS = [
     description:
       'Identity, content, and campaigns come to life. Crafted to feel inevitable, not generic.',
     accentLine: '#4A9EFF',
-    colors: ['#04070f', '#0a1428', '#123055', '#4A9EFF', '#0d1e38', '#08101c'],
+    colors: ['#FAFAF7', '#DCEAFB', '#60B0FF', '#20B0C0', '#4A9EFF', '#FAFCFE'],
     distortion: 0.85,
     swirl: 0.45,
     image: '/process-create.png',
@@ -54,7 +54,7 @@ const STEPS = [
     description:
       'We ship, measure, and iterate relentlessly. Growth is a system, not a one-off push.',
     accentLine: '#5BC9E8',
-    colors: ['#050c10', '#0a1e22', '#134a5a', '#123055', '#0d2836', '#081418'],
+    colors: ['#FAFAF7', '#CDEFEA', '#50C0FF', '#10A0B0', '#4A9EFF', '#F5FBFA'],
     distortion: 0.70,
     swirl: 0.75,
     image: '/process-launch.png',
@@ -66,6 +66,8 @@ export default function ProcessSection() {
   const cardRef       = useRef<HTMLDivElement>(null);
   const stripRef      = useRef<HTMLDivElement>(null);
   const mobileStripRef = useRef<HTMLDivElement>(null);
+  const mobileWrapRef = useRef<HTMLDivElement>(null);
+  const indicatorsRef = useRef<HTMLDivElement>(null);
   const textWrapRef   = useRef<HTMLDivElement>(null);
   const introRef      = useRef<HTMLDivElement>(null);
   const contentRef    = useRef<HTMLDivElement>(null);
@@ -130,7 +132,10 @@ export default function ProcessSection() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
       const wrapper = wrapperRef.current;
       if (!wrapper) return;
       const rect       = wrapper.getBoundingClientRect();
@@ -147,10 +152,22 @@ export default function ProcessSection() {
         introRef.current.style.pointerEvents = introProgress === 1 ? 'none' : 'auto';
       }
 
-      if (contentRef.current) {
-        contentRef.current.style.opacity = String(Math.min(1, introProgress * 1.5));
-        const yOffset = (1 - introProgress) * window.innerHeight * 0.6;
-        contentRef.current.style.transform = `translateY(${yOffset}px)`;
+      const introOp = Math.min(1, introProgress * 1.5);
+      const yOffset = (1 - introProgress) * window.innerHeight * 0.6;
+
+      if (mobileWrapRef.current) {
+        mobileWrapRef.current.style.opacity = String(introOp);
+        mobileWrapRef.current.style.transform = `translateY(${yOffset}px)`;
+      }
+      
+      if (cardRef.current) {
+        cardRef.current.style.opacity = String(introOp);
+        cardRef.current.style.transform = `translate(-40%, ${yOffset}px)`;
+      }
+      
+      if (indicatorsRef.current) {
+        indicatorsRef.current.style.opacity = String(introOp);
+        indicatorsRef.current.style.transform = `translateY(calc(-50% + ${yOffset}px))`;
       }
 
       const servicesScrollable = scrollable - window.innerHeight;
@@ -177,8 +194,8 @@ export default function ProcessSection() {
       }
 
       if (textWrapRef.current) {
-        textWrapRef.current.style.opacity = String(tp);
-        textWrapRef.current.style.transform = `translateY(-50%)`;
+        textWrapRef.current.style.opacity = String(introOp * tp);
+        textWrapRef.current.style.transform = `translateY(calc(-50% + ${yOffset}px))`;
       }
 
       if (newIndex !== lastIndex.current) {
@@ -187,8 +204,14 @@ export default function ProcessSection() {
       }
     };
 
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    update();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -206,7 +229,7 @@ export default function ProcessSection() {
           top: 0,
           height: '100vh',
           overflow: 'hidden',
-          background: '#070c16',
+          background: '#FAFAF7',
         }}
       >
         {/* MeshGradient background */}
@@ -215,9 +238,9 @@ export default function ProcessSection() {
             <MeshGradient
               width={dimensions.width}
               height={dimensions.height}
-              colors={STEPS[0].colors}
-              distortion={STEPS[0].distortion}
-              swirl={STEPS[0].swirl}
+              colors={step.colors}
+              distortion={step.distortion}
+              swirl={step.swirl}
               speed={0.36}
               offsetX={0.06}
               grainMixer={1}
@@ -251,7 +274,7 @@ export default function ProcessSection() {
           <h2 ref={introTitleRef} style={{
             fontFamily: 'var(--font-sevone)',
             fontSize: 'clamp(3.5rem, 9vw, 11rem)',
-            color: '#F2F6FC',
+            color: '#0A0A0A',
             margin: 0,
             lineHeight: 0.9,
             textAlign: 'center',
@@ -262,12 +285,12 @@ export default function ProcessSection() {
           </h2>
         </div>
 
-        {/* Content wrapper */}
-        <div ref={contentRef} style={{ position: 'absolute', inset: 0, willChange: 'opacity, transform', opacity: 0, zIndex: 10 }}>
+        {/* Content wrapper - Removed stacking context triggers */}
+        <div ref={contentRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
 
           {isMobile ? (
             /* ── MOBILE LAYOUT: image top, text bottom ── */
-            <div style={{
+            <div ref={mobileWrapRef} style={{
               position: 'absolute',
               inset: 0,
               display: 'flex',
@@ -275,6 +298,8 @@ export default function ProcessSection() {
               justifyContent: 'center',
               padding: '1.5rem',
               gap: '1.25rem',
+              opacity: 0,
+              pointerEvents: 'auto',
             }}>
               {/* Image card */}
               <div style={{
@@ -282,8 +307,8 @@ export default function ProcessSection() {
                 overflow: 'hidden',
                 aspectRatio: '16/9',
                 position: 'relative',
-                background: '#08111e',
-                boxShadow: '0 20px 60px rgba(26,39,68,0.3)',
+                background: '#F0F3F8',
+                boxShadow: '0 20px 60px rgba(26,39,68,0.15)',
                 border: `1px solid ${step.accentLine}30`,
                 transition: 'border-color 0.9s ease',
                 flexShrink: 0,
@@ -313,7 +338,7 @@ export default function ProcessSection() {
                 <div style={{
                   position: 'absolute', top: '0.75rem', right: '0.75rem',
                   fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase',
-                  color: step.accentLine, background: 'rgba(5,10,24,0.8)',
+                  color: step.accentLine, background: 'rgba(255,255,255,0.85)',
                   padding: '0.3rem 0.8rem', borderRadius: '999px',
                   border: `1px solid ${step.accentLine}40`,
                   backdropFilter: 'blur(8px)',
@@ -338,13 +363,13 @@ export default function ProcessSection() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                     <p style={{
                       fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-                      color: 'rgba(242,246,252,0.6)', margin: 0,
+                      color: 'rgba(10,10,10,0.6)', margin: 0,
                       display: 'flex', alignItems: 'center', gap: '0.5rem',
                     }}>
-                      <span style={{ width: '20px', height: '1.5px', background: 'rgba(242,246,252,0.35)', display: 'inline-block' }} />
+                      <span style={{ width: '20px', height: '1.5px', background: 'rgba(10,10,10,0.35)', display: 'inline-block' }} />
                       {step.category}
                     </p>
-                    <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(242,246,252,0.3)', fontFamily: 'monospace' }}>
+                    <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(10,10,10,0.3)', fontFamily: 'monospace' }}>
                       {step.number} / {String(STEPS.length).padStart(2, '0')}
                     </span>
                   </div>
@@ -354,11 +379,11 @@ export default function ProcessSection() {
                     fontFamily: 'var(--font-sevone)',
                     fontSize: 'clamp(3rem, 13vw, 4.5rem)',
                     fontWeight: 900,
-                    color: '#F2F6FC',
+                    color: '#0A0A0A',
                     lineHeight: 0.9,
                     letterSpacing: '-0.03em',
                     marginBottom: '0.85rem',
-                    textShadow: `0 4px 40px rgba(0,0,0,0.6), 0 0 25px ${step.accentLine}40`,
+                    textShadow: `0 4px 40px rgba(0,0,0,0.15), 0 0 25px ${step.accentLine}40`,
                   }}>
                     {step.title}
                   </h2>
@@ -367,7 +392,7 @@ export default function ProcessSection() {
                   <p style={{
                     fontSize: 'clamp(0.9rem, 3.8vw, 1.05rem)',
                     lineHeight: 1.65,
-                    color: 'rgba(242,246,252,0.65)',
+                    color: 'rgba(10,10,10,0.65)',
                     margin: 0,
                   }}>
                     {step.description}
@@ -380,7 +405,7 @@ export default function ProcessSection() {
                         width: i === activeIndex ? '22px' : '6px',
                         height: '6px',
                         borderRadius: '999px',
-                        background: i === activeIndex ? step.accentLine : 'rgba(255,255,255,0.18)',
+                        background: i === activeIndex ? step.accentLine : 'rgba(0,0,0,0.18)',
                         transition: 'all 0.4s ease',
                       }} />
                     ))}
@@ -398,9 +423,11 @@ export default function ProcessSection() {
                   position: 'absolute',
                   left: '50%',
                   top: '20vh',
-                  transform: 'translateX(-40%)',
+                  transform: 'translate(-40%, 60vh)',
                   width: 'clamp(320px, 40vw, 580px)',
                   zIndex: 10,
+                  opacity: 0,
+                  pointerEvents: 'auto',
                 }}
               >
                 <div style={{
@@ -408,8 +435,8 @@ export default function ProcessSection() {
                   overflow: 'hidden',
                   aspectRatio: '4/3',
                   position: 'relative',
-                  background: '#08111e',
-                  boxShadow: '0 40px 100px rgba(26,39,68,0.25), 0 0 50px rgba(86,136,201,0.12)',
+                  background: '#F0F3F8',
+                  boxShadow: '0 40px 100px rgba(26,39,68,0.12), 0 0 50px rgba(86,136,201,0.12)',
                   border: `1px solid ${step.accentLine}30`,
                   transition: 'border-color 0.9s ease, box-shadow 0.9s ease',
                 }}>
@@ -439,7 +466,7 @@ export default function ProcessSection() {
                   <div style={{
                     position: 'absolute', top: '1rem', right: '1rem',
                     fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-                    color: step.accentLine, background: 'rgba(5,10,24,0.7)',
+                    color: step.accentLine, background: 'rgba(255,255,255,0.8)',
                     padding: '0.45rem 1rem', borderRadius: '999px',
                     border: `1px solid ${step.accentLine}40`,
                     backdropFilter: 'blur(8px)',
@@ -454,20 +481,88 @@ export default function ProcessSection() {
                     background: 'linear-gradient(to top, rgba(5,12,24,0.5) 0%, transparent 100%)',
                     zIndex: 5, pointerEvents: 'none',
                   }} />
+
+                  {/* DUPLICATE TEXT FOR CLIPPING OVERLAY EFFECT */}
+                  <div style={{
+                    position: 'absolute',
+                    left: 'calc(clamp(2rem, 15vw, 22vw) - (50vw - 0.4 * clamp(320px, 40vw, 580px)))',
+                    top: '30vh',
+                    transform: 'translateY(-50%)',
+                    zIndex: 10,
+                    width: '100vw',
+                    maxWidth: 'min(650px, 45vw)',
+                    pointerEvents: 'none',
+                  }}>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeIndex}
+                        initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
+                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                        exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
+                        transition={{ duration: 0.45, ease: [0.25, 1, 0.3, 1] }}
+                      >
+                        <div aria-hidden="true" style={{
+                          fontFamily: 'var(--font-sevone)',
+                          fontSize: 'clamp(5rem, 13vw, 17rem)',
+                          fontWeight: 900,
+                          color: 'rgba(180,215,255,0.2)',
+                          lineHeight: 0.8,
+                          position: 'absolute', bottom: '100%', left: '-0.06em',
+                          userSelect: 'none', pointerEvents: 'none',
+                          letterSpacing: '-0.04em',
+                        }}>
+                          {step.number}
+                        </div>
+
+                        <p style={{
+                          fontSize: 'clamp(0.85rem, 1.2vw, 1.1rem)', letterSpacing: '0.35em', textTransform: 'uppercase',
+                          color: 'rgba(210,235,255,0.95)',
+                          marginBottom: '1.5rem',
+                          display: 'flex', alignItems: 'center', gap: '0.8rem',
+                        }}>
+                          <span style={{ width: '25px', height: '1.5px', background: 'rgba(210,235,255,0.7)' }} />
+                          {step.category}
+                        </p>
+
+                        <h2 style={{
+                          fontFamily: 'var(--font-sevone)',
+                          fontSize: 'clamp(3.5rem, 7vw, 8rem)',
+                          fontWeight: 900,
+                          color: 'rgba(190,225,255,0.9)',
+                          lineHeight: 0.92,
+                          letterSpacing: '-0.03em',
+                          marginBottom: '1.5rem',
+                          textShadow: `0 4px 40px rgba(74,158,255,0.6), 0 0 35px ${step.accentLine}80`,
+                        }}>
+                          {step.title}
+                        </h2>
+
+                        <p style={{
+                          fontSize: 'clamp(1.1rem, 1.5vw, 1.4rem)', lineHeight: 1.7,
+                          color: 'rgba(210,235,255,0.85)',
+                          margin: '0 0 2.5rem',
+                          maxWidth: '95%',
+                        }}>
+                          {step.description}
+                        </p>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
 
-              {/* Left text block */}
+              {/* Left text block (Outer - Black) */}
               <div
                 ref={textWrapRef}
                 style={{
                   position: 'absolute',
                   left: 'clamp(2rem, 15vw, 22vw)',
                   top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 30,
+                  transform: 'translateY(calc(-50% + 60vh))',
+                  zIndex: 5,
                   maxWidth: 'min(650px, 45vw)',
-                  willChange: 'transform, opacity',
+                  opacity: 0,
+                  pointerEvents: 'auto',
                 }}
               >
                 <AnimatePresence mode="wait">
@@ -482,7 +577,7 @@ export default function ProcessSection() {
                       fontFamily: 'var(--font-sevone)',
                       fontSize: 'clamp(5rem, 13vw, 17rem)',
                       fontWeight: 900,
-                      color: 'rgba(255,255,255,0.05)',
+                      color: 'rgba(0,0,0,0.05)',
                       lineHeight: 0.8,
                       position: 'absolute', bottom: '100%', left: '-0.06em',
                       userSelect: 'none', pointerEvents: 'none',
@@ -493,12 +588,12 @@ export default function ProcessSection() {
 
                     <p style={{
                       fontSize: 'clamp(0.85rem, 1.2vw, 1.1rem)', letterSpacing: '0.35em', textTransform: 'uppercase',
-                      color: 'rgba(242,246,252,0.7)',
+                      color: 'rgba(10,10,10,0.7)',
                       marginBottom: '1.5rem',
                       transition: 'color 0.7s ease',
                       display: 'flex', alignItems: 'center', gap: '0.8rem',
                     }}>
-                      <span style={{ width: '25px', height: '1.5px', background: 'rgba(242,246,252,0.4)' }} />
+                      <span style={{ width: '25px', height: '1.5px', background: 'rgba(10,10,10,0.4)' }} />
                       {step.category}
                     </p>
 
@@ -506,18 +601,18 @@ export default function ProcessSection() {
                       fontFamily: 'var(--font-sevone)',
                       fontSize: 'clamp(3.5rem, 7vw, 8rem)',
                       fontWeight: 900,
-                      color: '#F2F6FC',
+                      color: '#0A0A0A',
                       lineHeight: 0.92,
                       letterSpacing: '-0.03em',
                       marginBottom: '1.5rem',
-                      textShadow: `0 4px 40px rgba(0,0,0,0.6), 0 0 25px ${step.accentLine}40`,
+                      textShadow: `0 4px 40px rgba(0,0,0,0.15), 0 0 25px ${step.accentLine}40`,
                     }}>
                       {step.title}
                     </h2>
 
                     <p style={{
                       fontSize: 'clamp(1.1rem, 1.5vw, 1.4rem)', lineHeight: 1.7,
-                      color: 'rgba(242,246,252,0.65)',
+                      color: 'rgba(10,10,10,0.65)',
                       margin: '0 0 2.5rem',
                       maxWidth: '95%',
                     }}>
@@ -528,20 +623,22 @@ export default function ProcessSection() {
               </div>
 
               {/* Right-edge step indicators */}
-              <div style={{
+              <div ref={indicatorsRef} style={{
                 position: 'absolute',
                 right: 'clamp(1.5rem, 4vw, 4rem)',
                 top: '50%',
-                transform: 'translateY(-50%)',
+                transform: 'translateY(calc(-50% + 60vh))',
                 zIndex: 20,
                 height: '40vh',
+                opacity: 0,
+                pointerEvents: 'auto',
               }}>
                 <div style={{ position: 'relative', height: '100%' }}>
                   <div style={{
                     position: 'absolute',
                     right: 0, top: 0, bottom: 0,
                     width: '1px',
-                    background: 'rgba(255,255,255,0.12)',
+                    background: 'rgba(0,0,0,0.12)',
                   }} />
                   <div style={{
                     display: 'flex',
@@ -570,7 +667,7 @@ export default function ProcessSection() {
                             fontFamily: 'var(--font-sevone)',
                             fontSize: '1.4rem',
                             fontWeight: 900,
-                            color: '#F2F6FC',
+                            color: '#0A0A0A',
                           }}>
                             {String(i + 1).padStart(2, '0')}
                           </div>
@@ -580,10 +677,10 @@ export default function ProcessSection() {
                             width: isActive ? '24px' : '10px',
                             height: isActive ? '2px' : '1px',
                             background: isActive
-                              ? '#F2F6FC'
+                              ? '#0A0A0A'
                               : isPast
-                                ? 'rgba(255,255,255,0.4)'
-                                : 'rgba(255,255,255,0.15)',
+                                ? 'rgba(0,0,0,0.4)'
+                                : 'rgba(0,0,0,0.15)',
                             transition: 'all 0.4s ease',
                           }} />
                         </div>

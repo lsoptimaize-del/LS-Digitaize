@@ -155,7 +155,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#05070c' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAF7' }}>
       <Navbar />
 
       {/* ── Scroll-Linked Video Cutout Hero ── */}
@@ -376,7 +376,7 @@ export default function AboutPage() {
 
       {/* ── Team Carousel Gallery ── */}
       <section style={{
-        backgroundColor: '#0a0f1a',
+        backgroundColor: '#FAFAF7',
         padding: '10rem 0',
         overflow: 'hidden',
       }}>
@@ -388,7 +388,7 @@ export default function AboutPage() {
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(3.5rem, 12vw, 15rem)',
                 fontWeight: 900,
-                color: '#F2F6FC',
+                color: '#0A0A0A',
                 lineHeight: 0.85,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -554,7 +554,7 @@ export default function AboutPage() {
                     fontFamily: 'var(--font-sevone)',
                     fontSize: 'clamp(2.2rem, 9vw, 3rem)',
                     fontWeight: 900,
-                    color: '#F2F6FC',
+                    color: '#0A0A0A',
                     margin: '0 0 0.3rem',
                     lineHeight: 1,
                   }}>{member.name}</h3>
@@ -570,7 +570,7 @@ export default function AboutPage() {
                   <p style={{
                     fontSize: '0.95rem',
                     lineHeight: 1.7,
-                    color: 'rgba(242,246,252,0.72)',
+                    color: 'rgba(10,10,10,0.72)',
                     marginBottom: '1.5rem',
                   }}>{member.quote}</p>
                 </div>
@@ -583,7 +583,7 @@ export default function AboutPage() {
                   style={{
                     width: '52px', height: '52px',
                     borderRadius: '50%',
-                    backgroundColor: '#12203a',
+                    backgroundColor: '#2A7DE1',
                     border: 'none',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'pointer',
@@ -672,7 +672,7 @@ export default function AboutPage() {
                 fontFamily: 'var(--font-geist-mono)',
                 fontSize: '0.8rem',
                 fontWeight: 700,
-                color: '#F2F6FC',
+                color: '#0A0A0A',
                 whiteSpace: 'nowrap',
               }}>
                 0{activeIndex + 1} / 0{TEAM.length}
@@ -685,7 +685,7 @@ export default function AboutPage() {
                 fontWeight: 700,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)',
+                color: 'rgba(0,0,0,0.4)',
                 whiteSpace: 'nowrap',
               }}>
                 The Roster
@@ -807,7 +807,7 @@ export default function AboutPage() {
                     fontFamily: 'var(--font-sevone)',
                     fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
                     fontWeight: 900,
-                    color: '#F2F6FC',
+                    color: '#0A0A0A',
                     margin: '0 0 0.4rem 0',
                     lineHeight: 1,
                   }}>
@@ -827,7 +827,7 @@ export default function AboutPage() {
                   <p style={{
                     fontSize: '1.05rem',
                     lineHeight: 1.8,
-                    color: 'rgba(242,246,252,0.75)',
+                    color: 'rgba(10,10,10,0.75)',
                     fontWeight: 400,
                     marginBottom: '3.5rem',
                   }}>
@@ -844,7 +844,7 @@ export default function AboutPage() {
                 width: '60px',
                 height: '60px',
                 borderRadius: '50%',
-                backgroundColor: '#12203a',
+                backgroundColor: '#2A7DE1',
                 border: 'none',
                 display: 'flex',
                 alignItems: 'center',
@@ -862,7 +862,7 @@ export default function AboutPage() {
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.backgroundColor = '#12203a';
+                e.currentTarget.style.backgroundColor = '#2A7DE1';
               }}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

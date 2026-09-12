@@ -84,7 +84,7 @@ export default function Footer() {
                 position: 'relative',
                 zIndex: 1,
                 filter: [
-                  'drop-shadow(0 0 18px rgba(255,255,255,0.55))',
+                  'drop-shadow(0 0 18px rgba(0,0,0,0.55))',
                   'drop-shadow(0 0 40px rgba(74,158,255,0.35))',
                   'drop-shadow(0 8px 24px rgba(0,0,0,0.75))',
                   'drop-shadow(0 2px 6px rgba(0,0,0,0.9))',
@@ -98,10 +98,10 @@ export default function Footer() {
       {/* ─ Dark Blue Footer (Slides over the image) ─ */}
       <footer style={{
         position: 'relative',
-        background: '#050c18', 
+        background: '#FFFFFF',
         overflow: 'hidden',
         paddingTop: 'clamp(2rem, 5vw, 4rem)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+        borderTop: '1px solid rgba(0, 0, 0, 0.08)',
         zIndex: 10,
         borderRadius: '0 0 3rem 3rem', // Curved corners
         boxShadow: '0 40px 100px rgba(0,0,0,0.8)', // Shadow cast on the image below
@@ -115,7 +115,7 @@ export default function Footer() {
         width: '100%',
         maxWidth: '1000px',
         height: '400px',
-        background: 'radial-gradient(ellipse at top, rgba(74, 158, 255, 0.10), transparent 70%)',
+        background: 'radial-gradient(ellipse at top, rgba(74, 158, 255, 0.05), transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0,
       }} />
@@ -143,13 +143,13 @@ export default function Footer() {
                 height: '2.5rem', 
                 width: 'auto', 
                 objectFit: 'contain', 
-                filter: 'drop-shadow(-35px 0 15px rgba(255,255,255,0.9)) drop-shadow(-45px 0 30px rgba(255,255,255,0.5))' 
+                filter: 'drop-shadow(-35px 0 15px rgba(0,0,0,0.9)) drop-shadow(-45px 0 30px rgba(0,0,0,0.5))'
               }} />
             </Link>
             <p style={{
               fontSize: '1rem',
               lineHeight: 1.6,
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(0, 0, 0, 0.6)',
               marginBottom: '2rem',
             }}>
               Full-spectrum digital marketing for brands that are built to matter. If we see your potential, we'll fight for it.
@@ -159,10 +159,10 @@ export default function Footer() {
               alignItems: 'center',
               gap: '0.75rem',
               padding: '1rem 2rem',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(0, 0, 0, 0.03)',
+              border: '1px solid rgba(0, 0, 0, 0.12)',
               borderRadius: '99px',
-              color: '#fff',
+              color: '#0A0A0A',
               textDecoration: 'none',
               fontSize: '0.75rem',
               letterSpacing: '0.2em',
@@ -170,12 +170,12 @@ export default function Footer() {
               transition: 'background 0.3s, border-color 0.3s',
             }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255, 255, 255, 0.1)';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.08)';
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(0, 0, 0, 0.3)';
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255, 255, 255, 0.03)';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.03)';
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(0, 0, 0, 0.12)';
               }}
             >
               Start a Project <span>→</span>
@@ -202,13 +202,13 @@ export default function Footer() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {NAV.map((item) => (
                   <Link key={item.label} href={item.href} style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </Link>
@@ -230,13 +230,13 @@ export default function Footer() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {SERVICES.map((item) => (
                   <Link key={item.label} href={item.href} style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </Link>
@@ -258,13 +258,13 @@ export default function Footer() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {SOCIALS.map((item) => (
                   <a key={item.label} href={item.href} target="_blank" rel="noreferrer" style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </a>
@@ -279,7 +279,7 @@ export default function Footer() {
           width: '100%',
           textAlign: 'center',
           overflow: 'hidden',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
           paddingBottom: '2rem',
         }}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -296,12 +296,12 @@ export default function Footer() {
           gap: '1rem',
           padding: '2rem 0',
         }}>
-          <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.8rem' }}>
+          <span style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '0.8rem' }}>
             © {new Date().getFullYear()} LS Digitaize. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
-            <Link href="/privacy" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Privacy Policy</Link>
-            <Link href="/terms" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Terms of Service</Link>
+            <Link href="/privacy" style={{ color: 'rgba(0, 0, 0, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Privacy Policy</Link>
+            <Link href="/terms" style={{ color: 'rgba(0, 0, 0, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Terms of Service</Link>
           </div>
         </div>
       </div>

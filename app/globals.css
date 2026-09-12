@@ -9,13 +9,13 @@
 }
 
 :root {
-  --brand-navy: #060a14;
-  --brand-primary: #4A9EFF;
-  --brand-sky: #7EC1F5;
-  --brand-mint: #5BC9E8;
-  --brand-fog: #0d1526;
-  --background: #05070c;
-  --foreground: #F2F6FC;
+  --brand-navy: #eef3fb;
+  --brand-primary: #2A7DE1;
+  --brand-sky: #4A9EFF;
+  --brand-mint: #1F9AB8;
+  --brand-fog: #f3f5f9;
+  --background: #FAFAF7;
+  --foreground: #0A0A0A;
 }
 
 @theme inline {
