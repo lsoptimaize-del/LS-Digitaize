@@ -46,7 +46,8 @@ body {
 }
 
 /* ── Mobile baseline ───────────────────────────────────────────── */
-html, body { overflow-x: hidden; }
+/* clip, not hidden: hidden makes body a scroll container and breaks sticky/pinning */
+html { overflow-x: clip; }
 html { -webkit-text-size-adjust: 100%; }
 
 @media (max-width: 767px) {
@@ -61,7 +62,3 @@ html { -webkit-text-size-adjust: 100%; }
   .staggered-menu-panel a { min-height: 44px; display: inline-flex; align-items: center; }
 }
 
-/* Respect the notch on landscape / edge-to-edge phones */
-@supports (padding: max(0px)) {
-  body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
-}

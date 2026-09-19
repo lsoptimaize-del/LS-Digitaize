@@ -104,8 +104,8 @@ export default function ProcessSection() {
           duration: 1.4,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: wrapperRef.current,
-            start: 'top top',
+            trigger: document.querySelector('#services') ?? wrapperRef.current,
+            start: document.querySelector('#services') ? 'bottom 60%' : 'top top',
           }
         }
       );
@@ -135,10 +135,15 @@ export default function ProcessSection() {
     const wrapper = wrapperRef.current;
     if (!wrapper) return;
 
+    // The wrapper is translated up by one viewport while it slides out from under
+    // #services, so ScrollTrigger would measure it a screen early. The bottom edge of
+    // #services is untransformed and sits exactly where the wrapper naturally starts.
+    const anchor = document.querySelector('#services') ?? wrapper;
     const st = ScrollTrigger.create({
-      trigger: wrapper,
-      start: 'top top',
-      end: 'bottom bottom',
+      trigger: anchor,
+      start: anchor === wrapper ? 'top top' : 'bottom top',
+      end: () => `+=${wrapper.offsetHeight - window.innerHeight}`,
+      invalidateOnRefresh: true,
       onUpdate: (self) => {
         const scrollable = wrapper.offsetHeight - window.innerHeight;
         const scrolled = self.progress * scrollable;
@@ -214,13 +219,13 @@ export default function ProcessSection() {
     <div
       ref={wrapperRef}
       id="process"
-      style={{ height: `${(STEPS.length + 2) * (isMobile ? 55 : 100)}vh`, position: 'relative', zIndex: 20 }}
+      style={{ height: `${(STEPS.length + 2) * 100}vh`, position: 'relative', zIndex: 20 }}
     >
       <section
         style={{
           position: 'sticky',
           top: 0,
-          height: '100dvh',
+          height: '100vh',
           overflow: 'hidden',
           background: '#FAFAF7',
         }}

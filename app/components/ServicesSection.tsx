@@ -208,7 +208,7 @@ export default function ServicesSection() {
         style={{
           position: 'sticky',
           top: 0,
-          height: '100dvh',
+          height: '100vh',
           overflow: 'hidden',
           background: '#070c16',
         }}

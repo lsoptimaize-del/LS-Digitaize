@@ -422,7 +422,7 @@ export default function TestimonialsSection() {
     <section
       id="testimonials"
       style={{
-        height: '100dvh',
+        height: '100vh',
         width: '100%',
         maxWidth: '100vw',
         overflow: 'hidden',
