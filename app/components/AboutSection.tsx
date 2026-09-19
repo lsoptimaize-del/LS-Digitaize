@@ -208,13 +208,13 @@ export default function AboutSection() {
                   ✦
                 </div>
                 <p style={{
-                  fontSize: '0.65rem', letterSpacing: '0.3em', textTransform: 'uppercase',
+                  fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase',
                   color: 'rgba(242,246,252,0.7)', textAlign: 'center', padding: '0 2rem',
                 }}>
                   IMAGE PLACEHOLDER
                 </p>
                 <p style={{
-                  fontSize: '0.6rem', letterSpacing: '0.1em',
+                  fontSize: '0.7rem', letterSpacing: '0.1em',
                   color: 'rgba(242,246,252,0.45)', textAlign: 'center', padding: '0 2rem',
                   fontStyle: 'italic',
                 }}>
@@ -235,7 +235,7 @@ export default function AboutSection() {
               padding: '1.25rem 1.5rem',
               boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
             }}>
-              <p style={{ fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(126,193,245,0.8)', marginBottom: '0.3rem' }}>
+              <p style={{ fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(126,193,245,0.8)', marginBottom: '0.3rem' }}>
                 Our Approach
               </p>
               <p style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', margin: 0, fontFamily: 'var(--font-sevone)' }}>

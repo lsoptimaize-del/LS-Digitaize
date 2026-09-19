@@ -9,13 +9,13 @@
 }
 
 :root {
-  --brand-navy: #060a14;
-  --brand-primary: #4A9EFF;
-  --brand-sky: #7EC1F5;
-  --brand-mint: #5BC9E8;
-  --brand-fog: #0d1526;
-  --background: #05070c;
-  --foreground: #F2F6FC;
+  --brand-navy: #eef3fb;
+  --brand-primary: #2A7DE1;
+  --brand-sky: #4A9EFF;
+  --brand-mint: #1F9AB8;
+  --brand-fog: #f3f5f9;
+  --background: #FAFAF7;
+  --foreground: #0A0A0A;
 }
 
 @theme inline {
@@ -43,4 +43,25 @@ body {
 @keyframes marqueeScroll {
   0%   { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
+}
+
+/* ── Mobile baseline ───────────────────────────────────────────── */
+html, body { overflow-x: hidden; }
+html { -webkit-text-size-adjust: 100%; }
+
+@media (max-width: 767px) {
+  /* iOS zooms the page when a focused field is under 16px */
+  input, textarea, select { font-size: 16px !important; }
+  input:not([type="checkbox"]):not([type="radio"]), select { min-height: 48px; }
+  textarea { min-height: 96px; }
+
+  /* comfortable minimum for anything tappable */
+  a, button { touch-action: manipulation; }
+  footer a,
+  .staggered-menu-panel a { min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+/* Respect the notch on landscape / edge-to-edge phones */
+@supports (padding: max(0px)) {
+  body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
 }

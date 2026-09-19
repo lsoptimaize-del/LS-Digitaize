@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond, Paytone_One, Bodoni_Moda, Caveat } from "next/font/google";
 import "./globals.css";
 
@@ -36,6 +36,13 @@ const caveat = Caveat({
   subsets: ["latin"],
   variable: "--font-caveat",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#FAFAF7",
+};
 
 export const metadata: Metadata = {
   title: "LS DigitAIze",

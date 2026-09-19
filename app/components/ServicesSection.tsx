@@ -208,7 +208,7 @@ export default function ServicesSection() {
         style={{
           position: 'sticky',
           top: 0,
-          height: '100vh',
+          height: '100dvh',
           overflow: 'hidden',
           background: '#070c16',
         }}
@@ -347,7 +347,7 @@ export default function ServicesSection() {
           </div>
 
           <p style={{
-            fontSize: '0.65rem', letterSpacing: '0.35em', textTransform: 'uppercase',
+            fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
             color: 'rgba(242,246,252,0.7)',
             marginBottom: '1.5rem',
             transition: 'color 0.7s ease',
@@ -384,7 +384,7 @@ export default function ServicesSection() {
             href="/services"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
-              fontSize: '0.6rem', letterSpacing: '0.3em', textTransform: 'uppercase',
+              fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase',
               color: '#F2F6FC', textDecoration: 'none',
               opacity: 0.45, transition: 'opacity 0.2s ease',
             }}
@@ -476,7 +476,7 @@ export default function ServicesSection() {
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.45rem',
           }}>
             <span style={{
-              fontSize: '0.52rem', letterSpacing: '0.4em', textTransform: 'uppercase',
+              fontSize: '0.7rem', letterSpacing: '0.4em', textTransform: 'uppercase',
               color: 'rgba(255,255,255,0.3)',
             }}>
               Scroll

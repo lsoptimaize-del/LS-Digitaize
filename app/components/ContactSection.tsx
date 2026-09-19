@@ -61,7 +61,7 @@ export default function ContactSection() {
     borderRadius: '0',
     padding: '0.5rem 0',
     fontSize: '0.95rem',
-    color: '#fff',
+    color: '#FFFFFF',
     outline: 'none',
     transition: 'border-color 0.3s ease',
     fontFamily: 'inherit',
@@ -70,10 +70,10 @@ export default function ContactSection() {
 
   const labelStyle: React.CSSProperties = {
     display: 'block',
-    fontSize: '0.65rem',
+    fontSize: '0.7rem',
     letterSpacing: '0.3em',
     textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.6)',
+    color: 'rgba(255,255,255,0.7)',
     marginBottom: '0.2rem',
   };
 
@@ -110,10 +110,10 @@ export default function ContactSection() {
             playsInline
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
-          {/* Subtle dark overlay to ensure text readability */}
+          {/* Subtle vignette to frame the video slightly, but no off-white overlay */}
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'rgba(5, 12, 24, 0.4)',
+            background: 'radial-gradient(circle at center, transparent 40%, rgba(5,10,20,0.4) 100%)',
           }} />
         </div>
 
@@ -132,7 +132,7 @@ export default function ContactSection() {
             position: 'absolute',
             inset: '-15%',
             zIndex: -1,
-            background: 'rgba(255, 255, 255, 0.02)',
+            background: 'rgba(0, 0, 0, 0.25)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 70%)',
@@ -143,11 +143,11 @@ export default function ContactSection() {
           {/* Content */}
           <div style={{ position: 'relative', zIndex: 1 }}>
         {status === 'sent' ? (
-          <div style={{ textAlign: 'center', padding: '4rem 0', color: '#fff' }}>
+          <div style={{ textAlign: 'center', padding: '4rem 0', color: '#FFFFFF' }}>
             <div style={{
               width: '80px', height: '80px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.1)',
-              border: '1px solid rgba(255,255,255,0.2)',
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.15)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 2rem', fontSize: '2rem',
             }}>
@@ -155,11 +155,11 @@ export default function ContactSection() {
             </div>
             <h3 style={{
               fontFamily: 'var(--font-sevone)', fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-              color: '#fff', marginBottom: '1rem', letterSpacing: '-0.02em',
+              color: '#FFFFFF', marginBottom: '1rem', letterSpacing: '-0.02em',
             }}>
               Message Received
             </h3>
-            <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, fontSize: '1.1rem' }}>
+            <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7, fontSize: '1.1rem' }}>
               We'll be in touch soon.
             </p>
           </div>
@@ -170,7 +170,7 @@ export default function ContactSection() {
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(1.5rem, 3vw, 2.2rem)',
                 fontWeight: 900,
-                color: '#fff',
+                color: '#FFFFFF',
                 lineHeight: 0.9,
                 letterSpacing: '-0.02em',
                 marginBottom: '1rem',
@@ -235,8 +235,8 @@ export default function ContactSection() {
                   disabled={status === 'sending'}
                   style={{
                     padding: '1.2rem 3rem',
-                    background: status === 'sending' ? 'rgba(255,255,255,0.1)' : '#fff',
-                    color: status === 'sending' ? '#fff' : '#050C18',
+                    background: status === 'sending' ? 'rgba(0,0,0,0.15)' : '#2A7DE1',
+                    color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '99px',
                     fontSize: '0.75rem',
@@ -246,7 +246,7 @@ export default function ContactSection() {
                     fontFamily: 'inherit',
                     fontWeight: 600,
                     transition: 'transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
-                    boxShadow: status === 'sending' ? 'none' : '0 10px 30px rgba(255,255,255,0.2)',
+                    boxShadow: status === 'sending' ? 'none' : '0 10px 30px rgba(42,125,225,0.35)',
                   }}
                   className="submit-btn"
                 >
@@ -265,11 +265,11 @@ export default function ContactSection() {
           border-bottom-color: #4A9EFF !important;
         }
         .input-group input::placeholder, .input-group textarea::placeholder {
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.4);
         }
         .submit-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 15px 40px rgba(255,255,255,0.3) !important;
+          box-shadow: 0 15px 40px rgba(42,125,225,0.45) !important;
         }
       `}</style>
     </section>

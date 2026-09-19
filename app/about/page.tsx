@@ -45,37 +45,7 @@ export default function AboutPage() {
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
   const ceoSectionRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % TEAM.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const goToNext = () => {
-    if (animating) return;
-    setAnimating(true);
-    setActiveIndex((prev) => (prev + 1) % TEAM.length);
-    setTimeout(() => setAnimating(false), 700);
-  };
-
-  const goToIndex = (idx: number) => {
-    if (animating || idx === activeIndex) return;
-    setAnimating(true);
-    setActiveIndex(idx);
-    setTimeout(() => setAnimating(false), 700);
-  };
+  // No carousel state needed for the static 3-column layout
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -105,8 +75,8 @@ export default function AboutPage() {
         });
         
         tl.fromTo(ceoSectionRef.current, { opacity: 0 }, { opacity: 1, duration: 1 })
-          .fromTo('.ceo-photo', { x: -80, rotation: -10, opacity: 0 }, { x: 0, rotation: -3, opacity: 1, duration: 1 }, '<')
-          .fromTo('.ceo-text', { x: 80, opacity: 0 }, { x: 0, opacity: 1, duration: 1 }, '<');
+          .fromTo('.ceo-photo', { x: -150, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '<')
+          .fromTo('.ceo-text', { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '<');
       }
 
       // In-view motion text slide-up animation
@@ -155,7 +125,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#05070c' }}>
+    <div style={{ minHeight: '100dvh', background: '#FAFAF7' }}>
       <Navbar />
 
       {/* ── Scroll-Linked Video Cutout Hero ── */}
@@ -163,10 +133,10 @@ export default function AboutPage() {
         <div style={{
           position: 'sticky',
           top: 0,
-          height: '100vh',
+          height: '100dvh',
           width: '100%',
           overflow: 'hidden',
-          backgroundColor: '#050c18', // Fallback color before video loads
+          backgroundColor: '#FAFAF7', // Fallback color before video loads
         }}>
           {/* Background Video */}
           <video
@@ -185,14 +155,14 @@ export default function AboutPage() {
             }}
           />
 
-          {/* Dark Blue Mask with Multiply Blend Mode */}
+          {/* Light Theme Mask with Screen Blend Mode */}
           <div
             ref={maskRef}
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundColor: '#050c18',
-              mixBlendMode: 'multiply',
+              backgroundColor: '#FAFAF7',
+              mixBlendMode: 'screen',
               zIndex: 10,
               display: 'flex',
               flexDirection: 'column',
@@ -207,7 +177,7 @@ export default function AboutPage() {
                 fontSize: '1rem',
                 letterSpacing: '0.4em',
                 textTransform: 'uppercase',
-                color: '#fff',
+                color: '#000',
                 margin: 0,
                 fontWeight: 700,
               }}>
@@ -217,8 +187,8 @@ export default function AboutPage() {
 
             {/* Row 1: WE EXIST */}
             <div style={{
-              borderTop: '1px solid rgba(255,255,255,0.12)',
-              borderBottom: '1px solid rgba(255,255,255,0.12)',
+              borderTop: '1px solid rgba(0,0,0,0.12)',
+              borderBottom: '1px solid rgba(0,0,0,0.12)',
               display: 'flex',
               justifyContent: 'center',
               padding: '0.5rem 0',
@@ -228,7 +198,7 @@ export default function AboutPage() {
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(4rem, 16vw, 15rem)',
                 fontWeight: 900,
-                color: '#fff',
+                color: '#000',
                 lineHeight: 0.9,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -239,7 +209,7 @@ export default function AboutPage() {
 
             {/* Row 2: TO */}
             <div style={{
-              borderBottom: '1px solid rgba(255,255,255,0.12)',
+              borderBottom: '1px solid rgba(0,0,0,0.12)',
               display: 'flex',
               justifyContent: 'center',
               padding: '0.5rem 0',
@@ -249,7 +219,7 @@ export default function AboutPage() {
                 fontFamily: 'var(--font-sevone)',
                 fontSize: 'clamp(3rem, 12vw, 11rem)',
                 fontWeight: 900,
-                color: '#fff',
+                color: '#000',
                 lineHeight: 0.9,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -260,7 +230,7 @@ export default function AboutPage() {
 
             {/* Row 3: IGNITE BRANDS */}
             <div className="hero-row-3" style={{
-              borderBottom: '1px solid rgba(255,255,255,0.12)',
+              borderBottom: '1px solid rgba(0,0,0,0.12)',
               display: 'flex',
               justifyContent: 'space-between',
               padding: '0.5rem clamp(1rem, 4vw, 2rem)',
@@ -269,7 +239,7 @@ export default function AboutPage() {
               <h1 className="hero-text-split" style={{
                 fontFamily: 'var(--font-sevone)',
                 fontWeight: 900,
-                color: '#fff',
+                color: '#000',
                 lineHeight: 0.9,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -279,7 +249,7 @@ export default function AboutPage() {
               <h1 className="hero-text-split" style={{
                 fontFamily: 'var(--font-sevone)',
                 fontWeight: 900,
-                color: '#fff',
+                color: '#000',
                 lineHeight: 0.9,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -305,15 +275,15 @@ export default function AboutPage() {
               opacity: 0, // Animated by GSAP
             }}
           >
-            {/* Left: Polaroid Image */}
+            {/* Left: Professional Portrait */}
             <div className="ceo-photo" style={{
               flex: '0 0 35%',
               maxWidth: '450px',
-              backgroundColor: '#0d1e38', // Dark blue border
-              padding: '1rem 1rem 4rem 1rem', // Polaroid bottom heavy
-              borderRadius: '8px',
-              boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
-              transform: 'rotate(-3deg)',
+              padding: '0.5rem',
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '0',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.3)',
               willChange: 'transform, opacity',
             }}>
               <div style={{
@@ -321,7 +291,7 @@ export default function AboutPage() {
                 aspectRatio: '3/4',
                 position: 'relative',
                 overflow: 'hidden',
-                borderRadius: '4px',
+                borderRadius: '0',
               }}>
                 <img
                   src="/Tejas.png"
@@ -374,21 +344,21 @@ export default function AboutPage() {
       </div>
 
 
-      {/* ── Team Carousel Gallery ── */}
+      {/* ── Team Roster Grid ── */}
       <section style={{
-        backgroundColor: '#0a0f1a',
+        backgroundColor: '#FAFAF7',
         padding: '10rem 0',
         overflow: 'hidden',
       }}>
         {/* Animated Heading */}
-        <div className="roster-heading" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 4rem', marginBottom: '6rem' }}>
+        <div className="roster-heading" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 clamp(1.5rem, 4vw, 4rem)', marginBottom: '4rem' }}>
           {['THE', 'ROSTER'].map((word, i) => (
             <div key={i} style={{ overflow: 'hidden', paddingBottom: '1rem' }}>
               <h2 className="motion-text-line" style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(3.5rem, 12vw, 15rem)',
+                fontSize: 'clamp(3.5rem, 12vw, 12rem)',
                 fontWeight: 900,
-                color: '#F2F6FC',
+                color: '#0A0A0A',
                 lineHeight: 0.85,
                 letterSpacing: '-0.02em',
                 margin: 0,
@@ -399,42 +369,32 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* CSS Keyframes for directional transitions */}
         <style>{`
-          @keyframes enterFromLeft {
-            0%   { opacity: 0; transform: translateX(-60px) scale(0.92); }
-            100% { opacity: 1; transform: translateX(0) scale(1); }
-          }
-          @keyframes fadeInText {
-            0%   { opacity: 0; transform: translateY(16px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          /* Desktop Default Styles */
+          /* --- Hero Section & CEO Section Restored Styles --- */
           .hero-text-split {
             font-size: clamp(5rem, 10.5vw, 15rem) !important;
           }
 
-          /* Mobile Overrides for About Page Hero */
           @media (max-width: 768px) {
             .ceo-section {
               flex-direction: column !important;
               text-align: center;
               padding: 1.5rem !important;
-              gap: 0.5rem !important; /* Tighter gap to save vertical space instead of shrinking content */
+              gap: 0.5rem !important;
             }
             .ceo-photo {
-              width: 60vw !important; /* Restored to a bold, large size */
-              max-width: 280px !important; 
-              padding: 0.5rem 0.5rem 2rem 0.5rem !important;
-              margin-bottom: 0.5rem !important;
+              width: 70vw !important;
+              max-width: 320px !important; 
+              padding: 0.5rem !important;
+              margin-bottom: 1rem !important;
             }
             .ceo-text h2 {
-              font-size: clamp(2.5rem, 10vw, 3.5rem) !important; /* Large, impactful heading */
+              font-size: clamp(2.5rem, 10vw, 3.5rem) !important;
               margin-bottom: 0.5rem !important;
               line-height: 0.9 !important;
             }
             .ceo-text p {
-              font-size: clamp(0.95rem, 4vw, 1.15rem) !important; /* Readable, substantial text */
+              font-size: clamp(0.95rem, 4vw, 1.15rem) !important;
               line-height: 1.45 !important;
             }
             .ceo-text p:last-child {
@@ -447,432 +407,147 @@ export default function AboutPage() {
             .hero-text-split {
               font-size: clamp(5rem, 22vw, 15rem) !important;
             }
-            .roster-heading {
-              padding: 0 1.5rem !important;
+          }
+          /* --------------------------------------------------- */
+
+          .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(1.5rem, 4vw, 4rem);
+          }
+          
+          .roster-card {
+            position: relative;
+            aspect-ratio: 3/4;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, filter 0.5s ease;
+            cursor: pointer;
+            filter: grayscale(80%) contrast(1.1);
+          }
+          
+          .roster-grid:hover .roster-card {
+            filter: grayscale(100%) brightness(0.7) contrast(1.1);
+          }
+          
+          .roster-grid .roster-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 24px 50px rgba(0,0,0,0.25);
+            filter: grayscale(0%) brightness(1) contrast(1.1);
+            z-index: 10;
+          }
+          
+          .roster-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          
+          .roster-card:hover .roster-img {
+            transform: scale(1.05);
+          }
+          
+          .roster-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 4rem 2rem 2rem 2rem;
+            background: linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 40%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          
+          .roster-card:hover .roster-content {
+            transform: translateY(0);
+          }
+
+          .roster-quote {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.4s ease, height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          
+          .roster-card:hover .roster-quote {
+            opacity: 1;
+            height: auto;
+            margin-top: 1rem;
+          }
+
+          @media (max-width: 900px) {
+            .roster-grid {
+              grid-template-columns: 1fr;
+              gap: 3rem;
             }
-            .team-roster-grid {
-              grid-template-columns: 1fr !important;
-              padding: 0 1.5rem !important;
-              gap: 2rem !important;
-              min-height: auto !important;
+            .roster-card {
+              aspect-ratio: 4/5;
+              filter: grayscale(20%) contrast(1.1);
             }
-            .team-roster-element-left {
-              order: 3;
+            .roster-grid:hover .roster-card {
+              filter: grayscale(20%) contrast(1.1);
             }
-            .team-roster-element-center {
-              order: 1;
-              height: 55vh !important;
-              min-height: 400px;
+            .roster-content {
+              transform: translateY(0);
+              padding: 6rem 1.5rem 1.5rem 1.5rem;
             }
-            .team-roster-element-right {
-              order: 2;
-            }
-            .roster-header-meta {
-              display: none !important;
-            }
-            .roster-thumbnails {
-              flex-direction: row !important;
-              overflow-x: auto;
-              scroll-snap-type: x mandatory;
-              padding-bottom: 1rem;
-              -webkit-overflow-scrolling: touch;
-            }
-            .roster-thumbnail-item {
-              width: 140px !important;
-              height: 90px !important;
-              flex-shrink: 0;
-              scroll-snap-align: start;
-            }
-            /* Hide scrollbar for cleaner look */
-            .roster-thumbnails::-webkit-scrollbar {
-              display: none;
-            }
-            .roster-thumbnails {
-              -ms-overflow-style: none;
-              scrollbar-width: none;
+            .roster-quote {
+              opacity: 1;
+              height: auto;
+              margin-top: 1rem;
             }
           }
         `}</style>
 
-        {/* ─────────── MOBILE LAYOUT ─────────── */}
-        {isMobile ? (
-          <div style={{ padding: '0 1.25rem' }}>
-            {/* Big portrait */}
-            <div style={{
-              width: '100%',
-              aspectRatio: '3/4',
-              overflow: 'hidden',
-              borderRadius: '12px',
-              boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
-              marginBottom: '2rem',
-              position: 'relative',
-            }}>
-              {TEAM.map((member, idx) => (
-                <img
-                  key={`mob-img-${idx}`}
-                  src={member.image}
-                  alt={member.name}
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center top',
-                    filter: 'grayscale(15%) contrast(1.05)',
-                    opacity: idx === activeIndex ? 1 : 0,
-                    transition: 'opacity 0.8s ease-in-out',
-                  }}
-                />
-              ))}
-              {/* Gradient overlay with counter */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0, left: 0, right: 0,
-                padding: '2rem 1.5rem 1.5rem',
-                background: 'linear-gradient(to top, rgba(5,7,12,0.9) 0%, transparent 100%)',
-              }}>
-                <span style={{
-                  fontFamily: 'var(--font-geist-mono)',
-                  fontSize: '0.7rem',
-                  color: 'rgba(255,255,255,0.5)',
-                  letterSpacing: '0.15em',
-                }}>0{activeIndex + 1} / 0{TEAM.length}</span>
-              </div>
-            </div>
-
-            {/* Name + Role + Quote */}
-            <div style={{ position: 'relative', minHeight: '300px', marginBottom: '2.5rem' }}>
-              {TEAM.map((member, idx) => (
-                <div key={`mob-text-${idx}`} style={{ 
-                  position: 'absolute', top: 0, left: 0, width: '100%',
-                  opacity: idx === activeIndex ? 1 : 0,
-                  transition: 'opacity 0.8s ease-in-out',
-                  pointerEvents: idx === activeIndex ? 'auto' : 'none',
+        <div className="roster-grid">
+          {TEAM.map((member, idx) => (
+            <div className="roster-card team-roster-element" key={member.name}>
+              <img src={member.image} alt={member.name} className="roster-img" />
+              <div className="roster-content">
+                <h3 style={{
+                  fontFamily: 'var(--font-sevone)',
+                  fontSize: 'clamp(2rem, 3vw, 2.5rem)',
+                  fontWeight: 900,
+                  color: '#ffffff',
+                  margin: '0 0 0.2rem 0',
+                  lineHeight: 1,
                 }}>
-                  <h3 style={{
-                    fontFamily: 'var(--font-sevone)',
-                    fontSize: 'clamp(2.2rem, 9vw, 3rem)',
-                    fontWeight: 900,
-                    color: '#F2F6FC',
-                    margin: '0 0 0.3rem',
-                    lineHeight: 1,
-                  }}>{member.name}</h3>
+                  {member.name}
+                </h3>
+                <p style={{
+                  fontFamily: 'var(--font-geist-mono)',
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  color: '#4A9EFF',
+                  letterSpacing: '0.15em',
+                  margin: '0',
+                  fontWeight: 700,
+                }}>
+                  {member.role}
+                </p>
+                <div className="roster-quote">
                   <p style={{
-                    fontFamily: 'var(--font-geist-mono)',
-                    fontSize: '0.7rem',
-                    textTransform: 'uppercase',
-                    color: '#4A9EFF',
-                    letterSpacing: '0.15em',
-                    fontWeight: 700,
-                    margin: '0 0 1.25rem',
-                  }}>{member.role}</p>
-                  <p style={{
-                    fontSize: '0.95rem',
-                    lineHeight: 1.7,
-                    color: 'rgba(242,246,252,0.72)',
-                    marginBottom: '1.5rem',
-                  }}>{member.quote}</p>
-                </div>
-              ))}
-
-              {/* Next button */}
-              <div style={{ position: 'absolute', bottom: '0', left: '0' }}>
-                <button
-                  onClick={goToNext}
-                  style={{
-                    width: '52px', height: '52px',
-                    borderRadius: '50%',
-                    backgroundColor: '#12203a',
-                    border: 'none',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 20px rgba(0,0,0,0.4)',
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Horizontal snap-scroll thumbnail strip */}
-            <div style={{
-              display: 'flex',
-              gap: '0.75rem',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch' as any,
-              paddingBottom: '0.5rem',
-              msOverflowStyle: 'none' as any,
-              scrollbarWidth: 'none' as any,
-            }}>
-              {TEAM.map((member, idx) => (
-                <div
-                  key={member.name}
-                  onClick={() => goToIndex(idx)}
-                  style={{
-                    flexShrink: 0,
-                    scrollSnapAlign: 'start',
-                    width: '130px',
-                    height: '85px',
-                    overflow: 'hidden',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    border: idx === activeIndex ? '2px solid #4A9EFF' : '2px solid transparent',
-                    transition: 'border-color 0.3s ease',
-                    position: 'relative',
-                  }}
-                >
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    style={{
-                      width: '100%', height: '100%',
-                      objectFit: 'cover', objectPosition: 'center top',
-                      filter: idx === activeIndex ? 'grayscale(0%) brightness(1)' : 'grayscale(100%) brightness(0.6)',
-                      transition: 'filter 0.3s ease',
-                    }}
-                  />
-                  {idx === activeIndex && (
-                    <div style={{
-                      position: 'absolute', inset: 0,
-                      background: 'linear-gradient(to top, rgba(5,7,12,0.7) 0%, transparent 60%)',
-                      display: 'flex', alignItems: 'flex-end',
-                      padding: '0.4rem 0.5rem',
-                    }}>
-                      <span style={{ fontFamily: 'var(--font-geist-mono)', fontSize: '0.55rem', color: '#4A9EFF', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                        Active
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-        // ─────────── DESKTOP LAYOUT ─────────── 
-        <div className="team-roster-grid" style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '0 4rem',
-          display: 'grid',
-          gridTemplateColumns: '260px 1fr 1fr',
-          gap: '4rem',
-          alignItems: 'center',
-          minHeight: '700px',
-        }}>
-
-          {/* ─ LEFT COLUMN: Counter + Thumbnails ─ */}
-          <div className="team-roster-element team-roster-element-left" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-            {/* Counter + vertical label */}
-            <div className="roster-header-meta" style={{ display: 'flex', alignItems: 'flex-start', gap: '1.5rem' }}>
-              <span style={{
-                fontFamily: 'var(--font-geist-mono)',
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                color: '#F2F6FC',
-                whiteSpace: 'nowrap',
-              }}>
-                0{activeIndex + 1} / 0{TEAM.length}
-              </span>
-              <span style={{
-                writingMode: 'vertical-rl',
-                transform: 'rotate(180deg)',
-                fontFamily: 'var(--font-geist-mono)',
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)',
-                whiteSpace: 'nowrap',
-              }}>
-                The Roster
-              </span>
-            </div>
-
-            {/* Thumbnail Grid — only non-active members */}
-            <div className="roster-thumbnails" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {TEAM.map((member, idx) => (
-                idx !== activeIndex && (
-                  <div
-                    className="roster-thumbnail-item"
-                    key={member.name}
-                    onClick={() => goToIndex(idx)}
-                    style={{
-                      width: '180px',
-                      aspectRatio: '1/1',
-                      cursor: 'pointer',
-                      overflow: 'hidden',
-                      position: 'relative',
-                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                      borderRadius: '8px',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateX(6px)';
-                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(74,158,255,0.2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateX(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
-                    }}
-                  >
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center top',
-                        filter: 'grayscale(100%) brightness(0.75)',
-                        transition: 'filter 0.3s ease',
-                      }}
-                    />
-                    {/* Hover name overlay */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to right, rgba(5,7,12,0.9) 0%, transparent 60%)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingLeft: '0.75rem',
-                    }}>
-                      <span style={{
-                        fontFamily: 'var(--font-geist-mono)',
-                        fontSize: '0.65rem',
-                        fontWeight: 700,
-                        color: '#fff',
-                        letterSpacing: '0.05em',
-                        textTransform: 'uppercase',
-                      }}>{member.name}</span>
-                    </div>
-                  </div>
-                )
-              ))}
-            </div>
-          </div>
-
-          {/* ─ CENTER COLUMN: Big Active Portrait ─ */}
-          {/* overflow: hidden clips the exit animation so it doesn't bleed outside */}
-          <div className="team-roster-element team-roster-element-center" style={{
-            height: '680px',
-            overflow: 'hidden',
-            position: 'relative',
-            boxShadow: '0 24px 60px rgba(0,0,0,0.4)',
-            borderRadius: '6px',
-          }}>
-            {TEAM.map((member, idx) => (
-              <img
-                key={`img-${idx}`}
-                src={member.image}
-                alt={member.name}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  filter: 'grayscale(15%) contrast(1.05)',
-                  opacity: idx === activeIndex ? 1 : 0,
-                  transition: 'opacity 0.8s ease-in-out',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* ─ RIGHT COLUMN: Active Member Details ─ */}
-          <div className="team-roster-element team-roster-element-right" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={{ position: 'relative', minHeight: '350px' }}>
-              {TEAM.map((member, idx) => (
-                <div
-                  key={`text-${idx}`}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    opacity: idx === activeIndex ? 1 : 0,
-                    transition: 'opacity 0.8s ease-in-out',
-                    pointerEvents: idx === activeIndex ? 'auto' : 'none',
-                  }}
-                >
-                  <h3 style={{
-                    fontFamily: 'var(--font-sevone)',
-                    fontSize: 'clamp(2rem, 2.8vw, 3.2rem)',
-                    fontWeight: 900,
-                    color: '#F2F6FC',
-                    margin: '0 0 0.4rem 0',
-                    lineHeight: 1,
-                  }}>
-                    {member.name}
-                  </h3>
-                  <p style={{
-                    fontFamily: 'var(--font-geist-mono)',
-                    fontSize: '0.72rem',
-                    textTransform: 'uppercase',
-                    color: '#4A9EFF',
-                    letterSpacing: '0.18em',
-                    margin: '0 0 2.5rem 0',
-                    fontWeight: 700,
-                  }}>
-                    {member.role}
-                  </p>
-                  <p style={{
-                    fontSize: '1.05rem',
-                    lineHeight: 1.8,
-                    color: 'rgba(242,246,252,0.75)',
-                    fontWeight: 400,
-                    marginBottom: '3.5rem',
+                    fontSize: '0.9rem',
+                    lineHeight: 1.6,
+                    color: 'rgba(255,255,255,0.8)',
+                    margin: 0,
                   }}>
                     {member.quote}
                   </p>
                 </div>
-              ))}
+              </div>
             </div>
-
-            {/* Circular Next → button */}
-            <button
-              onClick={goToNext}
-              style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                backgroundColor: '#12203a',
-                border: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: animating ? 'not-allowed' : 'pointer',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 10px 24px rgba(0,0,0,0.4)',
-                opacity: animating ? 0.6 : 1,
-              }}
-              onMouseEnter={(e) => {
-                if (!animating) {
-                  e.currentTarget.style.transform = 'scale(1.12)';
-                  e.currentTarget.style.backgroundColor = '#4A9EFF';
-                }
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.backgroundColor = '#12203a';
-              }}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </div>
+          ))}
         </div>
-
-        )} {/* end isMobile ternary */}
       </section>
           
 

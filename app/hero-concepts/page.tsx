@@ -48,7 +48,7 @@ function ConceptNav() {
         <a
           key={n.id}
           href={`#${n.id}`}
-          className="px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.2em] font-semibold text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+          className="px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.2em] font-semibold text-white/60 hover:text-white hover:bg-white/10 transition-colors"
         >
           {n.label}
         </a>
@@ -61,7 +61,7 @@ function ConceptLabel({ n, title, blurb }: { n: string; title: string; blurb: st
   return (
     <div className="absolute top-8 left-6 md:left-10 z-[60] max-w-xs">
       <span
-        className="text-[10px] uppercase tracking-[0.35em] font-semibold"
+        className="text-[11px] uppercase tracking-[0.35em] font-semibold"
         style={{ color: '#7EC1F5' }}
       >
         Concept {n}
@@ -238,12 +238,12 @@ function DeckConcept() {
 
           <div className="mt-10 flex items-center gap-6">
             <button
-              className="rounded-full px-7 py-3 text-[10px] uppercase tracking-[0.25em] font-bold"
+              className="rounded-full px-7 py-3 text-[11px] uppercase tracking-[0.25em] font-bold"
               style={{ background: '#F2F6FC', color: '#05070c' }}
             >
               Start a Project
             </button>
-            <span className="text-[10px] uppercase tracking-[0.25em] font-semibold text-white/50">
+            <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-white/50">
               Explore Services
             </span>
           </div>
@@ -425,7 +425,7 @@ function StatRow({ label, value, suffix = '' }: { label: string; value: number; 
       >
         0{suffix}
       </span>
-      <span className="mt-1 block text-[10px] uppercase tracking-[0.25em] text-white/50">
+      <span className="mt-1 block text-[11px] uppercase tracking-[0.25em] text-white/50">
         {label}
       </span>
     </div>

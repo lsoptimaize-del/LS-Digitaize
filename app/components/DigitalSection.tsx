@@ -76,59 +76,59 @@ export default function DigitalSection() {
     <section
       ref={sectionRef}
       className="relative flex flex-col items-center justify-start overflow-hidden min-h-[100svh] md:min-h-screen"
-      style={{ backgroundColor: '#000000', paddingTop: 'clamp(0rem, 5vw, 9rem)', paddingBottom: '2rem', zIndex: 0 }}
+      style={{ backgroundColor: '#FAFAF7', paddingTop: 'clamp(0rem, 5vw, 9rem)', paddingBottom: '2rem', zIndex: 0 }}
       id="digital"
     >
       {/* ── Top blend gradient ── */}
       <div 
         className="absolute top-0 left-0 right-0 h-48 md:h-64 z-10 pointer-events-none"
-        style={{ background: 'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.8) 25%, transparent 100%)' }}
+        style={{ background: 'linear-gradient(to bottom, #FAFAF7 0%, rgba(250,250,247,0.8) 25%, transparent 100%)' }}
       />
 
       {/* ── Ambient color blobs ── */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {/* Top-left blue blob */}
+        {/* Top-left soft blue blob */}
         <div style={{
-          position: 'absolute', top: '-10%', left: '-8%',
-          width: '55vw', height: '55vw',
+          position: 'absolute', top: '-10%', left: '-10%',
+          width: '60vw', height: '60vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(45, 120, 255, 0.35) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(126, 193, 245, 0.35) 0%, transparent 70%)',
+          filter: 'blur(90px)',
           animation: 'blobDrift1 14s ease-in-out infinite alternate',
         }} />
-        {/* Top-right dark blue blob */}
+        {/* Top-right very light blue blob */}
         <div style={{
-          position: 'absolute', top: '-5%', right: '-10%',
-          width: '50vw', height: '50vw',
+          position: 'absolute', top: '-5%', right: '-15%',
+          width: '55vw', height: '55vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(15,45,130,0.4) 0%, transparent 70%)',
-          filter: 'blur(70px)',
+          background: 'radial-gradient(circle, rgba(200, 230, 255, 0.4) 0%, transparent 70%)',
+          filter: 'blur(100px)',
           animation: 'blobDrift2 18s ease-in-out infinite alternate',
         }} />
-        {/* Centre radial shine */}
+        {/* Centre widespread radial shine */}
         <div style={{
-          position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)',
-          width: '70vw', height: '40vw',
+          position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)',
+          width: '100vw', height: '80vw',
           borderRadius: '50%',
-          background: 'radial-gradient(ellipse, rgba(74,158,255,0.18) 0%, transparent 68%)',
-          filter: 'blur(40px)',
-        }} />
-        {/* Bottom-left primary blob */}
-        <div style={{
-          position: 'absolute', bottom: '5%', left: '5%',
-          width: '40vw', height: '40vw',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(86,136,201,0.22) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse, rgba(170, 215, 255, 0.25) 0%, transparent 68%)',
           filter: 'blur(80px)',
+        }} />
+        {/* Bottom-left pastel blue blob */}
+        <div style={{
+          position: 'absolute', bottom: '0%', left: '0%',
+          width: '50vw', height: '50vw',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(160, 210, 255, 0.3) 0%, transparent 70%)',
+          filter: 'blur(100px)',
           animation: 'blobDrift3 20s ease-in-out infinite alternate',
         }} />
-        {/* Bottom-right deep blue accent */}
+        {/* Bottom-right gentle accent */}
         <div style={{
-          position: 'absolute', bottom: '10%', right: '0%',
-          width: '45vw', height: '45vw',
+          position: 'absolute', bottom: '5%', right: '-5%',
+          width: '50vw', height: '50vw',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(30, 90, 220, 0.25) 0%, transparent 70%)',
-          filter: 'blur(65px)',
+          background: 'radial-gradient(circle, rgba(110, 180, 255, 0.25) 0%, transparent 70%)',
+          filter: 'blur(90px)',
           animation: 'blobDrift4 16s ease-in-out infinite alternate',
         }} />
       </div>
@@ -137,7 +137,7 @@ export default function DigitalSection() {
       <div className="relative z-10 flex flex-col items-center text-center w-full mt-24 md:-mt-8">
         <h2
           ref={headingRef}
-          className="text-[24vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] md:leading-[0.85] font-light tracking-[-0.04em] text-white uppercase flex flex-col items-center w-full"
+          className="text-[24vw] md:text-[9rem] lg:text-[11rem] leading-[0.92] md:leading-[0.85] font-light tracking-[-0.04em] text-black uppercase flex flex-col items-center w-full"
           style={{ fontFamily: 'var(--font-sevone)', textShadow: '0 2px 40px rgba(74,158,255,0.35)' }}
         >
           <span className="block text-line">DIGITAL</span>
@@ -161,7 +161,7 @@ export default function DigitalSection() {
       {/* Bottom fade so the section bleeds into black */}
       <div
         className="absolute bottom-0 left-0 right-0 h-32 md:h-48 pointer-events-none z-20"
-        style={{ background: 'linear-gradient(to top, #000000 0%, transparent 100%)' }}
+        style={{ background: 'linear-gradient(to top, #FAFAF7 0%, transparent 100%)' }}
       />
 
       {/* ── Blob keyframe animations ── */}

@@ -60,48 +60,30 @@ export default function Footer() {
               objectFit: 'cover',
               maskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 90%)',
-              zIndex: 1
+              zIndex: 1,
+              filter: 'saturate(1.2) contrast(1.1)'
             }} 
           />
-          {/* Main logo in the middle */}
-          <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            {/* Soft dark halo behind logo for contrast */}
-            <div style={{
-              position: 'absolute',
-              inset: '-40% -60%',
-              borderRadius: '50%',
-              background: 'radial-gradient(ellipse, rgba(0,0,0,0.45) 0%, transparent 70%)',
-              pointerEvents: 'none',
-              zIndex: 0,
-            }} />
-            <img 
-              src="/logo.png" 
-              alt="LS Digitaize" 
-              style={{ 
-                height: 'clamp(3rem, 8vw, 6rem)', 
-                width: 'auto', 
-                objectFit: 'contain',
-                position: 'relative',
-                zIndex: 1,
-                filter: [
-                  'drop-shadow(0 0 18px rgba(255,255,255,0.55))',
-                  'drop-shadow(0 0 40px rgba(74,158,255,0.35))',
-                  'drop-shadow(0 8px 24px rgba(0,0,0,0.75))',
-                  'drop-shadow(0 2px 6px rgba(0,0,0,0.9))',
-                ].join(' '),
-              }} 
-            />
-          </div>
+          
+          {/* Deep blue color overlay to enhance vibrancy without washing out */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(15,45,130,0.6) 0%, rgba(45,120,255,0.2) 100%)',
+            mixBlendMode: 'overlay',
+            zIndex: 2,
+            pointerEvents: 'none'
+          }} />
         </div>
       </div>
 
       {/* ─ Dark Blue Footer (Slides over the image) ─ */}
       <footer style={{
         position: 'relative',
-        background: '#050c18', 
+        background: '#FFFFFF',
         overflow: 'hidden',
         paddingTop: 'clamp(2rem, 5vw, 4rem)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+        borderTop: '1px solid rgba(0, 0, 0, 0.08)',
         zIndex: 10,
         borderRadius: '0 0 3rem 3rem', // Curved corners
         boxShadow: '0 40px 100px rgba(0,0,0,0.8)', // Shadow cast on the image below
@@ -115,7 +97,7 @@ export default function Footer() {
         width: '100%',
         maxWidth: '1000px',
         height: '400px',
-        background: 'radial-gradient(ellipse at top, rgba(74, 158, 255, 0.10), transparent 70%)',
+        background: 'radial-gradient(ellipse at top, rgba(74, 158, 255, 0.05), transparent 70%)',
         pointerEvents: 'none',
         zIndex: 0,
       }} />
@@ -142,14 +124,13 @@ export default function Footer() {
               <img src="/logo.png" alt="LS Digitaize" style={{ 
                 height: '2.5rem', 
                 width: 'auto', 
-                objectFit: 'contain', 
-                filter: 'drop-shadow(-35px 0 15px rgba(255,255,255,0.9)) drop-shadow(-45px 0 30px rgba(255,255,255,0.5))' 
+                objectFit: 'contain'
               }} />
             </Link>
             <p style={{
               fontSize: '1rem',
               lineHeight: 1.6,
-              color: 'rgba(255, 255, 255, 0.6)',
+              color: 'rgba(0, 0, 0, 0.6)',
               marginBottom: '2rem',
             }}>
               Full-spectrum digital marketing for brands that are built to matter. If we see your potential, we'll fight for it.
@@ -158,24 +139,27 @@ export default function Footer() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.75rem',
-              padding: '1rem 2rem',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              padding: '1.25rem 2.5rem',
+              background: '#0A0A0A',
+              color: '#FFFFFF',
               borderRadius: '99px',
-              color: '#fff',
               textDecoration: 'none',
               fontSize: '0.75rem',
-              letterSpacing: '0.2em',
+              fontWeight: 700,
+              letterSpacing: '0.25em',
               textTransform: 'uppercase',
-              transition: 'background 0.3s, border-color 0.3s',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
             }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255, 255, 255, 0.1)';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                (e.currentTarget as HTMLAnchorElement).style.background = '#4A9EFF';
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 12px 30px rgba(74,158,255,0.4)';
+                (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255, 255, 255, 0.03)';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                (e.currentTarget as HTMLAnchorElement).style.background = '#0A0A0A';
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+                (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
               }}
             >
               Start a Project <span>→</span>
@@ -191,7 +175,7 @@ export default function Footer() {
             {/* Column 1 */}
             <div>
               <h4 style={{
-                fontSize: '0.65rem',
+                fontSize: '0.7rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#4A9EFF',
@@ -199,16 +183,19 @@ export default function Footer() {
               }}>
                 Navigate
               </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 {NAV.map((item) => (
                   <Link key={item.label} href={item.href} style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    minHeight: 44,
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </Link>
@@ -219,7 +206,7 @@ export default function Footer() {
             {/* Column 2 */}
             <div>
               <h4 style={{
-                fontSize: '0.65rem',
+                fontSize: '0.7rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#4A9EFF',
@@ -227,16 +214,19 @@ export default function Footer() {
               }}>
                 Services
               </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 {SERVICES.map((item) => (
                   <Link key={item.label} href={item.href} style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    minHeight: 44,
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </Link>
@@ -247,7 +237,7 @@ export default function Footer() {
             {/* Column 3 */}
             <div>
               <h4 style={{
-                fontSize: '0.65rem',
+                fontSize: '0.7rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 color: '#4A9EFF',
@@ -255,16 +245,19 @@ export default function Footer() {
               }}>
                 Socials
               </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                 {SOCIALS.map((item) => (
                   <a key={item.label} href={item.href} target="_blank" rel="noreferrer" style={{
-                    color: 'rgba(255, 255, 255, 0.6)',
+                    color: 'rgba(0, 0, 0, 0.6)',
                     textDecoration: 'none',
                     fontSize: '0.9rem',
                     transition: 'color 0.3s',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    minHeight: 44,
                   }}
-                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#fff'}
-                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255, 255, 255, 0.6)'}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color = '#0A0A0A'}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(0, 0, 0, 0.6)'}
                   >
                     {item.label}
                   </a>
@@ -279,11 +272,39 @@ export default function Footer() {
           width: '100%',
           textAlign: 'center',
           overflow: 'hidden',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          paddingBottom: '2rem',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+          paddingBottom: '2.5rem',
+          paddingTop: '2rem',
         }}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <img src="/logo.png" alt="LS Digitaize" style={{ height: 'clamp(3rem, 10vw, 8rem)', width: 'auto', opacity: 0.03, objectFit: 'contain' }} />
+            <h2 className="transition-all duration-700 ease-out hover:scale-105" style={{
+              fontFamily: 'var(--font-sevone)',
+              fontSize: 'clamp(4rem, 15vw, 15rem)',
+              fontWeight: 900,
+              textTransform: 'uppercase',
+              color: 'transparent',
+              WebkitTextStroke: '1px rgba(0,0,0,0.12)',
+              background: 'linear-gradient(to bottom, rgba(10,10,10,0.9), rgba(10,10,10,0.15))',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              lineHeight: 0.75,
+              letterSpacing: '-0.03em',
+              margin: 0,
+              cursor: 'default',
+            }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.background = 'linear-gradient(to bottom, #4A9EFF, rgba(74,158,255,0.2))';
+                (e.currentTarget as HTMLElement).style.webkitBackgroundClip = 'text';
+                (e.currentTarget as HTMLElement).style.webkitTextStroke = '1px rgba(74,158,255,0.3)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.background = 'linear-gradient(to bottom, rgba(10,10,10,0.9), rgba(10,10,10,0.15))';
+                (e.currentTarget as HTMLElement).style.webkitBackgroundClip = 'text';
+                (e.currentTarget as HTMLElement).style.webkitTextStroke = '1px rgba(0,0,0,0.12)';
+              }}
+            >
+              LS DIGITAIZE
+            </h2>
           </div>
         </div>
 
@@ -296,12 +317,12 @@ export default function Footer() {
           gap: '1rem',
           padding: '2rem 0',
         }}>
-          <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.8rem' }}>
+          <span style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '0.8rem' }}>
             © {new Date().getFullYear()} LS Digitaize. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
-            <Link href="/privacy" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Privacy Policy</Link>
-            <Link href="/terms" style={{ color: 'rgba(255, 255, 255, 0.4)', textDecoration: 'none', fontSize: '0.8rem' }}>Terms of Service</Link>
+            <Link href="/privacy" style={{ color: 'rgba(0, 0, 0, 0.4)', textDecoration: 'none', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>Privacy Policy</Link>
+            <Link href="/terms" style={{ color: 'rgba(0, 0, 0, 0.4)', textDecoration: 'none', fontSize: '0.8rem', display: 'inline-flex', alignItems: 'center', minHeight: 44 }}>Terms of Service</Link>
           </div>
         </div>
       </div>

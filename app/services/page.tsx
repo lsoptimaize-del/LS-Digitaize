@@ -1,461 +1,12 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Link from 'next/link';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { motion } from 'framer-motion';
-import { SERVICES } from '../data/services';
+import ServicesHero from '../components/ServicesHero';
+import ServicesBento from '../components/ServicesBento';
 
-/* ── Custom Animated SVG Overlay per Discipline ── */
-function ServiceSvgGraphic({ number }: { number: string }) {
-  switch (number) {
-    case '01': // Identity
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <defs>
-            <linearGradient id="grad01" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#4A9EFF" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#5BC9E8" stopOpacity="0.4" />
-            </linearGradient>
-          </defs>
-          <rect x="18" y="18" width="244" height="104" rx="12" stroke="#4A9EFF" strokeOpacity="0.25" strokeWidth="1" strokeDasharray="4 4" />
-          <circle cx="140" cy="70" r="38" stroke="url(#grad01)" strokeWidth="2" className="animate-spin-slow" />
-          <circle cx="140" cy="70" r="22" fill="rgba(74,158,255,0.15)" stroke="#4A9EFF" strokeWidth="1.5" />
-          <path d="M140 46V30M140 110V94M116 70H100M180 70H164" stroke="#4A9EFF" strokeWidth="1.5" strokeLinecap="round" />
-          <circle cx="140" cy="30" r="3" fill="#5BC9E8" />
-          <circle cx="180" cy="70" r="3" fill="#4A9EFF" />
-          <line x1="25" y1="25" x2="45" y2="25" stroke="#4A9EFF" strokeWidth="2" />
-          <line x1="25" y1="25" x2="25" y2="45" stroke="#4A9EFF" strokeWidth="2" />
-          <line x1="255" y1="115" x2="235" y2="115" stroke="#4A9EFF" strokeWidth="2" />
-          <line x1="255" y1="115" x2="255" y2="95" stroke="#4A9EFF" strokeWidth="2" />
-        </svg>
-      );
-    case '02': // Content
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => {
-            const h = Math.round(20 + Math.sin(i * 0.8) * 35);
-            return (
-              <rect
-                key={i}
-                x={45 + i * 16}
-                y={Math.round(70 - h / 2)}
-                width="8"
-                height={h}
-                rx="4"
-                fill="#4A9EFF"
-                fillOpacity={0.3 + (i % 3) * 0.25}
-              />
-            );
-          })}
-          <path d="M35 70L245 70" stroke="#5BC9E8" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3" />
-          <circle cx="215" cy="70" r="5" fill="#4A9EFF" />
-          <circle cx="215" cy="70" r="10" stroke="#4A9EFF" strokeOpacity="0.4" />
-        </svg>
-      );
-    case '03': // Performance
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <path d="M35 110L85 85L135 95L185 55L245 30" stroke="#4A9EFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M35 110L85 85L135 95L185 55L245 30V115H35Z" fill="rgba(74,158,255,0.12)" />
-          {[
-            [35, 110],
-            [85, 85],
-            [135, 95],
-            [185, 55],
-            [245, 30],
-          ].map(([x, y], i) => (
-            <g key={i}>
-              <circle cx={x} cy={y} r="4" fill="#05070C" stroke="#5BC9E8" strokeWidth="2" />
-              {i === 4 && <circle cx={x} cy={y} r="9" stroke="#4A9EFF" strokeOpacity="0.6" />}
-            </g>
-          ))}
-          <line x1="35" y1="115" x2="245" y2="115" stroke="rgba(242,246,252,0.2)" strokeWidth="1" />
-        </svg>
-      );
-    case '04': // Social
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <circle cx="140" cy="70" r="14" fill="rgba(74,158,255,0.2)" stroke="#4A9EFF" strokeWidth="2" />
-          <circle cx="140" cy="70" r="40" stroke="#4A9EFF" strokeOpacity="0.25" strokeDasharray="4 4" />
-          {[
-            [85, 45],
-            [195, 45],
-            [75, 95],
-            [205, 95],
-            [140, 20],
-          ].map(([x, y], i) => (
-            <g key={i}>
-              <line x1="140" y1="70" x2={x} y2={y} stroke="#4A9EFF" strokeOpacity="0.35" strokeWidth="1.5" />
-              <circle cx={x} cy={y} r="6" fill="#05070C" stroke="#5BC9E8" strokeWidth="2" />
-            </g>
-          ))}
-        </svg>
-      );
-    case '05': // Influencer & Offline
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <path d="M70 55L120 35V105L70 85V55Z" fill="rgba(74,158,255,0.1)" stroke="#4A9EFF" strokeOpacity="0.45" strokeWidth="1.5" />
-          <path d="M120 35L165 20V120L120 105" stroke="#5BC9E8" strokeOpacity="0.4" strokeWidth="1.5" />
-          <path d="M85 85V98C85 105 91 110 98 110" stroke="#4A9EFF" strokeWidth="2" strokeLinecap="round" />
-          {[34, 48].map((r, i) => (
-            <path key={i} d={`M165 ${70 - r * 0.55} A ${r} ${r} 0 0 1 165 ${70 + r * 0.55}`} stroke="#5BC9E8" strokeOpacity={0.4 - i * 0.12} strokeWidth="1.5" fill="none" />
-          ))}
-          {[[205, 35], [230, 70], [205, 105]].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="12" fill="rgba(10,18,45,0.9)" stroke="#4A9EFF" strokeOpacity="0.5" strokeWidth="1.5" />
-          ))}
-          <path d="M55 30C55 22 48 16 40 16C32 16 25 22 25 30C25 40 40 52 40 52C40 52 55 40 55 30Z" fill="rgba(10,18,45,0.9)" stroke="#5BC9E8" strokeWidth="1.5" />
-        </svg>
-      );
-    case '06': // Events / Photography / Videography
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <polygon points="140,25 65,115 215,115" fill="rgba(74,158,255,0.08)" stroke="#4A9EFF" strokeOpacity="0.4" strokeWidth="1.5" />
-          <line x1="140" y1="25" x2="140" y2="115" stroke="#5BC9E8" strokeOpacity="0.3" strokeWidth="1" strokeDasharray="3 3" />
-          <circle cx="140" cy="25" r="5" fill="#4A9EFF" />
-          <circle cx="65" cy="115" r="4" fill="#5BC9E8" />
-          <circle cx="215" cy="115" r="4" fill="#5BC9E8" />
-          <ellipse cx="140" cy="115" rx="75" ry="12" stroke="#4A9EFF" strokeOpacity="0.25" />
-        </svg>
-      );
-    default: // Consultation & Business Development
-      return (
-        <svg viewBox="0 0 280 140" fill="none" className="w-full h-full">
-          <rect x="40" y="35" width="55" height="70" rx="8" stroke="#4A9EFF" strokeOpacity="0.4" strokeWidth="1.5" />
-          <rect x="115" y="25" width="55" height="90" rx="8" stroke="#5BC9E8" strokeOpacity="0.6" strokeWidth="1.5" fill="rgba(74,158,255,0.1)" />
-          <rect x="190" y="15" width="50" height="110" rx="8" stroke="#4A9EFF" strokeWidth="2" fill="rgba(74,158,255,0.18)" />
-          <path d="M68 65L142 45L215 25" stroke="#F2F6FC" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="215" cy="25" r="4" fill="#4A9EFF" />
-        </svg>
-      );
-  }
-}
-
-function ServiceCard({ service, index, total }: { service: typeof SERVICES[number]; index: number; total: number }) {
-  const isLast = index === total - 1;
-
-  return (
-    <div
-      id={`service-${service.number}`}
-      className="service-card-wrapper"
-      style={{
-        position: 'sticky',
-        top: `calc(5.5rem + ${index * 1.6}rem)`,
-        zIndex: index + 10,
-        marginBottom: '34vh',
-      }}
-    >
-      <motion.div
-        initial={{ opacity: 0, y: 35 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.75, ease: [0.25, 1, 0.3, 1] }}
-        className="service-card-card group"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          background: 'linear-gradient(165deg, rgba(13, 19, 33, 0.96) 0%, rgba(5, 7, 13, 0.98) 100%)',
-          border: '1px solid rgba(74,158,255,0.24)',
-          borderRadius: '26px',
-          boxShadow: '0 30px 90px rgba(0, 0, 0, 0.85), 0 0 40px rgba(74,158,255,0.06)',
-          overflow: 'hidden',
-          backdropFilter: 'blur(20px)',
-        }}
-      >
-        {/* Top Tab Bar (Remains visible as cards stack on each other) */}
-        <div
-          className="service-card-top-bar"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0.85rem 1.75rem',
-            background: 'rgba(255,255,255,0.02)',
-            borderBottom: '1px solid rgba(74,158,255,0.12)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0.2rem 0.65rem',
-                borderRadius: '6px',
-                background: 'rgba(74,158,255,0.14)',
-                border: '1px solid rgba(74,158,255,0.35)',
-                fontFamily: 'var(--font-sevone)',
-                fontSize: '0.75rem',
-                fontWeight: 900,
-                color: '#4A9EFF',
-                letterSpacing: '0.1em',
-              }}
-            >
-              {service.number}
-            </span>
-            <span
-              style={{
-                fontSize: '0.72rem',
-                fontWeight: 700,
-                letterSpacing: '0.28em',
-                textTransform: 'uppercase',
-                color: '#F2F6FC',
-              }}
-            >
-              {service.category}
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span
-              style={{
-                width: '6px',
-                height: '6px',
-                borderRadius: '50%',
-                background: '#4A9EFF',
-                boxShadow: '0 0 10px #4A9EFF',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '0.7rem',
-                color: 'rgba(242,246,252,0.55)',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
-              {service.metric}
-            </span>
-          </div>
-        </div>
-
-        {/* Main Card Content Layout */}
-        <div
-          className="service-card-body"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(280px, 0.95fr) 1.15fr',
-            gap: 'clamp(2rem, 3.5vw, 3.5rem)',
-            padding: 'clamp(1.75rem, 3vw, 3rem)',
-            alignItems: 'center',
-          }}
-        >
-          {/* Visual Column: Image + Animated Interactive SVG Overlay */}
-          <div
-            className="service-image-box"
-            style={{
-              position: 'relative',
-              aspectRatio: '16/11',
-              borderRadius: '18px',
-              overflow: 'hidden',
-              border: '1px solid rgba(74,158,255,0.18)',
-              background: '#04070D',
-            }}
-          >
-            <img
-              src={service.image}
-              alt={service.title}
-              className="transition-transform duration-[1200ms] ease-out group-hover:scale-105"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'block',
-                filter: 'brightness(0.72) contrast(1.08)',
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(180deg, rgba(5,7,12,0.2) 0%, rgba(5,7,12,0.85) 100%)',
-                pointerEvents: 'none',
-              }}
-            />
-
-            {/* Floating Animated SVG Schematic Overlay */}
-            <div
-              style={{
-                position: 'absolute',
-                inset: '1rem',
-                pointerEvents: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: 0.88,
-              }}
-            >
-              <ServiceSvgGraphic number={service.number} />
-            </div>
-
-            {/* Corner Decorative Tech Markers */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '1rem',
-                left: '1rem',
-                right: '1rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                pointerEvents: 'none',
-              }}
-            >
-              <span
-                style={{
-                  fontSize: '0.68rem',
-                  fontFamily: 'monospace',
-                  color: 'rgba(74,158,255,0.75)',
-                  letterSpacing: '0.15em',
-                }}
-              >
-                SYS // {service.number}
-              </span>
-              <span
-                style={{
-                  fontSize: '0.68rem',
-                  fontFamily: 'monospace',
-                  color: 'rgba(242,246,252,0.5)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {service.tagline}
-              </span>
-            </div>
-          </div>
-
-          {/* Details & Checkmarks Column */}
-          <div>
-            <h3
-              style={{
-                fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(1.75rem, 2.7vw, 2.5rem)',
-                fontWeight: 900,
-                color: '#F2F6FC',
-                lineHeight: 1.05,
-                letterSpacing: '-0.02em',
-                marginBottom: '0.85rem',
-              }}
-            >
-              {service.title}
-            </h3>
-
-            <p
-              style={{
-                fontSize: '0.96rem',
-                lineHeight: 1.68,
-                color: 'rgba(242,246,252,0.68)',
-                marginBottom: '1.4rem',
-                maxWidth: '520px',
-              }}
-            >
-              {service.whatItIs}
-            </p>
-
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: '0 0 1.75rem',
-                padding: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.7rem',
-              }}
-            >
-              {service.values.map((v) => (
-                <li
-                  key={v}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '0.75rem',
-                    fontSize: '0.88rem',
-                    lineHeight: 1.5,
-                    color: 'rgba(242,246,252,0.85)',
-                  }}
-                >
-                  <span
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '18px',
-                      height: '18px',
-                      borderRadius: '50%',
-                      background: 'rgba(74,158,255,0.18)',
-                      color: '#4A9EFF',
-                      fontSize: '0.72rem',
-                      fontWeight: 'bold',
-                      marginTop: '0.1rem',
-                      flexShrink: 0,
-                    }}
-                  >
-                    ✓
-                  </span>
-                  <span>{v}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
-            <Link
-              href={`/services/${service.slug}`}
-              className="group/btn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.7rem',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '999px',
-                background: 'transparent',
-                border: '1px solid rgba(242,246,252,0.25)',
-                color: '#F2F6FC',
-                textDecoration: 'none',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <span>View Full Details</span>
-              <span className="transition-transform duration-300 group-hover/btn:translate-x-1" style={{ color: '#4A9EFF' }}>
-                →
-              </span>
-            </Link>
-            <Link
-              href="/contact"
-              className="group/btn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.7rem',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '999px',
-                background: 'rgba(74,158,255,0.12)',
-                border: '1px solid rgba(74,158,255,0.35)',
-                color: '#F2F6FC',
-                textDecoration: 'none',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <span>Start This Service</span>
-              <span className="transition-transform duration-300 group-hover/btn:translate-x-1" style={{ color: '#4A9EFF' }}>
-                →
-              </span>
-            </Link>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
 
 export default function ServicesPage() {
   const ctaRef = useRef<HTMLElement>(null);
@@ -470,196 +21,26 @@ export default function ServicesPage() {
     });
   };
 
-  const scrollToService = (number: string) => {
-    const el = document.getElementById(`service-${number}`);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  };
-
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: '#F2F6FC' }}>
+    <div style={{ minHeight: '100dvh', background: '#FAFAF7', color: '#0A0A0A' }}>
       <Navbar />
 
-      {/* ── Elevated Hero Section with Animated Theme Elements ── */}
-      <section
-        style={{
-          position: 'relative',
-          minHeight: '75vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          padding: 'clamp(9rem, 18vh, 13rem) 2rem 4rem',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Subtle Cyber Grid Background */}
-        <svg
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern id="heroGrid" width="60" height="60" patternUnits="userSpaceOnUse">
-              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#4A9EFF" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#heroGrid)" />
-        </svg>
+      <ServicesHero />
 
-        {/* Dual Ambient Glow Orbs matching Brand Theme */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '15%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '65vw',
-            height: '40vw',
-            borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(74,158,255,0.18) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '30%',
-            left: '30%',
-            width: '35vw',
-            height: '35vw',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(91,201,232,0.11) 0%, transparent 70%)',
-            filter: 'blur(90px)',
-            pointerEvents: 'none',
-          }}
-        />
+      <div className="py-6 text-center" style={{ background: '#FAFAF7', borderTop: '1px solid rgba(74,158,255,0.15)' }}>
+        <p style={{ fontFamily: 'var(--font-geist-mono), ui-monospace, monospace', fontSize: '0.8rem', letterSpacing: '0.08em', color: 'rgba(10,10,10,0.55)' }}>
+          Proudly Serving Brands Across Industries
+        </p>
+      </div>
 
-        {/* Top Shimmer Pill Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.6rem',
-            padding: '0.45rem 1.15rem',
-            borderRadius: '999px',
-            background: 'rgba(74,158,255,0.08)',
-            border: '1px solid rgba(74,158,255,0.28)',
-            marginBottom: '1.6rem',
-          }}
-        >
-          <span
-            style={{
-              width: '7px',
-              height: '7px',
-              borderRadius: '50%',
-              background: '#4A9EFF',
-              boxShadow: '0 0 8px #4A9EFF',
-            }}
-          />
-          <span
-            style={{
-              fontSize: '0.7rem',
-              letterSpacing: '0.28em',
-              textTransform: 'uppercase',
-              color: '#4A9EFF',
-              fontWeight: 700,
-            }}
-          >
-            Seven Disciplines • One Unified Team
-          </span>
-        </motion.div>
-
-        {/* Massive Hero Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.95, delay: 0.1, ease: [0.25, 1, 0.3, 1] }}
-          style={{
-            position: 'relative',
-            fontFamily: 'var(--font-sevone)',
-            fontSize: 'clamp(3.8rem, 11vw, 9.5rem)',
-            fontWeight: 900,
-            color: '#F2F6FC',
-            lineHeight: 0.88,
-            letterSpacing: '-0.03em',
-            textTransform: 'uppercase',
-            margin: 0,
-          }}
-        >
-          SERVICES
-        </motion.h1>
-
-        {/* Hero Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.25 }}
-          style={{
-            position: 'relative',
-            marginTop: '1.75rem',
-            maxWidth: '580px',
-            fontSize: 'clamp(1rem, 1.4vw, 1.15rem)',
-            lineHeight: 1.7,
-            color: 'rgba(242,246,252,0.7)',
-          }}
-        >
-          Six disciplines, one team. Everything a brand needs to go from ambition to undeniable market authority - handled A-to-Z.
-        </motion.p>
-
-        {/* Quick Jump Interactive Navigation Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '0.6rem',
-            marginTop: '2.5rem',
-            position: 'relative',
-            zIndex: 10,
-          }}
-        >
-          {SERVICES.map((s) => (
-            <button
-              key={s.number}
-              onClick={() => scrollToService(s.number)}
-              className="cursor-pointer transition-all duration-300 hover:border-[#4A9EFF] hover:bg-[#4A9EFF]/15"
-              style={{
-                padding: '0.45rem 1rem',
-                borderRadius: '999px',
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(242,246,252,0.15)',
-                color: '#F2F6FC',
-                fontSize: '0.74rem',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
-              <span style={{ color: '#4A9EFF', marginRight: '0.35rem' }}>{s.number}</span>
-              {s.category}
-            </button>
-          ))}
-        </motion.div>
-      </section>
+      <ServicesBento />
 
       {/* ── Key Metrics Ribbon ── */}
       <section
         style={{
           borderTop: '1px solid rgba(74,158,255,0.15)',
           borderBottom: '1px solid rgba(74,158,255,0.15)',
-          background: 'rgba(10, 15, 26, 0.5)',
+          background: 'rgba(250, 250, 247, 0.6)',
           backdropFilter: 'blur(16px)',
           position: 'relative',
           zIndex: 5,
@@ -692,11 +73,11 @@ export default function ServicesPage() {
                 {stat.value}
               </span>
               <span
-                className="text-[0.65rem] md:text-xs"
+                className="text-[0.7rem] md:text-xs"
                 style={{
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: 'rgba(242,246,252,0.65)',
+                  color: 'rgba(10,10,10,0.65)',
                   marginTop: '0.3rem'
                 }}
               >
@@ -707,78 +88,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* ── Stacking Services Deck (True Sticky Stacking Structure) ── */}
-      <section style={{ background: '#000', padding: '5rem 0 5vh' }}>
-        <div
-          style={{
-            maxWidth: '1280px',
-            margin: '0 auto',
-            padding: '0 2rem',
-            position: 'relative',
-          }}
-        >
-          {SERVICES.map((service, i) => (
-            <ServiceCard
-              key={service.number}
-              service={service}
-              index={i}
-              total={SERVICES.length}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ── Responsive Styling ── */}
-      <style>{`
-        @keyframes spinSlow {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spinSlow 20s linear infinite;
-          transform-origin: center;
-        }
-        @media (max-width: 768px) {
-          .service-card-wrapper {
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-          }
-          .service-card-wrapper:not(:last-child) {
-            margin-bottom: 50vh !important;
-          }
-          .service-card-wrapper:last-child {
-            margin-bottom: 0 !important;
-          }
-          .service-card-top-bar {
-            padding: 0.6rem 1rem !important;
-          }
-          .service-card-body {
-            grid-template-columns: 1fr !important;
-            padding: 1.15rem !important;
-            gap: 0.85rem !important;
-          }
-          .service-image-box {
-            aspect-ratio: 21/9 !important;
-          }
-          .service-card-body h3 {
-            font-size: 1.35rem !important;
-            margin-bottom: 0.4rem !important;
-          }
-          .service-card-body p {
-            font-size: 0.82rem !important;
-            line-height: 1.45 !important;
-            margin-bottom: 0.8rem !important;
-          }
-          .service-card-body ul {
-            gap: 0.4rem !important;
-            margin-bottom: 1rem !important;
-          }
-          .service-card-body li {
-            font-size: 0.75rem !important;
-          }
-        }
-      `}</style>
-
       {/* ── Immersive CTA ── */}
       <section
         ref={ctaRef}
@@ -787,8 +96,8 @@ export default function ServicesPage() {
         style={{
           position: 'relative',
           zIndex: 30,
-          minHeight: '100vh',
-          background: '#05070c',
+          minHeight: '100dvh',
+          background: '#FAFAF7',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -806,7 +115,7 @@ export default function ServicesPage() {
             transform: 'translate(-50%, -50%)',
             width: 'clamp(300px, 40vw, 600px)',
             height: 'clamp(300px, 40vw, 600px)',
-            background: 'radial-gradient(circle, rgba(74,158,255,0.3) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(74,158,255,0.15) 0%, transparent 70%)',
             filter: 'blur(50px)',
             pointerEvents: 'none',
             transition: 'width 0.3s, height 0.3s, left 0.1s, top 0.1s',
@@ -824,7 +133,7 @@ export default function ServicesPage() {
             fontFamily: 'Helvetica Neue, Arial, sans-serif',
             fontSize: 'clamp(3.5rem, 8vw, 10rem)',
             fontWeight: 900,
-            color: '#F2F6FC',
+            color: '#0A0A0A',
             lineHeight: 0.85,
             letterSpacing: '-0.03em',
             textAlign: 'center',
@@ -844,7 +153,7 @@ export default function ServicesPage() {
             position: 'relative',
             zIndex: 2,
             fontSize: 'clamp(1rem, 1.5vw, 1.3rem)',
-            color: 'rgba(242,246,252,0.6)',
+            color: 'rgba(10,10,10,0.6)',
             marginBottom: '5rem',
             maxWidth: '550px',
             textAlign: 'center',
@@ -870,8 +179,8 @@ export default function ServicesPage() {
             height: 'clamp(140px, 15vw, 180px)',
             borderRadius: '50%',
             background: 'transparent',
-            border: '1px solid rgba(242,246,252,0.25)',
-            color: '#F2F6FC',
+            border: '1px solid rgba(10,10,10,0.25)',
+            color: '#0A0A0A',
             textDecoration: 'none',
             fontSize: 'clamp(0.7rem, 0.8vw, 0.85rem)',
             letterSpacing: '0.2em',
@@ -881,15 +190,15 @@ export default function ServicesPage() {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = '#4A9EFF';
-            e.currentTarget.style.color = '#05070c';
+            e.currentTarget.style.color = '#FFFFFF';
             e.currentTarget.style.transform = 'scale(1.1)';
             e.currentTarget.style.border = '1px solid #4A9EFF';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'transparent';
-            e.currentTarget.style.color = '#F2F6FC';
+            e.currentTarget.style.color = '#0A0A0A';
             e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.border = '1px solid rgba(242,246,252,0.25)';
+            e.currentTarget.style.border = '1px solid rgba(10,10,10,0.25)';
           }}
         >
           Get in Touch
