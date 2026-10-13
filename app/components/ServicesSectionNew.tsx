@@ -107,11 +107,13 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
 
         {/* Illustration */}
         <div
-          className="mt-auto rounded-xl overflow-hidden relative flex-shrink-0"
+          className={`mt-auto rounded-xl overflow-hidden relative ${isTall ? 'flex-1' : 'flex-shrink-0'}`}
           style={{
             background: SERVICE_PANEL_TINTS[index],
             border: '1px solid rgba(43,58,103,0.07)',
-            height: isTall ? '18rem' : isWide ? '10.5rem' : '10rem',
+            ...(isTall
+              ? { minHeight: '18rem' }
+              : { height: isWide ? '10.5rem' : '10rem' }),
           }}
         >
           <div className="absolute inset-0"

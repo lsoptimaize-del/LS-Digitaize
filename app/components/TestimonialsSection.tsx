@@ -12,121 +12,54 @@ type Testimonial = {
   accentColor: string;
 };
 
-/* ─── Testimonial data ─── */
+/* ─── Testimonial data (same client reviews as the LSO agency site) ─── */
 const TESTIMONIALS: Testimonial[] = [
   {
-    initials: 'RS',
-    name: 'Rohan Sharma',
-    handle: '@rohans',
-    quote: "LS Digitaize rebuilt our entire brand system in six weeks. Our conversion rate on paid campaigns nearly doubled the quarter after launch.",
+    initials: 'R',
+    name: 'Roopa',
+    handle: 'Founder · Project Sparkl',
+    quote: "Working with LSO to build a high-converting website for our NGO was an absolute game-changer for us at Project Sparkl. The attention to detail and the dedication they showed completely exceeded our expectations.",
     accentColor: '#4A9EFF',
   },
   {
-    initials: 'PP',
-    name: 'Priya Patel',
-    handle: '@priyapatel_ux',
-    quote: "They don't just execute, they actually push back when something won't work. That kind of strategic honesty is why we've stayed with them.",
+    initials: 'S',
+    name: 'Satish',
+    handle: 'Founder & Owner · ADL Constructions',
+    quote: "LSO created a custom internal application that made tracking and managing our work so much easier. The level of craftsmanship and technical expertise they delivered for ADL Constructions is simply unmatched.",
     accentColor: '#5BC9E8',
   },
   {
-    initials: 'AD',
-    name: 'Arjun Desai',
-    handle: '@arjundesai',
-    quote: "Having content, performance marketing, and events all under one roof meant zero handoff friction. It was the fastest rebrand we've ever done.",
+    initials: 'J',
+    name: 'Junaid',
+    handle: 'Co-Founder · Woohoo Health Club',
+    quote: "The website LSO built for us has been phenomenal, leading to a 92% conversion rate on our contact form from the website alone.",
     accentColor: '#4A9EFF',
   },
   {
-    initials: 'SI',
-    name: 'Sneha Iyer',
-    handle: '@snehaiyer',
-    quote: "The strategy phase alone changed how we think about our entire go-to-market plan in India. This team is absolutely exceptional.",
+    initials: 'MR',
+    name: 'Mr. Rohan',
+    handle: 'Owner · Bremen Protect',
+    quote: "LSO gave Bremen Protect an immersive website, SEO and GEO, and the performance marketing to back it all up. Leads keep coming in, and the site actually feels like us.",
     accentColor: '#5BC9E8',
   },
   {
-    initials: 'VS',
-    name: 'Vikram Singh',
-    handle: '@vikram_s',
-    quote: "From zero to a full identity system in just a month. I've never seen a creative agency move this fast without sacrificing quality.",
+    initials: 'P',
+    name: 'Poojith',
+    handle: 'Owner · Sit N Stay',
+    quote: "LSO built us an e-commerce store from scratch and handled our SEO and GEO on top of it. We're finally showing up where our customers are already looking.",
     accentColor: '#4A9EFF',
   },
   {
-    initials: 'NG',
-    name: 'Neha Gupta',
-    handle: '@nehagupta',
-    quote: "ROI was visible within the very first campaign cycle. No other agency has delivered measurable results this quickly for our D2C brand.",
-    accentColor: '#5BC9E8',
-  },
-  {
-    initials: 'RV',
-    name: 'Rahul Verma',
-    handle: '@rahulv_tech',
-    quote: "Our social following tripled in 90 days. The content strategy they built for us is something we're still successfully scaling two years later.",
-    accentColor: '#4A9EFF',
-  },
-  {
-    initials: 'KN',
-    name: 'Kavita Nair',
-    handle: '@kavitanair',
-    quote: "We went through three agencies before finding LS Digitaize. None of them understood our brand vision the way this team did from day one.",
-    accentColor: '#5BC9E8',
-  },
-  {
-    initials: 'SM',
-    name: 'Siddharth Mehta',
-    handle: '@siddharthm',
-    quote: "A true strategic partner. They challenged our assumptions and helped us find a highly profitable market position we hadn't even considered.",
-    accentColor: '#4A9EFF',
-  },
-  {
-    initials: 'AR',
-    name: 'Ananya Rao',
-    handle: '@ananyarao',
-    quote: "The launch campaign they ran for our new product was genuinely beautiful and it performed amazingly well. You rarely get both. Highly recommend.",
-    accentColor: '#5BC9E8',
-  },
-  {
-    initials: 'KJ',
-    name: 'Karan Joshi',
-    handle: '@karanjoshi',
-    quote: "We handed them a half-finished brand and a messy Instagram. Ninety days later, both looked like they belonged to a company twice our size.",
-    accentColor: '#4A9EFF',
-  },
-  {
-    initials: 'MB',
-    name: 'Meera Bhat',
-    handle: '@meerab',
-    quote: "Every deliverable landed on time, every single month, for a year straight. That kind of reliability is rarer than good creative work.",
-    accentColor: '#5BC9E8',
-  },
-  {
-    initials: 'AK',
-    name: 'Aditya Kapoor',
-    handle: '@adityak',
-    quote: "The events team pulled off our product launch with three weeks' notice and it still felt like it had been planned for months.",
-    accentColor: '#4A9EFF',
-  },
-  {
-    initials: 'ID',
-    name: 'Ishita Deshmukh',
-    handle: '@ishitad',
-    quote: "Their reporting is the first I've actually looked forward to reading. Clear numbers, clear reasoning, no fluff.",
-    accentColor: '#5BC9E8',
-  },
-  {
-    initials: 'TS',
-    name: 'Tarun Shetty',
-    handle: '@tarunshetty',
-    quote: "We came in for paid ads and left with a full brand refresh, because they kept flagging things upstream that were actually holding us back.",
-    accentColor: '#4A9EFF',
-  },
-  {
-    initials: 'RP',
-    name: 'Riya Pillai',
-    handle: '@riyapillai',
-    quote: "Best onboarding I've had with any agency. They understood our market faster than some of our own new hires do.",
+    initials: 'R',
+    name: 'Rishabh',
+    handle: 'Owner · Aurum',
+    quote: "We run five Aurum gyms, and LSO found a way to bring all five into one immersive website. Scrolling through it genuinely feels like walking through the gym itself - the equipment, the energy, the space. It's the most immersive thing we've ever put in front of a member.",
     accentColor: '#5BC9E8',
   },
 ];
+
+// Only six reviews, so repeat them to keep every marquee column full.
+const WALL_ITEMS = [...TESTIMONIALS, ...TESTIMONIALS];
 
 /* ─── Small hook: are we on a touch/mobile width? ─── */
 function useIsMobile() {
@@ -414,7 +347,7 @@ export default function TestimonialsSection() {
   // Round-robin so every column ends up within one card of the others,
   // regardless of how many testimonials there are or how many columns.
   const columnData = Array.from({ length: cols }, (_, ci) =>
-    TESTIMONIALS.filter((_, i) => i % cols === ci)
+    WALL_ITEMS.filter((_, i) => i % cols === ci)
   );
   const durations = [28, 22, 32, 25];
 

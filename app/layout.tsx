@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
 
 const cormorant = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-heading",
 });

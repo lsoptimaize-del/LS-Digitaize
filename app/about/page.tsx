@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import VisionScreen from "../components/VisionScreen";
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -167,6 +168,8 @@ export default function AboutPage() {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              paddingTop: '72px', // clear the fixed navbar
+              boxSizing: 'border-box',
               willChange: 'transform',
             }}
           >
@@ -196,7 +199,7 @@ export default function AboutPage() {
             }}>
               <h1 style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(4rem, 16vw, 15rem)',
+                fontSize: 'clamp(3rem, min(16vw, 24vh), 15rem)',
                 fontWeight: 900,
                 color: '#000',
                 lineHeight: 0.9,
@@ -217,7 +220,7 @@ export default function AboutPage() {
             }}>
               <h1 style={{
                 fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(3rem, 12vw, 11rem)',
+                fontSize: 'clamp(2.5rem, min(12vw, 18vh), 11rem)',
                 fontWeight: 900,
                 color: '#000',
                 lineHeight: 0.9,
@@ -372,7 +375,7 @@ export default function AboutPage() {
         <style>{`
           /* --- Hero Section & CEO Section Restored Styles --- */
           .hero-text-split {
-            font-size: clamp(5rem, 10.5vw, 15rem) !important;
+            font-size: clamp(3rem, min(10.5vw, 24vh), 15rem) !important;
           }
 
           @media (max-width: 768px) {
@@ -549,10 +552,8 @@ export default function AboutPage() {
           ))}
         </div>
       </section>
-          
 
-
-
+      <VisionScreen />
 
       <Footer />
     </div>
