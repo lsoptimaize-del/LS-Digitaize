@@ -6,7 +6,7 @@ const C = {
   line: '#DCE6F7',
   blue: '#4A8BFF',
   sky: '#8EC5FF',
-  violet: '#6E8BFF',
+  violet: '#2F6FD6',
   coral: '#2A7DE1',
   amber: '#5BC9E8',
   mint: '#4A9EFF',
@@ -34,15 +34,10 @@ function Shadow({ id }: { id: string }) {
   );
 }
 
-function Sparkle({ x, y, s = 1, c = C.amber, d = 3 }: { x: number; y: number; s?: number; c?: string; d?: number }) {
-  return (
-    <path
-      d="M0 -7 L2 -2 L7 0 L2 2 L0 7 L-2 2 L-7 0 L-2 -2 Z"
-      transform={`translate(${x} ${y}) scale(${s})`}
-      fill={c}
-      style={{ animation: `pulseOpacity ${d}s ease-in-out infinite alternate` }}
-    />
-  );
+/* Decorative twinkles removed: keeps the illustration set crisp and less cutesy. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function Sparkle(_props: { x: number; y: number; s?: number; c?: string; d?: number }) {
+  return null;
 }
 
 /* 01 — Branding & identity: logo card, swatch fan, type specimen, bezier handles */
@@ -114,18 +109,11 @@ export function OrganicArt() {
       <rect x="28" y="90" width="58" height="6" rx="3" fill={C.line} />
       <rect x="28" y="102" width="42" height="5" rx="2.5" fill={C.line} />
       <rect x="28" y="113" width="26" height="8" rx="4" fill={C.mint} fillOpacity="0.35" />
-      <path d="M142 138 H178 L174 116 H146 Z" fill={C.coral} />
-      <rect x="139" y="110" width="42" height="9" rx="4.5" fill="#6BA6FF" />
-      <path d="M160 110 C160 92 160 80 160 60" stroke={C.mintDeep} strokeWidth="4" strokeLinecap="round" />
-      <g style={{ ...box('100% 100%'), animation: 'leafSway 3.2s ease-in-out infinite alternate' }}>
-        <path d="M160 96 C140 96 130 80 132 68 C150 68 160 80 160 96 Z" fill={C.mint} />
-      </g>
-      <g style={{ ...box('0% 100%'), animation: 'leafSway 3.8s ease-in-out infinite alternate-reverse' }}>
-        <path d="M160 84 C180 84 190 66 188 54 C170 54 160 66 160 84 Z" fill="#8EC5FF" />
-      </g>
-      <g style={{ ...box('50% 100%'), animation: 'leafSway 4.2s ease-in-out infinite alternate' }}>
-        <path d="M160 62 C149 54 151 42 160 32 C169 42 171 54 160 62 Z" fill={C.mintDeep} />
-      </g>
+      <rect x="132" y="28" width="56" height="106" rx="10" fill={C.ink} filter="url(#orSh)" />
+      <rect x="138" y="34" width="44" height="72" rx="6" fill="url(#orImg)" />
+      <path d="M154 58 L168 70 L154 82 Z" fill="#fff" />
+      <rect x="138" y="112" width="30" height="5" rx="2.5" fill="#fff" fillOpacity="0.85" />
+      <rect x="138" y="122" width="20" height="4" rx="2" fill="#fff" fillOpacity="0.45" />
       <rect x="214" y="30" width="92" height="28" rx="14" fill="#fff" filter="url(#orSh)" />
       <circle cx="231" cy="44" r="6" stroke={C.blue} strokeWidth="2.2" />
       <path d="M235.5 48.5 L240 53" stroke={C.blue} strokeWidth="2.2" strokeLinecap="round" />
@@ -135,11 +123,6 @@ export function OrganicArt() {
       <rect x="214" y="106" width="92" height="38" rx="11" fill="#fff" filter="url(#orSh)" />
       <path d="M224 134 L240 126 L256 130 L272 118 L294 112" stroke={C.mint} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
       <circle cx="294" cy="112" r="4" fill={C.mint} style={{ animation: 'pulseGlow 2s ease-in-out infinite', ...box('50% 50%') }} />
-      <path
-        d="M196 66 C190 60 184 66 190 72 L196 78 L202 72 C208 66 202 60 196 66 Z"
-        fill={C.coral}
-        style={{ animation: 'floatDot 2.6s ease-in-out infinite alternate' }}
-      />
       <Sparkle x={124} y={28} s={0.9} c={C.mint} />
     </svg>
   );

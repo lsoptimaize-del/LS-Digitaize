@@ -62,3 +62,13 @@ html { -webkit-text-size-adjust: 100%; }
   .staggered-menu-panel a { min-height: 44px; display: inline-flex; align-items: center; }
 }
 
+
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow { animation: spinSlow 18s linear infinite; }
+.marquee-track { animation: marqueeScroll 38s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-slow, .marquee-track { animation: none; }
+}

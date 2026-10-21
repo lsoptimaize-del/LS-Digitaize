@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useSyncExternalStore } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,7 +11,14 @@ if (typeof window !== 'undefined') {
 export default function DigitalSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const imgRef = useRef<HTMLVideoElement>(null);
+  // VP9-alpha WebM for Chromium/Firefox; Safari/WebKit needs HEVC-alpha .mov
+  const isWebKit = useSyncExternalStore(
+    () => () => {},
+    () => /^((?!chrome|android|crios|fxios).)*safari/i.test(navigator.userAgent),
+    () => false,
+  );
+  const videoSrc = isWebKit ? '/hero-crystal.mov' : '/hero-crystal.webm';
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -93,7 +100,6 @@ export default function DigitalSection() {
           width: '60vw', height: '60vw',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(126, 193, 245, 0.35) 0%, transparent 70%)',
-          filter: 'blur(90px)',
           animation: 'blobDrift1 14s ease-in-out infinite alternate',
         }} />
         {/* Top-right very light blue blob */}
@@ -102,7 +108,6 @@ export default function DigitalSection() {
           width: '55vw', height: '55vw',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(200, 230, 255, 0.4) 0%, transparent 70%)',
-          filter: 'blur(100px)',
           animation: 'blobDrift2 18s ease-in-out infinite alternate',
         }} />
         {/* Centre widespread radial shine */}
@@ -111,7 +116,6 @@ export default function DigitalSection() {
           width: '100vw', height: '80vw',
           borderRadius: '50%',
           background: 'radial-gradient(ellipse, rgba(170, 215, 255, 0.25) 0%, transparent 68%)',
-          filter: 'blur(80px)',
         }} />
         {/* Bottom-left pastel blue blob */}
         <div style={{
@@ -119,7 +123,6 @@ export default function DigitalSection() {
           width: '50vw', height: '50vw',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(160, 210, 255, 0.3) 0%, transparent 70%)',
-          filter: 'blur(100px)',
           animation: 'blobDrift3 20s ease-in-out infinite alternate',
         }} />
         {/* Bottom-right gentle accent */}
@@ -128,7 +131,6 @@ export default function DigitalSection() {
           width: '50vw', height: '50vw',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(110, 180, 255, 0.25) 0%, transparent 70%)',
-          filter: 'blur(90px)',
           animation: 'blobDrift4 16s ease-in-out infinite alternate',
         }} />
       </div>
@@ -149,13 +151,25 @@ export default function DigitalSection() {
 
       {/* ── GIF — mobile: large + over text; desktop: original position ── */}
       <div className="absolute top-[80%] md:top-[75%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180vw] md:w-[75vw] z-20 pointer-events-none flex justify-center">
-        <img
-          ref={imgRef}
-          src="/hero.gif"
-          alt="Digital Growth"
-          className="w-full h-auto object-contain scale-100 md:scale-125"
-          style={{ filter: 'brightness(1.08) saturate(1.1)' }}
-        />
+        {/* video is the 1920x1080 frame cropped to its content; absolute box below keeps the original position/scale */}
+        <div className="relative w-full aspect-video scale-100 md:scale-125">
+          <video
+            ref={imgRef}
+            key={videoSrc}
+            src={videoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Digital Growth"
+            className="absolute"
+            style={{
+              left: '33.333%', top: '9.259%', width: '42.708%', height: '85.185%',
+              filter: 'brightness(1.08) saturate(1.1)',
+            }}
+          />
+        </div>
       </div>
 
       {/* Bottom fade so the section bleeds into black */}

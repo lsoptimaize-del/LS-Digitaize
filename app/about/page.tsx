@@ -34,17 +34,19 @@ const VALUES = [
 ];
 
 
-// TEAM data for the interactive carousel
-const TEAM = [
-  { name: 'Bharath', role: 'Creative Director', image: '/bharath.png', quote: '"Design is not just what it looks like and feels like. Design is how it works. We engineer experiences that ignite brands and leave lasting impressions."' },
-  { name: 'Prayansh', role: 'Marketing Strategist', image: '/prayansh.png', quote: '"We don\'t just chase trends, we analyze the underlying human behaviors that create them. That is where real, sustainable growth happens."' },
-  { name: 'Sahil', role: 'Lead Developer', image: '/sahil.png', quote: '"Code is the invisible architecture of your brand. We build scalable, performant systems that never get in the way of the story."' },
+// Corner portraits that fan out around Tejas. Last one is a placeholder until a photo exists.
+const CORNERS = [
+  { pos: 'tl', name: 'Bharath', role: 'Creative Director', image: '/team/bharath.jpg', tilt: 0 },
+  { pos: 'tr', name: 'Prayansh', role: 'Marketing Strategist', image: '/team/prayansh.jpg', tilt: 0 },
+  { pos: 'bl', name: 'Sahil', role: 'Lead Developer', image: '/team/sahil.jpg', tilt: 0 },
+  { pos: 'br', name: 'Your name here', role: 'Photo coming soon', image: '', tilt: 0 },
 ];
 
 export default function AboutPage() {
   const heroWrapperRef = useRef<HTMLDivElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
-  const ceoSectionRef = useRef<HTMLDivElement>(null);
+  const videoLayerRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
   // No carousel state needed for the static 3-column layout
 
   useEffect(() => {
@@ -63,61 +65,62 @@ export default function AboutPage() {
         });
       }
 
-      // CEO Section animation
-      if (heroWrapperRef.current && ceoSectionRef.current) {
+      // Once the white card has fully cleared, the video layer lifts away in ~1s (time-based, reversible).
+      if (heroWrapperRef.current && videoLayerRef.current) {
+        const layer = videoLayerRef.current;
+        const video = layer.querySelector('video');
+        const lift = gsap.to(layer, {
+          yPercent: -100,
+          duration: 1,
+          ease: 'power3.inOut',
+          paused: true,
+          onComplete: () => {
+            gsap.set(layer, { visibility: 'hidden' });
+            video?.pause();
+          },
+        });
+        ScrollTrigger.create({
+          trigger: heroWrapperRef.current,
+          start: 'top -100%',
+          onEnter: () => lift.play(),
+          onLeaveBack: () => {
+            gsap.set(layer, { visibility: 'visible' });
+            video?.play().catch(() => {});
+            lift.reverse();
+          },
+        });
+      }
+
+      // Team scene: Tejas eases down in size while the four portraits fan out from behind him into the corners.
+      if (heroWrapperRef.current && sceneRef.current) {
+        const scene = sceneRef.current;
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: heroWrapperRef.current,
-            start: 'top -100%', // Starts exactly when the mask finishes moving up
-            end: 'top -150%', // Fades in over the next 50vh of scrolling
-            scrub: true,
-          }
+            start: 'top -100%',
+            end: 'top -250%',
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
         });
-        
-        tl.fromTo(ceoSectionRef.current, { opacity: 0 }, { opacity: 1, duration: 1 })
-          .fromTo('.ceo-photo', { x: -150, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '<')
-          .fromTo('.ceo-text', { x: 100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power3.out' }, '<');
+
+        tl.fromTo('.scene-tejas', { scale: 1.16 }, { scale: 0.8, ease: 'power2.inOut', duration: 1 }, 0);
+
+        gsap.utils.toArray<HTMLElement>('.corner-card').forEach((el, i) => {
+          // offset* ignore transforms, so these stay correct across refreshes
+          const toCenter = () => ({
+            x: scene.offsetWidth / 2 - (el.offsetLeft + el.offsetWidth / 2),
+            y: scene.offsetHeight / 2 - (el.offsetTop + el.offsetHeight / 2),
+          });
+          tl.fromTo(
+            el,
+            { x: () => toCenter().x, y: () => toCenter().y, scale: 0.4, opacity: 0 },
+            { x: 0, y: 0, scale: 1, opacity: 1, rotate: CORNERS[i].tilt, ease: 'power3.out', duration: 0.85 },
+            0.12 + i * 0.09,
+          );
+        });
+        tl.fromTo('.corner-label', { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.05 }, 0.95);
       }
-
-      // In-view motion text slide-up animation
-      const motionTextLines = gsap.utils.toArray<HTMLElement>('.motion-text-line');
-      motionTextLines.forEach(line => {
-        gsap.fromTo(line, 
-          { y: '120%', opacity: 0 },
-          {
-            y: '0%',
-            opacity: 1,
-            ease: 'power4.out',
-            duration: 1.2,
-            scrollTrigger: {
-              trigger: line.parentElement,
-              start: 'top 90%',
-              toggleActions: 'play reverse play reverse'
-            }
-          }
-        );
-      });
-
-      // Team roster slide-up animation
-      const teamElements = gsap.utils.toArray<HTMLElement>('.team-roster-element');
-      if (teamElements.length > 0) {
-        gsap.fromTo(teamElements,
-          { y: 100, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: teamElements[0].parentElement,
-              start: 'top 85%',
-              toggleActions: 'play reverse play reverse'
-            }
-          }
-        );
-      }
-
 
     }); // removed scope so it searches the whole page
 
@@ -129,7 +132,7 @@ export default function AboutPage() {
       <Navbar />
 
       {/* ── Scroll-Linked Video Cutout Hero ── */}
-      <div ref={heroWrapperRef} style={{ position: 'relative', height: '300vh' }}>
+      <div ref={heroWrapperRef} style={{ position: 'relative', height: '350vh' }}>
         <div style={{
           position: 'sticky',
           top: 0,
@@ -138,6 +141,55 @@ export default function AboutPage() {
           overflow: 'hidden',
           backgroundColor: '#FAFAF7', // Fallback color before video loads
         }}>
+          {/* ── Team scene (underneath) ── */}
+          <div
+            ref={sceneRef}
+            className="team-scene"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: [
+                'radial-gradient(45% 50% at 50% 48%, rgba(74,158,255,0.38) 0%, rgba(74,158,255,0.12) 55%, transparent 100%)',
+                'radial-gradient(40% 45% at 0% 0%, rgba(126,193,245,0.55) 0%, transparent 100%)',
+                'radial-gradient(40% 45% at 100% 100%, rgba(42,125,225,0.32) 0%, transparent 100%)',
+                'radial-gradient(35% 40% at 100% 0%, rgba(126,193,245,0.35) 0%, transparent 100%)',
+                'linear-gradient(180deg, #EAF3FF 0%, #D9E9FB 100%)',
+              ].join(', '),
+            }}
+          >
+            {CORNERS.map((m) => (
+              <div key={m.pos} className={`corner-card corner-${m.pos}`} style={{ opacity: 0, willChange: 'transform, opacity' }}>
+                {m.image ? (
+                  <img src={m.image} alt={m.name} className="corner-img" />
+                ) : (
+                  <div className="corner-placeholder">
+                    <span className="corner-plus">+</span>
+                  </div>
+                )}
+                <div className="corner-label">
+                  <p className="corner-name">{m.name}</p>
+                  <p className="corner-role">{m.role}</p>
+                </div>
+              </div>
+            ))}
+
+            <div className="scene-tejas" style={{ position: 'relative', zIndex: 5, willChange: 'transform' }}>
+              <div className="tejas-frame">
+                <img src="/Tejas.png" alt="Tejas G., Founder & CEO" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </div>
+              <div className="tejas-caption">
+                <p className="corner-name" style={{ color: '#0d1e38' }}>Tejas G.</p>
+                <p className="corner-role" style={{ color: '#2A7DE1' }}>Founder &amp; CEO</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Video layer: lifts away after the white card clears ── */}
+          <div ref={videoLayerRef} style={{ position: 'absolute', inset: 0, zIndex: 10, willChange: 'transform' }}>
           {/* Background Video */}
           <video
             src="/thrid.mp4"
@@ -259,117 +311,12 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* ── CEO Intro Section ── */}
-          <div
-            ref={ceoSectionRef}
-            className="ceo-section"
-            style={{
-              position: 'absolute',
-              inset: 0,
-              zIndex: 20, // Above the mask so it shows after the mask is gone
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 clamp(1.5rem, 8vw, 8rem)',
-              gap: 'clamp(2rem, 6vw, 6rem)',
-              opacity: 0, // Animated by GSAP
-            }}
-          >
-            {/* Left: Professional Portrait */}
-            <div className="ceo-photo" style={{
-              flex: '0 0 35%',
-              maxWidth: '450px',
-              padding: '0.5rem',
-              backgroundColor: 'rgba(255,255,255,0.1)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '0',
-              boxShadow: '0 24px 60px rgba(0,0,0,0.3)',
-              willChange: 'transform, opacity',
-            }}>
-              <div style={{
-                width: '100%',
-                aspectRatio: '3/4',
-                position: 'relative',
-                overflow: 'hidden',
-                borderRadius: '0',
-              }}>
-                <img
-                  src="/Tejas.png"
-                  alt="CEO Tejas"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Right: Fading Text */}
-            <div className="ceo-text" style={{ flex: '1', maxWidth: '600px', willChange: 'transform, opacity' }}>
-              <h2 style={{
-                fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(3rem, 7vw, 6rem)',
-                color: '#0d1e38',
-                marginBottom: '1rem',
-                lineHeight: 1,
-              }}>
-                LEADING THE CHARGE
-              </h2>
-              <p style={{
-                fontSize: 'clamp(1rem, 2vw, 1.75rem)',
-                color: 'rgba(13, 30, 56, 0.85)',
-                lineHeight: 1.6,
-                fontWeight: 500,
-              }}>
-                "Our mission isn't just to make noise. It's to build resonance. 
-                We combine sharp strategy with bold creative to ignite brands and 
-                drive sustainable growth. The work you see here is the result of 
-                obsessive craft and relentless execution."
-              </p>
-              <p style={{
-                marginTop: '1.5rem',
-                fontFamily: 'var(--font-geist-mono)',
-                color: '#1a4a7a',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                fontWeight: 800,
-                fontSize: 'clamp(0.85rem, 1.5vw, 1.1rem)'
-              }}>
-                — Tejas G., Founder & CEO
-              </p>
-            </div>
           </div>
         </div>
       </div>
 
 
-      {/* ── Team Roster Grid ── */}
-      <section style={{
-        backgroundColor: '#FAFAF7',
-        padding: '10rem 0',
-        overflow: 'hidden',
-      }}>
-        {/* Animated Heading */}
-        <div className="roster-heading" style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 clamp(1.5rem, 4vw, 4rem)', marginBottom: '4rem' }}>
-          {['THE', 'ROSTER'].map((word, i) => (
-            <div key={i} style={{ overflow: 'hidden', paddingBottom: '1rem' }}>
-              <h2 className="motion-text-line" style={{
-                fontFamily: 'var(--font-sevone)',
-                fontSize: 'clamp(3.5rem, 12vw, 12rem)',
-                fontWeight: 900,
-                color: '#0A0A0A',
-                lineHeight: 0.85,
-                letterSpacing: '-0.02em',
-                margin: 0,
-              }}>
-                {word}
-              </h2>
-            </div>
-          ))}
-        </div>
-
-        <style>{`
+      <style>{`
           /* --- Hero Section & CEO Section Restored Styles --- */
           .hero-text-split {
             font-size: clamp(5rem, 10.5vw, 15rem) !important;
@@ -408,147 +355,63 @@ export default function AboutPage() {
               font-size: clamp(5rem, 22vw, 15rem) !important;
             }
           }
-          /* --------------------------------------------------- */
-
-          .roster-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 clamp(1.5rem, 4vw, 4rem);
+          /* --- Team scene --- */
+          .tejas-frame {
+            width: clamp(13rem, 28vw, 26rem);
+            aspect-ratio: 3 / 4;
+            padding: 10px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #050505 100%);
+            box-shadow: 0 45px 90px -25px rgba(8,20,50,0.6), 0 6px 14px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.16);
           }
-          
-          .roster-card {
-            position: relative;
-            aspect-ratio: 3/4;
-            border-radius: 0;
-            overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, filter 0.5s ease;
-            cursor: pointer;
-            filter: grayscale(80%) contrast(1.1);
+          .tejas-frame img { background: #dfe8f5; outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px; }
+          .tejas-caption { text-align: center; margin-top: 1rem; }
+          .corner-name {
+            font-family: var(--font-sevone);
+            font-size: clamp(1rem, 1.5vw, 1.35rem);
+            font-weight: 900;
+            line-height: 1;
+            margin: 0;
+            color: #fff;
           }
-          
-          .roster-grid:hover .roster-card {
-            filter: grayscale(100%) brightness(0.7) contrast(1.1);
+          .corner-role {
+            font-family: var(--font-geist-mono);
+            font-size: clamp(0.55rem, 0.75vw, 0.7rem);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin: 0.35rem 0 0;
+            color: #7EC1F5;
           }
-          
-          .roster-grid .roster-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 24px 50px rgba(0,0,0,0.25);
-            filter: grayscale(0%) brightness(1) contrast(1.1);
-            z-index: 10;
-          }
-          
-          .roster-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-          }
-          
-          .roster-card:hover .roster-img {
-            transform: scale(1.05);
-          }
-          
-          .roster-content {
+          .corner-card {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 4rem 2rem 2rem 2rem;
-            background: linear-gradient(to top, rgba(5,7,12,0.95) 0%, rgba(5,7,12,0.7) 40%, transparent 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transform: translateY(20px);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 3;
+            width: clamp(7.5rem, 17vw, 16rem);
+            aspect-ratio: 4 / 5;
+            padding: 8px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #050505 100%);
+            box-shadow: 0 32px 64px -22px rgba(8,20,50,0.6), 0 4px 10px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.16);
           }
-          
-          .roster-card:hover .roster-content {
-            transform: translateY(0);
+          .corner-tl { top: clamp(5.5rem, 16vh, 9rem); left: clamp(0.75rem, 5vw, 6rem); }
+          .corner-tr { top: clamp(5.5rem, 16vh, 9rem); right: clamp(0.75rem, 5vw, 6rem); }
+          .corner-bl { bottom: clamp(1.5rem, 7vh, 4rem); left: clamp(0.75rem, 5vw, 6rem); }
+          .corner-br { bottom: clamp(1.5rem, 7vh, 4rem); right: clamp(0.75rem, 5vw, 6rem); }
+          .corner-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px; }
+          .corner-label {
+            position: absolute;
+            left: 8px; right: 8px; bottom: 8px;
+            padding: 2.2rem 0.75rem 0.7rem;
+            background: linear-gradient(to top, rgba(5,10,24,0.88) 0%, rgba(5,10,24,0.45) 55%, transparent 100%);
           }
-
-          .roster-quote {
-            opacity: 0;
-            height: 0;
-            overflow: hidden;
-            transition: opacity 0.4s ease, height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          .corner-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, rgba(74,158,255,0.18) 0%, rgba(250,250,247,0.9) 60%, rgba(74,158,255,0.12) 100%);
+            border: 1.5px dashed rgba(74,158,255,0.6);
           }
-          
-          .roster-card:hover .roster-quote {
-            opacity: 1;
-            height: auto;
-            margin-top: 1rem;
-          }
-
-          @media (max-width: 900px) {
-            .roster-grid {
-              grid-template-columns: 1fr;
-              gap: 3rem;
-            }
-            .roster-card {
-              aspect-ratio: 4/5;
-              filter: grayscale(20%) contrast(1.1);
-            }
-            .roster-grid:hover .roster-card {
-              filter: grayscale(20%) contrast(1.1);
-            }
-            .roster-content {
-              transform: translateY(0);
-              padding: 6rem 1.5rem 1.5rem 1.5rem;
-            }
-            .roster-quote {
-              opacity: 1;
-              height: auto;
-              margin-top: 1rem;
-            }
-          }
-        `}</style>
-
-        <div className="roster-grid">
-          {TEAM.map((member, idx) => (
-            <div className="roster-card team-roster-element" key={member.name}>
-              <img src={member.image} alt={member.name} className="roster-img" />
-              <div className="roster-content">
-                <h3 style={{
-                  fontFamily: 'var(--font-sevone)',
-                  fontSize: 'clamp(2rem, 3vw, 2.5rem)',
-                  fontWeight: 900,
-                  color: '#ffffff',
-                  margin: '0 0 0.2rem 0',
-                  lineHeight: 1,
-                }}>
-                  {member.name}
-                </h3>
-                <p style={{
-                  fontFamily: 'var(--font-geist-mono)',
-                  fontSize: '0.75rem',
-                  textTransform: 'uppercase',
-                  color: '#4A9EFF',
-                  letterSpacing: '0.15em',
-                  margin: '0',
-                  fontWeight: 700,
-                }}>
-                  {member.role}
-                </p>
-                <div className="roster-quote">
-                  <p style={{
-                    fontSize: '0.9rem',
-                    lineHeight: 1.6,
-                    color: 'rgba(255,255,255,0.8)',
-                    margin: 0,
-                  }}>
-                    {member.quote}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+          .corner-placeholder .corner-plus { font-size: clamp(2rem, 4vw, 3.5rem); color: #4A9EFF; font-weight: 300; line-height: 1; }
+          .corner-br .corner-label { background: linear-gradient(to top, rgba(5,10,24,0.72) 0%, rgba(5,10,24,0.3) 60%, transparent 100%); }
+          /* --------------------------------------------------- */
+      `}</style>
           
 
 
