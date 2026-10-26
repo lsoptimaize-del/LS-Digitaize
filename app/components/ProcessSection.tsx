@@ -1,704 +1,223 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { MeshGradient } from '@paper-design/shaders-react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useSyncExternalStore } from 'react';
+import { motion } from 'framer-motion';
+import MediaSlot from './MediaSlot';
 
 const STEPS = [
   {
     number: '01',
     title: 'Discover',
     category: 'Research',
-    description:
-      'We dig into your brand, market, and goals before touching a single pixel or campaign. No guesswork.',
-    accentLine: '#4A9EFF',
-    colors: ['#FAFAF7', '#E8F2FA', '#B0D0ED', '#90C0C8', '#80A8CC', '#F5F8FA'],
-    distortion: 0.72,
-    swirl: 0.58,
-    image: '/process-discover.png',
+    description: 'We dig into your brand, market, and goals before touching a single pixel or campaign. No guesswork.',
+    accent: '#4A9EFF',
+    slot: 'process-discover',
   },
   {
     number: '02',
     title: 'Strategize',
     category: 'Strategy',
-    description:
-      'A roadmap built around what actually moves your numbers. Not trends for their own sake.',
-    accentLine: '#5BC9E8',
-    colors: ['#FAFAF7', '#E8F2FA', '#A8C8EB', '#80B8C0', '#70A0CC', '#F8FAFC'],
-    distortion: 0.65,
-    swirl: 0.70,
-    image: '/process-strategize.png',
+    description: 'A roadmap built around what actually moves your numbers. Not trends for their own sake.',
+    accent: '#2A7DE1',
+    slot: 'process-strategize',
   },
   {
     number: '03',
     title: 'Create',
     category: 'Execution',
-    description:
-      'Identity, content, and campaigns come to life. Crafted to feel inevitable, not generic.',
-    accentLine: '#4A9EFF',
-    colors: ['#FAFAF7', '#EBF2FB', '#A0C0E8', '#70A0A8', '#80A8CC', '#F9FBFC'],
-    distortion: 0.85,
-    swirl: 0.45,
-    image: '/process-create.png',
+    description: 'Identity, content, and campaigns come to life. Crafted to feel inevitable, not generic.',
+    accent: '#1F9AB8',
+    slot: 'process-create',
   },
   {
     number: '04',
     title: 'Launch & Grow',
     category: 'Growth',
-    description:
-      'We ship, measure, and iterate relentlessly. Growth is a system, not a one-off push.',
-    accentLine: '#5BC9E8',
-    colors: ['#FAFAF7', '#E2F0EE', '#90C8EB', '#6098A0', '#80A8CC', '#F8FAFA'],
-    distortion: 0.70,
-    swirl: 0.75,
-    image: '/process-launch.png',
+    description: 'We ship, measure, and iterate relentlessly. Growth is a system, not a one-off push.',
+    accent: '#5BC9E8',
+    slot: 'process-launch',
   },
 ];
 
+const NOISE_URI =
+  "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+const NOTE_TILT = [-3, 2.5, -2, 3];
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const subscribeLg = (cb: () => void) => {
+  const mq = window.matchMedia('(min-width: 1024px)');
+  mq.addEventListener('change', cb);
+  return () => mq.removeEventListener('change', cb);
+};
+
+/*
+  Four video cards slide in alternately from above and below. Once they've landed, the
+  paper notes arrive from the same directions and stick on top of them.
+*/
 export default function ProcessSection() {
-  const wrapperRef    = useRef<HTMLDivElement>(null);
-  const cardRef       = useRef<HTMLDivElement>(null);
-  const stripRef      = useRef<HTMLDivElement>(null);
-  const mobileStripRef = useRef<HTMLDivElement>(null);
-  const mobileWrapRef = useRef<HTMLDivElement>(null);
-  const indicatorsRef = useRef<HTMLDivElement>(null);
-  const textWrapRef   = useRef<HTMLDivElement>(null);
-  const introRef      = useRef<HTMLDivElement>(null);
-  const contentRef    = useRef<HTMLDivElement>(null);
-  const introTitleRef = useRef<HTMLHeadingElement>(null);
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
-  const [isMobile, setIsMobile] = useState(false);
-  const lastIndex = useRef(0);
-
-  useLayoutEffect(() => {
-    if (textWrapRef.current) {
-      textWrapRef.current.style.transform = 'translateY(calc(-50% + 30px))';
-      textWrapRef.current.style.opacity = '0';
-    }
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
-    const update = () => {
-      setDimensions({ width: window.innerWidth, height: window.innerHeight });
-      setIsMobile(window.innerWidth < 768);
-    };
-    update();
-    window.addEventListener('resize', update, { passive: true });
-
-    if (introTitleRef.current && wrapperRef.current) {
-      gsap.fromTo(
-        introTitleRef.current,
-        { y: 80, opacity: 0, filter: 'blur(8px)' },
-        {
-          y: 0, opacity: 1, filter: 'blur(0px)',
-          duration: 1.4,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: document.querySelector('#services') ?? wrapperRef.current,
-            start: document.querySelector('#services') ? 'bottom 60%' : 'top top',
-          }
-        }
-      );
-    }
-
-    const servicesSection = document.querySelector('#services');
-    if (servicesSection && wrapperRef.current) {
-      gsap.fromTo(wrapperRef.current,
-        { y: () => -window.innerHeight },
-        {
-          y: 0,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: servicesSection,
-            start: 'bottom bottom',
-            end: 'bottom top',
-            scrub: true,
-          }
-        }
-      );
-    }
-
-    return () => window.removeEventListener('resize', update);
-  }, []);
-
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper) return;
-
-    // The wrapper is translated up by one viewport while it slides out from under
-    // #services, so ScrollTrigger would measure it a screen early. The bottom edge of
-    // #services is untransformed and sits exactly where the wrapper naturally starts.
-    const anchor = document.querySelector('#services') ?? wrapper;
-    const st = ScrollTrigger.create({
-      trigger: anchor,
-      start: anchor === wrapper ? 'top top' : 'bottom top',
-      end: () => `+=${wrapper.offsetHeight - window.innerHeight}`,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const scrollable = wrapper.offsetHeight - window.innerHeight;
-        const scrolled = self.progress * scrollable;
-
-        const introScroll = window.innerHeight * 0.9;
-        const introProgress = Math.max(0, Math.min(1, scrolled / introScroll));
-
-        if (introRef.current) {
-          introRef.current.style.opacity = String(1 - introProgress);
-          introRef.current.style.transform = `translateY(${-introProgress * 150}px) scale(${1 + introProgress * 0.05})`;
-          introRef.current.style.pointerEvents = introProgress === 1 ? 'none' : 'auto';
-        }
-
-        const introOp = Math.min(1, introProgress * 1.5);
-        const yOffset = (1 - introProgress) * window.innerHeight * 0.6;
-
-        if (mobileWrapRef.current) {
-          mobileWrapRef.current.style.opacity = String(introOp);
-          mobileWrapRef.current.style.transform = `translateY(${yOffset}px)`;
-        }
-        
-        if (cardRef.current) {
-          cardRef.current.style.opacity = String(introOp);
-          cardRef.current.style.transform = `translate(-40%, ${yOffset}px)`;
-        }
-        
-        if (indicatorsRef.current) {
-          indicatorsRef.current.style.opacity = String(introOp);
-          indicatorsRef.current.style.transform = `translateY(calc(-50% + ${yOffset}px))`;
-        }
-
-        const servicesScrollable = scrollable - window.innerHeight;
-        const servicesScrolled = Math.max(0, scrolled - window.innerHeight);
-        const progress = servicesScrollable > 0 ? Math.min(1, servicesScrolled / servicesScrollable) : 0;
-
-        const raw      = progress * STEPS.length;
-        const newIndex = Math.min(Math.floor(raw + 0.5), STEPS.length - 1);
-        const within   = raw - Math.floor(raw);
-
-        const clampedRaw = Math.min(raw, STEPS.length - 1);
-        const stripPct = (clampedRaw / STEPS.length) * 100;
-
-        if (stripRef.current) {
-          stripRef.current.style.transform = `translateY(-${stripPct}%)`;
-        }
-        if (mobileStripRef.current) {
-          mobileStripRef.current.style.transform = `translateY(-${stripPct}%)`;
-        }
-
-        let tp = 1;
-        if (within > 0.3 && within < 0.7) {
-          tp = within < 0.5 ? (0.5 - within) / 0.2 : (within - 0.5) / 0.2;
-        }
-
-        if (textWrapRef.current) {
-          textWrapRef.current.style.opacity = String(introOp * tp);
-          textWrapRef.current.style.transform = `translateY(calc(-50% + ${yOffset}px))`;
-        }
-
-        if (newIndex !== lastIndex.current) {
-          lastIndex.current = newIndex;
-          setActiveIndex(newIndex);
-        }
-      }
-    });
-
-    return () => st.kill();
-  }, []);
-
-  const step = STEPS[activeIndex];
+  // On desktop all four cards enter together (staggered); on mobile each enters on its own scroll.
+  const isLg = useSyncExternalStore(
+    subscribeLg,
+    () => window.matchMedia('(min-width: 1024px)').matches,
+    () => false,
+  );
+  const reduceMotion = useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      mq.addEventListener('change', cb);
+      return () => mq.removeEventListener('change', cb);
+    },
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    () => false,
+  );
 
   return (
-    <div
-      ref={wrapperRef}
-      id="process"
-      style={{ height: `${(STEPS.length + 2) * 100}vh`, position: 'relative', zIndex: 20 }}
-    >
-      <section
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          overflow: 'hidden',
-          background: '#FAFAF7',
-        }}
-      >
-        {/* MeshGradient background */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          {mounted && (
-            <MeshGradient
-              width={dimensions.width}
-              height={dimensions.height}
-              colors={step.colors}
-              distortion={step.distortion}
-              swirl={step.swirl}
-              speed={0.36}
-              offsetX={0.06}
-              grainMixer={1}
-              grainOverlay={0.06}
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            />
-          )}
-        </div>
-
-        {/* Intro title */}
-        <div
-          ref={introRef}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 40,
-            willChange: 'opacity, transform',
-            gap: '1.5rem',
-          }}
-        >
-          <p style={{
-            fontSize: 'clamp(1rem, 2vw, 1.25rem)', letterSpacing: '0.4em', textTransform: 'uppercase',
-            color: '#4A9EFF', margin: 0,
-          }}>
+    <section className="relative overflow-hidden" style={{ background: '#FAFAF7', padding: 'clamp(4rem, 10vh, 8rem) 0' }}>
+      <div className="max-w-screen-xl mx-auto px-5 md:px-12">
+        <div className="mb-12 md:mb-20 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            className="uppercase tracking-[0.4em] mb-5 font-mono text-sm md:text-base"
+            style={{ color: '#4A9EFF' }}
+          >
             How We Work
-          </p>
-          <h2 ref={introTitleRef} style={{
-            fontFamily: 'var(--font-sevone)',
-            fontSize: 'clamp(3.5rem, 9vw, 11rem)',
-            color: '#0A0A0A',
-            margin: 0,
-            lineHeight: 0.9,
-            textAlign: 'center',
-            textShadow: '0 4px 50px rgba(74,158,255,0.3)',
-            willChange: 'transform, opacity, filter',
-          }}>
-            FROM SPARK<br />TO SYSTEM
-          </h2>
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 1, ease: [0.25, 1, 0.3, 1] }}
+            style={{
+              fontFamily: 'var(--font-sevone)',
+              fontSize: 'clamp(2.8rem, 7vw, 6rem)',
+              color: '#0A0A0A',
+              lineHeight: 0.9,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            Four Moves.<br />One Growth Engine.
+          </motion.h2>
         </div>
 
-        {/* Content wrapper - Removed stacking context triggers */}
-        <div ref={contentRef} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-24 pb-20">
+          {STEPS.map((step, i) => {
+            const fromTop = i % 2 === 0;
+            const dir = fromTop ? -1 : 1;
+            const cardDelay = isLg ? i * 0.18 : 0;
+            const noteDelay = isLg ? 1.0 + i * 0.18 : 0.7;
 
-          {isMobile ? (
-            /* ── MOBILE LAYOUT: image top, text bottom ── */
-            <div ref={mobileWrapRef} style={{
-              position: 'absolute',
-              inset: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '1.5rem',
-              gap: '1.25rem',
-              opacity: 0,
-              pointerEvents: 'auto',
-            }}>
-              {/* Image card */}
-              <div style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                aspectRatio: '16/9',
-                position: 'relative',
-                background: '#F0F3F8',
-                boxShadow: '0 20px 60px rgba(26,39,68,0.15)',
-                border: `1px solid ${step.accentLine}30`,
-                transition: 'border-color 0.9s ease',
-                flexShrink: 0,
-              }}>
-                <div
-                  ref={mobileStripRef}
+            return (
+              // The trigger lives on this wrapper (never translated), so cards/notes that start
+              // off-screen below still fire; children animate through variants.
+              <motion.div
+                key={step.number}
+                className="relative"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: isLg ? 0.25 : 0.4 }}
+              >
+                {/* video card */}
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: reduceMotion ? 0 : dir * 420, rotate: reduceMotion ? 0 : dir * 6 },
+                    show: { opacity: 1, y: 0, rotate: 0, transition: { duration: reduceMotion ? 0.4 : 1.1, delay: cardDelay, ease: EASE } },
+                  }}
+                  className="rounded-[1.5rem] p-2"
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    height: `${STEPS.length * 100}%`,
-                    willChange: 'transform',
-                    transition: 'transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    background: '#fff',
+                    border: `1px solid ${step.accent}33`,
+                    boxShadow: `0 30px 70px -28px ${step.accent}99`,
                   }}
                 >
-                  {STEPS.map((s, i) => (
-                    <div key={i} style={{ width: '100%', height: `${100 / STEPS.length}%`, flexShrink: 0 }}>
-                      <img
-                        src={s.image}
-                        alt={s.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                {/* Category badge */}
-                <div style={{
-                  position: 'absolute', top: '0.75rem', right: '0.75rem',
-                  fontSize: '0.7rem', letterSpacing: '0.3em', textTransform: 'uppercase',
-                  color: step.accentLine, background: 'rgba(255,255,255,0.85)',
-                  padding: '0.3rem 0.8rem', borderRadius: '999px',
-                  border: `1px solid ${step.accentLine}40`,
-                  backdropFilter: 'blur(8px)',
-                  zIndex: 3,
-                  transition: 'color 0.4s ease',
-                }}>
-                  {step.category}
-                </div>
-              </div>
+                  <MediaSlot slot={step.slot} accent={step.accent} rounded="1.15rem" className="w-full" />
+                </motion.div>
 
-              {/* Text block */}
-              <AnimatePresence mode="wait">
+                {/* paper note, lands on the card */}
                 <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -14, filter: 'blur(4px)' }}
-                  transition={{ duration: 0.4, ease: [0.25, 1, 0.3, 1] }}
-                  style={{ flexShrink: 0 }}
+                  variants={{
+                    hidden: { opacity: 0, y: reduceMotion ? 0 : dir * 360, rotate: reduceMotion ? NOTE_TILT[i] : NOTE_TILT[i] + dir * 14, scale: reduceMotion ? 1 : 1.08 },
+                    show: { opacity: 1, y: 0, rotate: NOTE_TILT[i], scale: 1, transition: { duration: reduceMotion ? 0.4 : 0.9, delay: noteDelay, ease: EASE } },
+                  }}
+                  className="absolute z-10 left-[7%] right-[-3%] -bottom-14"
+                  style={{ transformOrigin: '50% 0%' }}
                 >
-                  {/* Category + step counter */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                    <p style={{
-                      fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-                      color: 'rgba(10,10,10,0.6)', margin: 0,
-                      display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    }}>
-                      <span style={{ width: '20px', height: '1.5px', background: 'rgba(10,10,10,0.35)', display: 'inline-block' }} />
-                      {step.category}
-                    </p>
-                    <span style={{ fontSize: '0.7rem', letterSpacing: '0.15em', color: 'rgba(10,10,10,0.3)', fontFamily: 'monospace' }}>
-                      {step.number} / {String(STEPS.length).padStart(2, '0')}
-                    </span>
-                  </div>
+                  {/* outer carries the drop-shadow so the clipped (folded) corner still casts one */}
+                  <div
+                    className="relative"
+                    style={{ filter: 'drop-shadow(0 22px 16px rgba(90,64,0,0.22)) drop-shadow(0 3px 3px rgba(90,64,0,0.18))' }}
+                  >
+                    <div
+                      className="relative px-5 pt-7 pb-6 overflow-hidden"
+                      style={{
+                        background: 'linear-gradient(162deg, #FFF7C9 0%, #FFEFA3 55%, #FBE483 100%)',
+                        borderRadius: 2,
+                        clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)',
+                      }}
+                    >
+                      {/* paper grain + soft light falloff */}
+                      <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.22] mix-blend-multiply" style={{ backgroundImage: NOISE_URI, backgroundSize: '180px 180px' }} />
+                      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 15% 0%, rgba(255,255,255,0.55) 0%, transparent 60%)' }} />
 
-                  {/* Title */}
-                  <h2 style={{
-                    fontFamily: 'var(--font-sevone)',
-                    fontSize: 'clamp(3rem, 13vw, 4.5rem)',
-                    fontWeight: 900,
-                    color: '#0A0A0A',
-                    lineHeight: 0.9,
-                    letterSpacing: '-0.03em',
-                    marginBottom: '0.85rem',
-                    textShadow: `0 4px 40px rgba(0,0,0,0.15), 0 0 25px ${step.accentLine}40`,
-                  }}>
-                    {step.title}
-                  </h2>
+                      <div className="relative flex items-baseline justify-between gap-3">
+                        <h3
+                          className="leading-none"
+                          style={{ fontFamily: 'var(--font-caveat)', fontWeight: 700, fontSize: 'clamp(1.9rem, 2.4vw, 2.3rem)', color: '#1B2440' }}
+                        >
+                          {step.title}
+                        </h3>
+                        <span className="font-mono text-[10px] tracking-[0.25em] uppercase" style={{ color: 'rgba(27,36,64,0.55)' }}>
+                          No. {step.number}
+                        </span>
+                      </div>
+                      {/* hand-drawn underline */}
+                      <svg aria-hidden viewBox="0 0 120 8" className="relative mt-1 w-24 h-2" fill="none">
+                        <path d="M2 5 C 22 1, 44 7, 66 3 S 105 5, 118 2" stroke={step.accent} strokeWidth="2.2" strokeLinecap="round" />
+                      </svg>
+                      <p
+                        className="relative mt-3 text-[0.8rem]"
+                        style={{
+                          color: 'rgba(27,36,64,0.82)',
+                          lineHeight: '1.5rem',
+                          backgroundImage: 'repeating-linear-gradient(transparent 0, transparent calc(1.5rem - 1px), rgba(150,110,0,0.2) calc(1.5rem - 1px), rgba(150,110,0,0.2) 1.5rem)',
+                        }}
+                      >
+                        {step.description}
+                      </p>
+                    </div>
 
-                  {/* Description */}
-                  <p style={{
-                    fontSize: 'clamp(0.9rem, 3.8vw, 1.05rem)',
-                    lineHeight: 1.65,
-                    color: 'rgba(10,10,10,0.65)',
-                    margin: 0,
-                  }}>
-                    {step.description}
-                  </p>
+                    {/* folded corner */}
+                    <span
+                      aria-hidden
+                      className="absolute right-0 bottom-0 w-7 h-7"
+                      style={{
+                        background: 'linear-gradient(135deg, #D9BE55 0%, #F7E68E 55%, #FFF3B4 100%)',
+                        clipPath: 'polygon(0 0, 100% 0, 0 100%)',
+                        boxShadow: 'inset 0 0 0 0.5px rgba(120,90,0,0.2)',
+                      }}
+                    />
 
-                  {/* Step dots */}
-                  <div style={{ display: 'flex', gap: '0.45rem', marginTop: '1rem' }}>
-                    {STEPS.map((_, i) => (
-                      <div key={i} style={{
-                        width: i === activeIndex ? '22px' : '6px',
-                        height: '6px',
-                        borderRadius: '999px',
-                        background: i === activeIndex ? step.accentLine : 'rgba(0,0,0,0.18)',
-                        transition: 'all 0.4s ease',
-                      }} />
-                    ))}
+                    {/* washi tape */}
+                    <span
+                      aria-hidden
+                      className="absolute -top-3 left-1/2 w-20 h-6"
+                      style={{
+                        transform: 'translateX(-50%) rotate(-3deg)',
+                        background: `repeating-linear-gradient(115deg, ${step.accent}59 0 6px, ${step.accent}40 6px 12px)`,
+                        borderLeft: '1px dashed rgba(255,255,255,0.7)',
+                        borderRight: '1px dashed rgba(255,255,255,0.7)',
+                        backdropFilter: 'blur(1.5px)',
+                      }}
+                    />
                   </div>
                 </motion.div>
-              </AnimatePresence>
-            </div>
-          ) : (
-            /* ── DESKTOP LAYOUT (unchanged) ── */
-            <>
-              {/* Visual panel — right side, centered */}
-              <div
-                ref={cardRef}
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '20vh',
-                  transform: 'translate(-40%, 60vh)',
-                  width: 'clamp(320px, 40vw, 580px)',
-                  zIndex: 10,
-                  opacity: 0,
-                  pointerEvents: 'auto',
-                }}
-              >
-                <div style={{
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  aspectRatio: '4/3',
-                  position: 'relative',
-                  background: '#F0F3F8',
-                  boxShadow: '0 40px 100px rgba(26,39,68,0.12), 0 0 50px rgba(86,136,201,0.12)',
-                  border: `1px solid ${step.accentLine}30`,
-                  transition: 'border-color 0.9s ease, box-shadow 0.9s ease',
-                }}>
-                  <div
-                    ref={stripRef}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      width: '100%',
-                      height: `${STEPS.length * 100}%`,
-                      willChange: 'transform',
-                      transition: 'transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                    }}
-                  >
-                    {STEPS.map((s, i) => (
-                      <div key={i} style={{ width: '100%', height: `${100 / STEPS.length}%`, flexShrink: 0, position: 'relative' }}>
-                        <img src={s.image} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div style={{
-                    position: 'absolute', inset: 0,
-                    background: `linear-gradient(to bottom, transparent 40%, rgba(5,10,24,0.7) 100%)`,
-                    pointerEvents: 'none', zIndex: 2,
-                  }}/>
-                  <div style={{
-                    position: 'absolute', top: '1rem', right: '1rem',
-                    fontSize: '0.7rem', letterSpacing: '0.35em', textTransform: 'uppercase',
-                    color: step.accentLine, background: 'rgba(255,255,255,0.8)',
-                    padding: '0.45rem 1rem', borderRadius: '999px',
-                    border: `1px solid ${step.accentLine}40`,
-                    backdropFilter: 'blur(8px)',
-                    zIndex: 3,
-                    transition: 'color 0.4s ease, border-color 0.4s ease',
-                  }}>
-                    {step.category}
-                  </div>
-
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0, height: '28%',
-                    background: 'linear-gradient(to top, rgba(5,12,24,0.5) 0%, transparent 100%)',
-                    zIndex: 5, pointerEvents: 'none',
-                  }} />
-
-                  {/* DUPLICATE TEXT FOR CLIPPING OVERLAY EFFECT */}
-                  <div style={{
-                    position: 'absolute',
-                    left: 'calc(clamp(2rem, 15vw, 22vw) - (50vw - 0.4 * clamp(320px, 40vw, 580px)))',
-                    top: '30vh',
-                    transform: 'translateY(-50%)',
-                    zIndex: 10,
-                    width: '100vw',
-                    maxWidth: 'min(650px, 45vw)',
-                    pointerEvents: 'none',
-                  }}>
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={activeIndex}
-                        initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
-                        animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                        exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                        transition={{ duration: 0.45, ease: [0.25, 1, 0.3, 1] }}
-                      >
-                        <div aria-hidden="true" style={{
-                          fontFamily: 'var(--font-sevone)',
-                          fontSize: 'clamp(5rem, 13vw, 17rem)',
-                          fontWeight: 900,
-                          color: 'rgba(180,215,255,0.2)',
-                          lineHeight: 0.8,
-                          position: 'absolute', bottom: '100%', left: '-0.06em',
-                          userSelect: 'none', pointerEvents: 'none',
-                          letterSpacing: '-0.04em',
-                        }}>
-                          {step.number}
-                        </div>
-
-                        <p style={{
-                          fontSize: 'clamp(0.85rem, 1.2vw, 1.1rem)', letterSpacing: '0.35em', textTransform: 'uppercase',
-                          color: 'rgba(210,235,255,0.95)',
-                          marginBottom: '1.5rem',
-                          display: 'flex', alignItems: 'center', gap: '0.8rem',
-                        }}>
-                          <span style={{ width: '25px', height: '1.5px', background: 'rgba(210,235,255,0.7)' }} />
-                          {step.category}
-                        </p>
-
-                        <h2 style={{
-                          fontFamily: 'var(--font-sevone)',
-                          fontSize: 'clamp(3.5rem, 7vw, 8rem)',
-                          fontWeight: 900,
-                          color: 'rgba(190,225,255,0.9)',
-                          lineHeight: 0.92,
-                          letterSpacing: '-0.03em',
-                          marginBottom: '1.5rem',
-                          textShadow: `0 4px 40px rgba(74,158,255,0.6), 0 0 35px ${step.accentLine}80`,
-                        }}>
-                          {step.title}
-                        </h2>
-
-                        <p style={{
-                          fontSize: 'clamp(1.1rem, 1.5vw, 1.4rem)', lineHeight: 1.7,
-                          color: 'rgba(210,235,255,0.85)',
-                          margin: '0 0 2.5rem',
-                          maxWidth: '95%',
-                        }}>
-                          {step.description}
-                        </p>
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
-
-              {/* Left text block (Outer - Black) */}
-              <div
-                ref={textWrapRef}
-                style={{
-                  position: 'absolute',
-                  left: 'clamp(2rem, 15vw, 22vw)',
-                  top: '50%',
-                  transform: 'translateY(calc(-50% + 60vh))',
-                  zIndex: 5,
-                  maxWidth: 'min(650px, 45vw)',
-                  opacity: 0,
-                  pointerEvents: 'auto',
-                }}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeIndex}
-                    initial={{ opacity: 0, y: 28, filter: 'blur(6px)' }}
-                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, y: -20, filter: 'blur(4px)' }}
-                    transition={{ duration: 0.45, ease: [0.25, 1, 0.3, 1] }}
-                  >
-                    <div aria-hidden="true" style={{
-                      fontFamily: 'var(--font-sevone)',
-                      fontSize: 'clamp(5rem, 13vw, 17rem)',
-                      fontWeight: 900,
-                      color: 'rgba(0,0,0,0.05)',
-                      lineHeight: 0.8,
-                      position: 'absolute', bottom: '100%', left: '-0.06em',
-                      userSelect: 'none', pointerEvents: 'none',
-                      letterSpacing: '-0.04em',
-                    }}>
-                      {step.number}
-                    </div>
-
-                    <p style={{
-                      fontSize: 'clamp(0.85rem, 1.2vw, 1.1rem)', letterSpacing: '0.35em', textTransform: 'uppercase',
-                      color: 'rgba(10,10,10,0.7)',
-                      marginBottom: '1.5rem',
-                      transition: 'color 0.7s ease',
-                      display: 'flex', alignItems: 'center', gap: '0.8rem',
-                    }}>
-                      <span style={{ width: '25px', height: '1.5px', background: 'rgba(10,10,10,0.4)' }} />
-                      {step.category}
-                    </p>
-
-                    <h2 style={{
-                      fontFamily: 'var(--font-sevone)',
-                      fontSize: 'clamp(3.5rem, 7vw, 8rem)',
-                      fontWeight: 900,
-                      color: '#0A0A0A',
-                      lineHeight: 0.92,
-                      letterSpacing: '-0.03em',
-                      marginBottom: '1.5rem',
-                      textShadow: `0 4px 40px rgba(0,0,0,0.15), 0 0 25px ${step.accentLine}40`,
-                    }}>
-                      {step.title}
-                    </h2>
-
-                    <p style={{
-                      fontSize: 'clamp(1.1rem, 1.5vw, 1.4rem)', lineHeight: 1.7,
-                      color: 'rgba(10,10,10,0.65)',
-                      margin: '0 0 2.5rem',
-                      maxWidth: '95%',
-                    }}>
-                      {step.description}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Right-edge step indicators */}
-              <div ref={indicatorsRef} style={{
-                position: 'absolute',
-                right: 'clamp(1.5rem, 4vw, 4rem)',
-                top: '50%',
-                transform: 'translateY(calc(-50% + 60vh))',
-                zIndex: 20,
-                height: '40vh',
-                opacity: 0,
-                pointerEvents: 'auto',
-              }}>
-                <div style={{ position: 'relative', height: '100%' }}>
-                  <div style={{
-                    position: 'absolute',
-                    right: 0, top: 0, bottom: 0,
-                    width: '1px',
-                    background: 'rgba(0,0,0,0.12)',
-                  }} />
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    height: '100%',
-                    paddingTop: '1px',
-                    paddingBottom: '1px',
-                  }}>
-                    {STEPS.map((_s, i) => {
-                      const isActive = i === activeIndex;
-                      const isPast   = i < activeIndex;
-                      return (
-                        <div key={i} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'flex-end',
-                          height: '1px',
-                          position: 'relative',
-                        }}>
-                          <div style={{
-                            marginRight: '40px',
-                            opacity: isActive ? 1 : 0,
-                            transform: isActive ? 'translateX(0)' : 'translateX(15px)',
-                            transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
-                            fontFamily: 'var(--font-sevone)',
-                            fontSize: '1.4rem',
-                            fontWeight: 900,
-                            color: '#0A0A0A',
-                          }}>
-                            {String(i + 1).padStart(2, '0')}
-                          </div>
-                          <div style={{
-                            position: 'absolute',
-                            right: isActive ? '-1px' : '0',
-                            width: isActive ? '24px' : '10px',
-                            height: isActive ? '2px' : '1px',
-                            background: isActive
-                              ? '#0A0A0A'
-                              : isPast
-                                ? 'rgba(0,0,0,0.4)'
-                                : 'rgba(0,0,0,0.15)',
-                            transition: 'all 0.4s ease',
-                          }} />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
+              </motion.div>
+            );
+          })}
         </div>
-
-        <style>{`
-          @keyframes svcScrollPulse {
-            0%, 100% { opacity: 0.22; transform: scaleY(1); }
-            50%       { opacity: 0.55; transform: scaleY(1.35); }
-          }
-        `}</style>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
