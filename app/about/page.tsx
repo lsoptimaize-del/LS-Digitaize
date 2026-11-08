@@ -36,9 +36,9 @@ const VALUES = [
 
 // Corner portraits that fan out around Tejas. Last one is a placeholder until a photo exists.
 const CORNERS = [
-  { pos: 'tl', name: 'Bharath', role: 'Creative Director', image: '/team/bharath.jpg', tilt: 0 },
-  { pos: 'tr', name: 'Prayansh', role: 'Marketing Strategist', image: '/team/prayansh.jpg', tilt: 0 },
-  { pos: 'bl', name: 'Sahil', role: 'Lead Developer', image: '/team/sahil.jpg', tilt: 0 },
+  { pos: 'tl', name: 'Bharath', role: 'Co-Founder', image: '/team/bharath.jpg', tilt: 0 },
+  { pos: 'tr', name: 'Prayansh', role: '', image: '/team/prayansh.jpg', tilt: 0 },
+  { pos: 'bl', name: 'Sahil', role: '', image: '/team/sahil.jpg', tilt: 0 },
   { pos: 'br', name: 'Your name here', role: 'Photo coming soon', image: '', tilt: 0 },
 ];
 
@@ -172,7 +172,7 @@ export default function AboutPage() {
                 )}
                 <div className="corner-label">
                   <p className="corner-name">{m.name}</p>
-                  <p className="corner-role">{m.role}</p>
+                  {m.role && <p className="corner-role">{m.role}</p>}
                 </div>
               </div>
             ))}
@@ -183,7 +183,7 @@ export default function AboutPage() {
               </div>
               <div className="tejas-caption">
                 <p className="corner-name" style={{ color: '#0d1e38' }}>Tejas G.</p>
-                <p className="corner-role" style={{ color: '#2A7DE1' }}>Founder &amp; CEO</p>
+                <p className="corner-role tejas-role" style={{ color: '#2A7DE1' }}>Founder &amp; CEO</p>
               </div>
             </div>
           </div>
@@ -365,6 +365,7 @@ export default function AboutPage() {
           }
           .tejas-frame img { background: #dfe8f5; outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px; }
           .tejas-caption { text-align: center; margin-top: 1rem; }
+          .tejas-caption .tejas-role { font-size: clamp(0.75rem, 1.05vw, 1rem); margin-top: 0.5rem; }
           .corner-name {
             font-family: var(--font-sevone);
             font-size: clamp(1rem, 1.5vw, 1.35rem);
