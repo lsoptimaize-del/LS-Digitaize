@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import VisionScreen from "../components/VisionScreen";
+import ClosingCTA from "../components/ClosingCTA";
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -35,12 +36,11 @@ const VALUES = [
 ];
 
 
-// Corner portraits that fan out around Tejas. Last one is a placeholder until a photo exists.
+// Portraits that fan out in a row on the right while Tejas sits on the left.
 const CORNERS = [
-  { pos: 'tl', name: 'Bharath', role: 'Creative Director', image: '/team/bharath.jpg', tilt: 0 },
-  { pos: 'tr', name: 'Prayansh', role: 'Marketing Strategist', image: '/team/prayansh.jpg', tilt: 0 },
-  { pos: 'bl', name: 'Sahil', role: 'Lead Developer', image: '/team/sahil.jpg', tilt: 0 },
-  { pos: 'br', name: 'Your name here', role: 'Photo coming soon', image: '', tilt: 0 },
+  { pos: 'r1', name: 'Bharath', role: 'Co-Founder', image: '/team/bharath.jpg', tilt: 0 },
+  { pos: 'r2', name: 'Prayansh', role: 'Team Member', image: '/team/prayansh.jpg', tilt: 0 },
+  { pos: 'r3', name: 'Sahil', role: 'Team Member', image: '/team/sahil.jpg', tilt: 0 },
 ];
 
 export default function AboutPage() {
@@ -152,7 +152,8 @@ export default function AboutPage() {
               zIndex: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
+              paddingLeft: 'clamp(1rem, 7vw, 9rem)',
               background: [
                 'radial-gradient(45% 50% at 50% 48%, rgba(74,158,255,0.38) 0%, rgba(74,158,255,0.12) 55%, transparent 100%)',
                 'radial-gradient(40% 45% at 0% 0%, rgba(126,193,245,0.55) 0%, transparent 100%)',
@@ -173,7 +174,7 @@ export default function AboutPage() {
                 )}
                 <div className="corner-label">
                   <p className="corner-name">{m.name}</p>
-                  <p className="corner-role">{m.role}</p>
+                  {m.role && <p className="corner-role">{m.role}</p>}
                 </div>
               </div>
             ))}
@@ -184,7 +185,7 @@ export default function AboutPage() {
               </div>
               <div className="tejas-caption">
                 <p className="corner-name" style={{ color: '#0d1e38' }}>Tejas G.</p>
-                <p className="corner-role" style={{ color: '#2A7DE1' }}>Founder &amp; CEO</p>
+                <p className="corner-role tejas-role" style={{ color: '#2A7DE1' }}>Founder &amp; CEO</p>
               </div>
             </div>
           </div>
@@ -368,6 +369,7 @@ export default function AboutPage() {
           }
           .tejas-frame img { background: #dfe8f5; outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px; }
           .tejas-caption { text-align: center; margin-top: 1rem; }
+          .tejas-caption .tejas-role { font-size: clamp(0.75rem, 1.05vw, 1rem); margin-top: 0.5rem; }
           .corner-name {
             font-family: var(--font-sevone);
             font-size: clamp(1rem, 1.5vw, 1.35rem);
@@ -388,16 +390,28 @@ export default function AboutPage() {
           .corner-card {
             position: absolute;
             z-index: 3;
-            width: clamp(7.5rem, 17vw, 16rem);
+            --cw: clamp(7.5rem, 17vw, 16rem);
+            width: var(--cw);
             aspect-ratio: 4 / 5;
             padding: 8px;
             background: linear-gradient(145deg, #1a1a1a 0%, #050505 100%);
             box-shadow: 0 32px 64px -22px rgba(8,20,50,0.6), 0 4px 10px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,255,255,0.16);
           }
-          .corner-tl { top: clamp(5.5rem, 16vh, 9rem); left: clamp(0.75rem, 5vw, 6rem); }
-          .corner-tr { top: clamp(5.5rem, 16vh, 9rem); right: clamp(0.75rem, 5vw, 6rem); }
-          .corner-bl { bottom: clamp(1.5rem, 7vh, 4rem); left: clamp(0.75rem, 5vw, 6rem); }
-          .corner-br { bottom: clamp(1.5rem, 7vh, 4rem); right: clamp(0.75rem, 5vw, 6rem); }
+          /* three portraits in a row on the right, vertically centred (GSAP owns transform, so no translate here) */
+          .corner-r1, .corner-r2, .corner-r3 { top: calc(50% - var(--cw) * 0.625 - 1.5rem); }
+          .corner-r2 { top: calc(50% - var(--cw) * 0.625 + 1.5rem); }
+          .corner-r3 { right: clamp(0.75rem, 4vw, 5rem); }
+          .corner-r2 { right: calc(clamp(0.75rem, 4vw, 5rem) + var(--cw) + 2.5vw); }
+          .corner-r1 { right: calc(clamp(0.75rem, 4vw, 5rem) + (var(--cw) + 2.5vw) * 2); }
+          @media (max-width: 767px) {
+            .team-scene { justify-content: center !important; align-items: flex-start !important; padding-left: 0 !important; padding-top: 14vh; }
+            .corner-card { --cw: 28vw; }
+            .corner-r1, .corner-r2, .corner-r3 { top: auto; bottom: 6vh; right: auto; }
+            .corner-r1 { left: 3vw; }
+            .corner-r2 { left: 36vw; }
+            .corner-r3 { left: 69vw; }
+            .corner-label { padding-top: 1.4rem; }
+          }
           .corner-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; outline: 1px solid rgba(255,255,255,0.14); outline-offset: -1px; }
           .corner-label {
             position: absolute;
@@ -412,7 +426,6 @@ export default function AboutPage() {
             border: 1.5px dashed rgba(74,158,255,0.6);
           }
           .corner-placeholder .corner-plus { font-size: clamp(2rem, 4vw, 3.5rem); color: #4A9EFF; font-weight: 300; line-height: 1; }
-          .corner-br .corner-label { background: linear-gradient(to top, rgba(5,10,24,0.72) 0%, rgba(5,10,24,0.3) 60%, transparent 100%); }
           /* --------------------------------------------------- */
       `}</style>
           
@@ -420,6 +433,8 @@ export default function AboutPage() {
 
 
       <VisionScreen />
+
+      <ClosingCTA />
 
       <Footer />
     </div>
